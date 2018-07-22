@@ -58,8 +58,8 @@ bool Paddle:: isBulletCreated()
 void Paddle:: posPaddleAtStart()
 {
     /* Paddle destination at start the level */
-    dst_paddle.x = ( /*surf_nbs["width"]*/ screen->w - ResManager::getInstance().getImageWidth( "paddle" ) ) / 2;
-    dst_paddle.y = /*surf_nbs["height"]*/ screen->h - 35;
+    dst_paddle.x = ( screen->w - ResManager::getInstance().getImageWidth( "paddle" ) ) / 2;
+    dst_paddle.y = screen->h - 35;
     dst_paddle.w = ResManager::getInstance().getImageWidth( "paddle" );//160;
     dst_paddle.h = ResManager::getInstance().getImageHeight( "paddle" );//29;
 
@@ -90,7 +90,8 @@ void Paddle:: createBullet()
     bullet_created = true;
 }
 
-void Paddle:: shoot()
+void Paddle:: moveBullet()
 {
     dst_bullet.y = dst_bullet.y - 4;
+    std::cout << "dst_bullet.y: " << dst_bullet.y << std::endl;
 }

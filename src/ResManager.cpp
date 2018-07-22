@@ -159,10 +159,8 @@ SDL_Surface* ResManager:: getImage ( std:: string img )
 
 SDL_Color ResManager:: getBgdColor()
 {
-
     SDL_Color color = Image:: getBgdColor();
     return color;
-
 }
 
 int ResManager:: getImageWidth( std:: string attr )

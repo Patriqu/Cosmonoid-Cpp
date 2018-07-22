@@ -371,7 +371,7 @@
 1403389098 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\mainmenuview.cpp
 	"MainMenuView.h"
 
-1403368808 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\paddle.cpp
+1532302661 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\paddle.cpp
 	"Paddle.h"
 
 1401380888 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\paddleview.cpp
@@ -380,13 +380,13 @@
 1403380659 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\renderer.cpp
 	"Renderer.h"
 
-1403212260 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\resmanager.cpp
+1532299647 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\resmanager.cpp
 	"ResManager.h"
 
 1400958017 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\timer.cpp
 	"Timer.h"
 
-1403380706 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\updategame.cpp
+1532302075 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\updategame.cpp
 	"UpdateGame.h"
 
 1242175578 source:d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml.hpp
