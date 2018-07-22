@@ -320,3 +320,700 @@
 	<ostream>
 	<iterator>
 
+1403364883 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\ball.cpp
+	"Ball.h"
+
+1401380888 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\ballview.cpp
+	"BallView.h"
+
+1401457729 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\bonus.cpp
+	"Bonus.h"
+
+1401380888 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\bonusview.cpp
+	"BonusView.h"
+
+1403374450 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel1.cpp
+	"BricksLevel1.h"
+
+1403375485 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel2.cpp
+	"BricksLevel2.h"
+
+1403380531 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel3.cpp
+	"BricksLevel3.h"
+
+1403375523 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel4.cpp
+	"BricksLevel4.h"
+
+1391998234 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\brickslevels.cpp
+	"BricksLevels.h"
+
+1401380888 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\bricksviewlevels.cpp
+	"BricksViewLevels.h"
+
+1401729141 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\collisions.cpp
+	"Collisions.h"
+
+1400928795 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\gamepoints.cpp
+	"GamePoints.h"
+
+1401668173 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\gamepointsview.cpp
+	"GamePointsView.h"
+
+1401316415 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\gamestate.cpp
+	"GameState.h"
+
+1403288026 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\image.cpp
+	"Image.h"
+
+1403354548 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\mainmenu.cpp
+	"MainMenu.h"
+
+1403389098 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\mainmenuview.cpp
+	"MainMenuView.h"
+
+1403368808 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\paddle.cpp
+	"Paddle.h"
+
+1401380888 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\paddleview.cpp
+	"PaddleView.h"
+
+1403380659 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\renderer.cpp
+	"Renderer.h"
+
+1403212260 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\resmanager.cpp
+	"ResManager.h"
+
+1400958017 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\timer.cpp
+	"Timer.h"
+
+1403380706 source:d:\simple arkanoid 2d\simple arkanoid 2d\src\updategame.cpp
+	"UpdateGame.h"
+
+1242175578 source:d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1403196687 source:d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_print.hpp
+	"rapidxml.hpp"
+	<ostream>
+	<iterator>
+
+1242175578 d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1242424162 source:d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_utils.hpp
+	"rapidxml.hpp"
+	<vector>
+	<string>
+	<fstream>
+	<stdexcept>
+
+1403364889 d:\simple arkanoid 2d\simple arkanoid 2d\include\ball.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<vector>
+	<map>
+	"ResManager.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_joystick.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_shape.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<wchar.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<float.h>
+	<sal.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_config.h
+	"SDL_platform.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	<winapifamily.h>
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\begin_code.h
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\close_code.h
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<mbarrier.h>
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	<process.h>
+	<stdlib.h>
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mm3dnow.h>
+	<immintrin.h>
+	<mmintrin.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	<pmmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_pixels.h
+	"SDL_stdinc.h"
+	"SDL_endian.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_shape.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519925811 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1519936451 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1403212162 d:\simple arkanoid 2d\simple arkanoid 2d\include\resmanager.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	"Image.h"
+
+1403211866 d:\simple arkanoid 2d\simple arkanoid 2d\include\image.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<fstream>
+
+1401380974 d:\simple arkanoid 2d\simple arkanoid 2d\include\ballview.h
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"Ball.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\bonus.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<cstdlib>
+	<ctime>
+	<iostream>
+	<ios>
+	<fstream>
+	"ResManager.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\bonusview.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	"ResManager.h"
+	"Bonus.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel1.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\brickslevels.h
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel2.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel3.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel4.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\bricksviewlevels.h
+	<SDL.h>
+	"SDL_image.h"
+	<map>
+	<vector>
+	"ResManager.h"
+	"BricksLevels.h"
+	"BricksLevel1.h"
+	"BricksLevel2.h"
+	"BricksLevel3.h"
+	"BricksLevel4.h"
+
+1401545964 d:\simple arkanoid 2d\simple arkanoid 2d\include\collisions.h
+	<iostream>
+	<math.h>
+	<string>
+	<map>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_mixer.h"
+
+1508776368 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1400928753 d:\simple arkanoid 2d\simple arkanoid 2d\include\gamepoints.h
+	<string>
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\gamepointsview.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<SDL.h>
+	"SDL_ttf.h"
+	"GamePoints.h"
+
+1454366533 d:\simple arkanoid 2d\simple arkanoid 2d\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1401006322 d:\simple arkanoid 2d\simple arkanoid 2d\include\gamestate.h
+	<string>
+	<cstring>
+
+1403304016 d:\simple arkanoid 2d\simple arkanoid 2d\include\mainmenu.h
+	<iostream>
+	<cstdlib>
+	<string>
+	"rapidxml.hpp"
+	"rapidxml_utils.hpp"
+	"rapidxml_print.hpp"
+	"ResManager.h"
+	"GameState.h"
+
+1242424162 d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_utils.hpp
+	"rapidxml.hpp"
+	<vector>
+	<string>
+	<fstream>
+	<stdexcept>
+
+1403196687 d:\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_print.hpp
+	"rapidxml.hpp"
+	<ostream>
+	<iterator>
+
+1403198746 d:\simple arkanoid 2d\simple arkanoid 2d\include\mainmenuview.h
+	<iostream>
+	<string>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_ttf.h"
+	"ResManager.h"
+	"MainMenu.h"
+
+1403368825 d:\simple arkanoid 2d\simple arkanoid 2d\include\paddle.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<iostream>
+	<map>
+	"ResManager.h"
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\paddleview.h
+	<cstdlib>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"Paddle.h"
+
+1401636148 d:\simple arkanoid 2d\simple arkanoid 2d\include\renderer.h
+	<SDL.h>
+	"SDL_image.h"
+	"Timer.h"
+	"Gamestate.h"
+	"PaddleView.h"
+	"BallView.h"
+	"MainMenuView.h"
+	"GameMenuView.h"
+	"GamePointsView.h"
+	"BonusView.h"
+	"BricksViewLevels.h"
+	<windows.h>
+
+1401381122 d:\simple arkanoid 2d\simple arkanoid 2d\include\timer.h
+	<SDL.h>
+
+1387242835 d:\simple arkanoid 2d\simple arkanoid 2d\include\gamemenuview.h
+	"ResManager.h"
+	"GameMenu.h"
+
+1387243260 d:\simple arkanoid 2d\simple arkanoid 2d\include\gamemenu.h
+	"ResManager.h"
+	"GameState.h"
+
+1403364517 d:\simple arkanoid 2d\simple arkanoid 2d\include\updategame.h
+	<windows.h>
+	<iostream>
+	<cstdio>
+	<string>
+	<vector>
+	<map>
+	<cmath>
+	<Mmsystem.h>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_mixer.h"
+	"Gamestate.h"
+	"MainMenu.h"
+	"Collisions.h"
+	"GamePoints.h"
+	"Bonus.h"
+	"Paddle.h"
+	"Ball.h"
+	"BricksLevels.h"
+	"BricksLevel1.h"
+	"BricksLevel2.h"
+	"BricksLevel3.h"
+	"BricksLevel4.h"
+
+1532270884 source:d:\simple arkanoid 2d\simple arkanoid 2d\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<windows.h>
+	<ctime>
+	<map>
+	<iostream>
+	<fstream>
+	"rapidxml.hpp"
+	"rapidxml_utils.hpp"
+	<SDL.h>
+	<SDL_image.h>
+	"SDL_ttf.h"
+	"SDL_mixer.h"
+	"Timer.h"
+	"GameState.h"
+	"UpdateGame.h"
+	"Renderer.h"
+
+1242175578 d:\simple arkanoid 2d\simple arkanoid 2d\rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1242424162 d:\simple arkanoid 2d\simple arkanoid 2d\rapidxml_utils.hpp
+	"rapidxml.hpp"
+	<vector>
+	<string>
+	<fstream>
+	<stdexcept>
+
