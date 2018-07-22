@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<arkanoid>
+	<config>
+		<display>
+			<fullscreen>false</fullscreen>
+			<width>1280</width>
+			<height>720</height>
+		</display>
+		<sound>
+			<sound_volume>off</sound_volume>
+			<music_volume>off</music_volume>
+		</sound>
+	</config>
+</arkanoid>
+

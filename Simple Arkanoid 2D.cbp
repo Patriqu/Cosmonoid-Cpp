@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Simple Arkanoid 2D" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="main\;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Simple Arkanoid 2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Simple Arkanoid 2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+					<Add option="-g -fno-stack-protector -Wno-switch-enum" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="C:/Users/Magente/Desktop/PROGRAMOWANIE/Simple Arkanoid 2D/Simple Arkanoid 2D/include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
+			<Add library="mingw32" />
+			<Add library="SDLmain" />
+			<Add library="SDL.dll" />
+			<Add library="user32" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+			<Add library="dxguid" />
+		</Linker>
+		<Unit filename="ball.png" />
+		<Unit filename="blocks_table.bmp" />
+		<Unit filename="include/Ball.h" />
+		<Unit filename="include/BallView.h" />
+		<Unit filename="include/Bonus.h" />
+		<Unit filename="include/BonusView.h" />
+		<Unit filename="include/BricksLevel1.h" />
+		<Unit filename="include/BricksLevel2.h" />
+		<Unit filename="include/BricksLevel3.h" />
+		<Unit filename="include/BricksLevel4.h" />
+		<Unit filename="include/BricksLevels.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/BricksViewLevels.h" />
+		<Unit filename="include/Collisions.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/GamePoints.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/GamePointsView.h" />
+		<Unit filename="include/GameState.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/Image.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/MainMenu.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/MainMenuView.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/Paddle.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/PaddleView.h" />
+		<Unit filename="include/Renderer.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/ResManager.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="include/Timer.h" />
+		<Unit filename="include/UpdateGame.h">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="main.cpp" />
+		<Unit filename="paddle.png" />
+		<Unit filename="src/Ball.cpp" />
+		<Unit filename="src/BallView.cpp" />
+		<Unit filename="src/Bonus.cpp" />
+		<Unit filename="src/BonusView.cpp" />
+		<Unit filename="src/BricksLevel1.cpp" />
+		<Unit filename="src/BricksLevel2.cpp" />
+		<Unit filename="src/BricksLevel3.cpp" />
+		<Unit filename="src/BricksLevel4.cpp" />
+		<Unit filename="src/BricksLevels.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/BricksViewLevels.cpp" />
+		<Unit filename="src/Collisions.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/GamePoints.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/GamePointsView.cpp" />
+		<Unit filename="src/GameState.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/Image.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/MainMenu.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/MainMenuView.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/Paddle.cpp" />
+		<Unit filename="src/PaddleView.cpp" />
+		<Unit filename="src/Renderer.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/ResManager.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Unit filename="src/Timer.cpp" />
+		<Unit filename="src/UpdateGame.cpp">
+			<Option virtualFolder="main/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

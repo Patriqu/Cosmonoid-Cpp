@@ -1,0 +1,322 @@
+# depslib dependency file v1.0
+1403361283 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\ball.cpp
+	"Ball.h"
+
+1403361289 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\ball.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<vector>
+	<map>
+	"ResManager.h"
+
+1403208562 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\resmanager.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	"Image.h"
+
+1403208266 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\image.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<fstream>
+
+1401377288 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\ballview.cpp
+	"BallView.h"
+
+1401377374 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\ballview.h
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"Ball.h"
+
+1401454129 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\bonus.cpp
+	"Bonus.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\bonus.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<cstdlib>
+	<ctime>
+	<iostream>
+	<ios>
+	<fstream>
+	"ResManager.h"
+
+1401377288 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\bonusview.cpp
+	"BonusView.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\bonusview.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	"ResManager.h"
+	"Bonus.h"
+
+1403370850 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel1.cpp
+	"BricksLevel1.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel1.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\brickslevels.h
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+
+1403371885 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel2.cpp
+	"BricksLevel2.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel2.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1403376931 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel3.cpp
+	"BricksLevel3.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel3.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1403371923 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\brickslevel4.cpp
+	"BricksLevel4.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\brickslevel4.h
+	<string>
+	<map>
+	<vector>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"BricksLevels.h"
+
+1391998234 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\brickslevels.cpp
+	"BricksLevels.h"
+
+1401377288 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\bricksviewlevels.cpp
+	"BricksViewLevels.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\bricksviewlevels.h
+	<SDL.h>
+	"SDL_image.h"
+	<map>
+	<vector>
+	"ResManager.h"
+	"BricksLevels.h"
+	"BricksLevel1.h"
+	"BricksLevel2.h"
+	"BricksLevel3.h"
+	"BricksLevel4.h"
+
+1401725541 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\collisions.cpp
+	"Collisions.h"
+
+1401542364 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\collisions.h
+	<iostream>
+	<math.h>
+	<string>
+	<map>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_mixer.h"
+
+1400925195 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\gamepoints.cpp
+	"GamePoints.h"
+
+1400925153 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\gamepoints.h
+	<string>
+
+1401664573 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\gamepointsview.cpp
+	"GamePointsView.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\gamepointsview.h
+	<stdio.h>
+	<string>
+	<sstream>
+	<SDL.h>
+	"SDL_ttf.h"
+	"GamePoints.h"
+
+1401312815 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\gamestate.cpp
+	"GameState.h"
+
+1401002722 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\gamestate.h
+	<string>
+	<cstring>
+
+1403284426 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\image.cpp
+	"Image.h"
+
+1403350948 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\mainmenu.cpp
+	"MainMenu.h"
+
+1403300416 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\mainmenu.h
+	<iostream>
+	<cstdlib>
+	<string>
+	"rapidxml.hpp"
+	"rapidxml_utils.hpp"
+	"rapidxml_print.hpp"
+	"ResManager.h"
+	"GameState.h"
+
+1403385498 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\mainmenuview.cpp
+	"MainMenuView.h"
+
+1403195146 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\mainmenuview.h
+	<iostream>
+	<string>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_ttf.h"
+	"ResManager.h"
+	"MainMenu.h"
+
+1403365208 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\paddle.cpp
+	"Paddle.h"
+
+1403365225 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\paddle.h
+	<SDL.h>
+	"SDL_image.h"
+	<string>
+	<iostream>
+	<map>
+	"ResManager.h"
+
+1401377288 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\paddleview.cpp
+	"PaddleView.h"
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\paddleview.h
+	<cstdlib>
+	<SDL.h>
+	"SDL_image.h"
+	"ResManager.h"
+	"Paddle.h"
+
+1403377059 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\renderer.cpp
+	"Renderer.h"
+
+1401632548 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\renderer.h
+	<SDL.h>
+	"SDL_image.h"
+	"Timer.h"
+	"Gamestate.h"
+	"PaddleView.h"
+	"BallView.h"
+	"MainMenuView.h"
+	"GameMenuView.h"
+	"GamePointsView.h"
+	"BonusView.h"
+	"BricksViewLevels.h"
+	<windows.h>
+
+1401377522 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\timer.h
+	<SDL.h>
+
+1387242835 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\gamemenuview.h
+	"ResManager.h"
+	"GameMenu.h"
+
+1387243260 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\gamemenu.h
+	"ResManager.h"
+	"GameState.h"
+
+1403208660 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\resmanager.cpp
+	"ResManager.h"
+
+1400954417 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\timer.cpp
+	"Timer.h"
+
+1403377106 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\src\updategame.cpp
+	"UpdateGame.h"
+
+1403360917 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\updategame.h
+	<windows.h>
+	<iostream>
+	<cstdio>
+	<string>
+	<vector>
+	<map>
+	<cmath>
+	<Mmsystem.h>
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_mixer.h"
+	"Gamestate.h"
+	"MainMenu.h"
+	"Collisions.h"
+	"GamePoints.h"
+	"Bonus.h"
+	"Paddle.h"
+	"Ball.h"
+	"BricksLevels.h"
+	"BricksLevel1.h"
+	"BricksLevel2.h"
+	"BricksLevel3.h"
+	"BricksLevel4.h"
+
+1403378293 source:c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<windows.h>
+	<ctime>
+	<map>
+	<iostream>
+	<fstream>
+	"rapidxml.hpp"
+	"rapidxml_utils.hpp"
+	<SDL.h>
+	"SDL_image.h"
+	"SDL_ttf.h"
+	"SDL_mixer.h"
+	"Timer.h"
+	"GameState.h"
+	"UpdateGame.h"
+	"Renderer.h"
+
+1242171978 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml.hpp
+	<cstdlib>
+	<cassert>
+	<new>
+	<exception>
+
+1242420562 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_utils.hpp
+	"rapidxml.hpp"
+	<vector>
+	<string>
+	<fstream>
+	<stdexcept>
+
+1401311465 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\sdl_mixer.h
+	<SDL/SDL_types.h>
+	<SDL/SDL_rwops.h>
+	<SDL/SDL_audio.h>
+	<SDL/SDL_endian.h>
+	<SDL/SDL_version.h>
+	<SDL/begin_code.h>
+	<SDL/close_code.h>
+
+1403193087 c:\users\magente\desktop\programowanie\simple arkanoid 2d\simple arkanoid 2d\include\rapidxml_print.hpp
+	"rapidxml.hpp"
+	<ostream>
+	<iterator>
+

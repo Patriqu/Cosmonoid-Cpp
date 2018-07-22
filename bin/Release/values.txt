@@ -1,0 +1,23 @@
+DIAGNOSTICS DATA 
+
+"screen" variable - SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF)
+width: 640
+height: 480
+-------------------------------
+SDL_GetVideoSurface() 
+width: 640
+height: 480
+
+
+UTWORZONO OBIEKT "GAME STATE" 
+wyliczeniowy stan GAMESTATE "current_state" domyúlnie ustawiony na: 0 (0x28fcbc)wyliczeniowy stan GAMESTATE "state_local" domyúlnie ustawiony na: 0 (0x28fcc0)
+
+wyliczeniowy stan GAMESTATE "current_state" po zmianie w konstruktorze: 1 (0x28fcbc)
+------------------------------------
+JESTEM W PADDLE
+Mapa surface numbers (surf_nbs):  (0x275d31c)
+------------------------------------
+------------------------------------
+JESTEM W PADDLE
+Sprawdümy czy mapa jest pod tym samym adresem (surf_nbs):  (0x275d31c)
+------------------------------------
