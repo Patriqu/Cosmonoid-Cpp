@@ -7,17 +7,10 @@ std::string Paddle:: paddle_name = "paddle";
 bool Paddle:: bullet_created = false;
 
 /* functions: */
-Paddle:: Paddle( /*std::map<std::string, int>& surfer*/ )
-    //: surf_nbs( surfer )
+Paddle:: Paddle()
     : screen ( SDL_GetWindowSurface(SDL_GetWindowFromID(1)) )
 {
 }
-
-/*
-Paddle:: Paddle()
-{
-}
-*/
 
 Paddle:: ~Paddle()
 {
@@ -32,11 +25,11 @@ int Paddle:: getPaddlePosition( std:: string t )
 {
     if ( t == "x" )
         return dst_paddle.x;
-    else if ( t == "y" )
+    if ( t == "y" )
         return dst_paddle.y;
-    else if ( t == "w" )
+    if ( t == "w" )
         return dst_paddle.w;
-    else if ( t == "h" )
+    if ( t == "h" )
         return dst_paddle.h;
 }
 
@@ -55,7 +48,7 @@ bool Paddle:: isBulletCreated()
     return bullet_created;
 }
 
-void Paddle:: posPaddleAtStart()
+void Paddle:: positionPaddleAtStart()
 {
     /* Paddle destination at start the level */
     dst_paddle.x = ( screen->w - ResManager::getInstance().getImageWidth( "paddle" ) ) / 2;

@@ -1,19 +1,19 @@
 #include "Renderer.h"
 
-Renderer:: Renderer( int level, GameState* game_state, SDL_Window* window/*, SDL_Texture* texture */ )
+Renderer:: Renderer( int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */ )
     : screen ( SDL_GetWindowSurface(SDL_GetWindowFromID(1)) ),
-    window ( SDL_GetWindowFromID(1) ),
-    texture ( texture ),
+    /*window ( SDL_GetWindowFromID(1) ),
+    texture ( texture ),*/
     color_bgd ( SDL_MapRGB( screen->format, 255, 255, 255) ),
     level ( level ),
     current_state ( "" ),
     game_state ( game_state ),
     main_menu_view ( new MainMenuView() ),
-    paddle_view ( NULL ),
-    ball_view ( NULL ),
-    bricks_view_level ( NULL ),
-    game_points_view ( NULL ),
-    bonus_view ( NULL ),
+    paddle_view ( nullptr ),
+    ball_view ( nullptr ),
+    bricks_view_level ( nullptr ),
+    game_points_view ( nullptr ),
+    bonus_view ( nullptr ),
     FPS ( 240 /*120*/ ),
     SKIP_TICKS ( 1000/*350*/ / FPS ),
     sleep_time ( 0 ),
@@ -23,10 +23,7 @@ Renderer:: Renderer( int level, GameState* game_state, SDL_Window* window/*, SDL
     is_screen_changed (false)
 {
     // create menu background with proper resolution
-    int i = screen->h;
-    std:: string tmp;
-    sprintf((char*)tmp.c_str(), "%d", i);
-    std:: string h = tmp.c_str();
+    const std:: string h = std::to_string(screen->h);
 
     std:: string temp = "img/background_";
     temp += h;
@@ -75,14 +72,14 @@ void Renderer:: Render()
     //screen = SDL_GetWindowSurface(SDL_GetWindowFromID(1));
 
     //// Draw background: ////
-    SDL_BlitSurface( bgd_surface, 0, screen, NULL );
+    SDL_BlitSurface( bgd_surface, nullptr, screen, nullptr );
 
     // Fill screen with one color
-    std:: string color_name = main_menu_view -> getBgdName();
+    const std:: string color_name = main_menu_view -> getBgdName();
     if ( color_name == "no" )
     {
         color_bgd = SDL_MapRGB( screen->format, 0, 0, 0);
-        SDL_FillRect( screen, 0, color_bgd );
+        SDL_FillRect( screen, nullptr, color_bgd );
     }
     //else if ( color_name == "yes" )
     //{
@@ -139,10 +136,9 @@ void Renderer:: Render()
     }
     */
 
-    // Get game state in current frame
-    current_state = game_state -> getCurrentState();
+    /* *** STATES *** */
 
-    /* *** MENU STATE *** */
+    current_state = game_state -> getCurrentState();
 
     if ( current_state == "MAIN_MENU" )
     {
@@ -159,59 +155,54 @@ void Renderer:: Render()
     /* *** PREPARING AFTER FIRST STARTING THE GAME *** */
     else if ( current_state == "START_GAME" )
     {
-        // then create new instances of view classes
-        paddle_view = new PaddleView();
-        ball_view = new BallView();
-
-        if ( level != 1 )
-        {
-            level = 1;
-        }
-        bricks_view_level = new BricksViewLevels( level );
-
-        game_points_view = new GamePointsView();
-        bonus_view = new BonusView();
-
-        // After loaded starting data, change current game state to "Resume Game"
-        game_state -> changeGameState( "RESUME_GAME" );
+        onStartGame();
     }
 
     /* *** AFTER PLACING ALL OBJECTS AT SCREEN WITH CURRENT FRAME *** */
-    // else if ( current_state == "RESUME_GAME" || current_state == "WIN_GAME" || current_state == "LOSE_GAME" )
     if ( current_state != "BEGIN_GAME" && current_state != "MAIN_MENU" )
     {
-        // Place Paddle and Ball at screen:
-        paddle_view -> placePaddle();
-        ball_view -> placeBall(0);
+        onBeginGame();
+    }
+}
 
-        if ( current_state == "LOSE_GAME" )
+void Renderer::onStartGame()
+{
+    // then create new instances of view classes
+    paddle_view = new PaddleView();
+    ball_view = new BallView();
+
+    if ( level != 1 ) level = 1;
+
+    bricks_view_level = new BricksViewLevels( level );
+
+    game_points_view = new GamePointsView();
+    bonus_view = new BonusView();
+
+    // After loaded starting data, change current game state to "Resume Game"
+    game_state -> changeGameState( "RESUME_GAME" );
+}
+
+void Renderer::onBeginGame()
+{
+    // Place Paddle and Ball at screen:
+    paddle_view -> placePaddle();
+    ball_view -> placeBall(0);
+
+    if ( current_state == "LOSE_GAME" )
+    {
+        if ( level != 1 )
         {
-            if ( level != 1 )
-            {
-                level = 1;
-                bricks_view_level -> changeDisplayLevel( level );
-            }
+            level = 1;
+            bricks_view_level -> changeDisplayLevel( level );
         }
-
-        // Place all bricks of choised level:
-        bricks_view_level -> placeAllBricks();
-
-        // Place all scores, lives and current level at top of screen:
-        game_points_view -> placeAllPoints();
-
-        // Render if bonus is now available:
-        bonus_view -> renderBonus();
-
     }
 
-}
+    // Place all bricks for chosen level:
+    bricks_view_level -> placeAllBricks();
 
-bool Renderer:: isScreenChanged()
-{
-    return is_screen_changed;
-}
+    // Place all scores, lives and current level at top of screen:
+    game_points_view -> placeAllPoints();
 
-void Renderer:: clearScreenChanged()
-{
-    is_screen_changed = false;
+    // Render if bonus is now available:
+    bonus_view -> renderBonus();
 }

@@ -25,19 +25,19 @@
 class Renderer
 {
     public:
-        Renderer( int level, GameState* game_state, SDL_Window* window/*, SDL_Texture* texture */ );
+        Renderer( int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */ );
         virtual ~Renderer();
 
         void Render();
 
-        bool isScreenChanged();
-        void clearScreenChanged();
-
     private:
+        void onStartGame();
+        void onBeginGame();
+    
         // Defs of variables:
         SDL_Surface* screen;
-        SDL_Window* window;
-        SDL_Texture* texture;
+        /*SDL_Window* window;
+        SDL_Texture* texture;*/
 
         Uint32 color_bgd;
         SDL_Surface* bgd_surface;

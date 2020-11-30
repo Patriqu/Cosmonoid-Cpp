@@ -2,17 +2,16 @@
 
 bool UpdateGame:: slow_down = false;
 bool UpdateGame:: set_paddle_default_look = false;
-MMRESULT UpdateGame:: timerID;
+MMRESULT UpdateGame:: timer_id;
 
 
-UpdateGame:: UpdateGame( GameState* game_state, /*std::map<std::string, int>& surfer,*/ const Uint8* keystate, int level )
+UpdateGame:: UpdateGame( GameState* game_state, const Uint8* key_state, const int level )
     : done ( false ),
     game_state ( game_state ),
-    //surf_nbs ( surfer ),
     screen ( SDL_GetWindowSurface(SDL_GetWindowFromID(1)) ),
 
     MAX_LEVEL ( 4 ),
-    keystate ( keystate ),
+    keystate ( key_state ),
     level ( level ),
     current_state ( "" ),
     is_ball_motion ( false ),
@@ -25,9 +24,9 @@ UpdateGame:: UpdateGame( GameState* game_state, /*std::map<std::string, int>& su
 
     MOTION_RATE_PADDLE ( 6 ),
     main_menu ( new MainMenu() ),
-    paddle ( new Paddle( /*surfer*/ ) ),
-    ball ( new Ball( /*surfer*/ ) ),
-    bricks_level ( NULL ),
+    paddle ( new Paddle() ),
+    ball ( new Ball() ),
+    bricks_level ( nullptr ),
     collisions ( new Collisions() ),
     game_points ( new GamePoints() ),
     bonus ( new Bonus() ),
@@ -55,11 +54,8 @@ UpdateGame:: UpdateGame( GameState* game_state, /*std::map<std::string, int>& su
 
     // Load data of images in menu
     SDL_Surface* screen = SDL_GetWindowSurface(SDL_GetWindowFromID(1));
-    int h = screen->h;
-    std:: string tmp;
 
-    sprintf((char*)tmp.c_str(), "%d", h);
-    std:: string str = tmp.c_str();
+    const std:: string str = std::to_string(screen->h);
 
     ResManager:: getInstance().loadImageMenu(str);
     ResManager:: getInstance().loadImageSelection();
@@ -87,7 +83,7 @@ UpdateGame:: ~UpdateGame()
     delete game_state;
 }
 
-void UpdateGAme:: mainMenuHandle() {
+void UpdateGame:: mainMenuHandle() {
     if (SDL_GetRelativeMouseMode() == SDL_TRUE)
         SDL_SetRelativeMouseMode(SDL_FALSE);
 
@@ -98,11 +94,11 @@ void UpdateGAme:: mainMenuHandle() {
     // CHECK IF IS CHANGED OPTIONS TO EXECUTE AND DO IT
     if ( main_menu -> isOptionToChange() == true || start_menu_music == true )
     {
-        std::string option = main_menu -> getChangedText();
+        const auto option = main_menu -> getChangedText();
 
-        if ( option == "volume_sound" || start_menu_music == true )
+        if ( option == "volume_sound" )
         {
-            std::string sound_vol = main_menu -> getVolume( "sound" );
+            const auto sound_vol = main_menu -> getVolume( "sound" );
 
             if ( sound_vol == "off" )
                 Mix_Volume( 1, 0 );
@@ -115,9 +111,9 @@ void UpdateGAme:: mainMenuHandle() {
             else if ( sound_vol == "very high" )
                 Mix_Volume( 1, 45 );
         }
-        if ( option == "volume_music" || start_menu_music == true )
+        else if ( option == "volume_music" )
         {
-            std::string music_vol = main_menu -> getVolume( "music" );
+            const auto music_vol = main_menu -> getVolume( "music" );
 
             if ( music_vol == "off" )
                 Mix_VolumeMusic( 0 );
@@ -140,83 +136,40 @@ void UpdateGAme:: mainMenuHandle() {
     }
 }
 
-void UpdateGame:: startGameHandle() {
+void UpdateGame:: onStartGame() {
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    if( is_ball_motion == true )
-        is_ball_motion = false;
+    if (is_ball_motion == true) is_ball_motion = false;
 
     // Set coordinates to place objects on the screen after start a level
-    paddle -> posPaddleAtStart();
+    paddle -> positionPaddleAtStart();
     ball -> createBall();
     ball_numbers++;
 
     // Finally load bricks from current level at start
-    if ( level != 1 )
-    {
-        level = 1;
-        loadLevelAtStart();
-    }
-    else
-    {
-        loadLevelAtStart();
-    }
+    if ( level != 1 ) level = 1;
+
+    loadLevelAtStart();
 
     // Initiate generator of random numbers for random a bonus
     bonus -> initiateGenerator();
 }
 
-void UpdateGame:: resumeGameHandle() {
-    // IF ALL BRICKS ARE DELETED FROM SCREEN - PLAYER WIN:
-    if ( (bricks_level != NULL) && (bricks_level->getTableOfIgnoredBricks().size()) == (bricks_level->getAllBricks().size()) )
-    {
-        // We don't want to move a ball when starting new or the same level
-        for (int i = 0; i < ball_numbers; i++)
-        {
-            y_motion_rates[i] = MOTION_RATE_BALL_Y;
-            x_motion_rates[i] = 0;
-        }
-        is_ball_motion = false;
-        nr_of_collision = 0;
-
-        if ( level < MAX_LEVEL )
-        {
-            game_points -> endGame( "next_level" );
-            if ( keystate [ SDL_SCANCODE_RETURN ] )
-                game_state -> changeGameState( "NEXT_LEVEL" );
-        }
-        else
-        {
-            game_points -> endGame( "win" );
-            game_state -> changeGameState( "WIN_GAME" );
-        }
-    }
-
-    /* *** BASIC BALL MOTION HANDLE *** */
-    if ( is_ball_motion == true )
-    {
-        for (int i = 0; i < ball_numbers; i++)
-        {
-            // motion in "y" axis
-            ball -> setBallMotion( i, "y", y_motion_rates[i] );
-
-            // motion in "x" axis
-            ball -> setBallMotion( i, "x", x_motion_rates[i] );
-        }
-    }
-
+void UpdateGame::wallCollisionHandle()
+{
     /* *** WALL COLLISIONS HANDLE *** */
-    int ball_x[ball_numbers+1];
-    int ball_y[ball_numbers+1];
-    int ball_w[ball_numbers+1];
-    int ball_h[ball_numbers+1];
 
-    for ( int i = 0; i < ball_numbers; i++ )
+    std::vector<int> ball_x;
+    std::vector<int> ball_y;
+    std::vector<int> ball_w;
+    std::vector<int> ball_h;
+
+    for ( auto i = 0; i < ball_numbers; i++ )
     {
-        ball_x[i] = ball -> getBallPosition( i, "x" );
-        ball_y[i] = ball -> getBallPosition( i, "y" );
-        ball_w[i] = ball -> getBallPosition( i, "w" );
-        ball_h[i] = ball -> getBallPosition( i, "h" );
+        ball_x.push_back(ball -> getBallPosition( i, "x" ));
+        ball_y.push_back(ball -> getBallPosition( i, "y" ));
+        ball_w.push_back(ball -> getBallPosition( i, "w" ));
+        ball_h.push_back(ball -> getBallPosition( i, "h" ));
 
         // TOP WALL:
         if ( ball_y[i] < 0 )
@@ -231,13 +184,13 @@ void UpdateGame:: resumeGameHandle() {
             x_motion_rates[i] *= -1;
         }
         // RIGHT WALL:
-        else if ( (ball_x[i] + ball_w[i]) > screen->w /*surf_nbs["width"]*/ )
+        else if ( ball_x[i] + ball_w[i] > screen->w )
         {
-            ball -> setBallPosition( i, "x", /*surf_nbs["width"]*/ screen->w-ball_w[i] );
+            ball -> setBallPosition( i, "x", screen->w-ball_w[i] );
             x_motion_rates[i] *= -1;
         }
         // BOTTOM AND LOSE HANDLE:
-        else if ( (ball_y[i] + ball_h[i]) > screen->h /*surf_nbs["height"]*/ )
+        else if ( ball_y[i] + ball_h[i] > screen->h )
         {
             if ( ball_numbers > 1 )
             {
@@ -252,35 +205,46 @@ void UpdateGame:: resumeGameHandle() {
                 game_points -> updateLives( -1 );
 
                 // Back to starting positions
-                paddle -> posPaddleAtStart();
-                ball -> posBallAtStart(i);
+                paddle -> positionPaddleAtStart();
+                ball -> positionBallAtStart(i);
 
                 // Set default values of ball motion
-                for (int i = 0; i < ball_numbers; i++)
+                for (auto j = 0; j < ball_numbers; j++)
                 {
-                    y_motion_rates[i] = MOTION_RATE_BALL_Y;
-                    x_motion_rates[i] = 0;
+                    y_motion_rates[j] = MOTION_RATE_BALL_Y;
+                    x_motion_rates[j] = 0;
                 }
 
                 is_ball_motion = false;
 
                 nr_of_collision = 0;
 
-                int actual_lives = game_points -> getLives();
+                const auto actual_lives = game_points -> getLives();
                 if ( actual_lives == 0 )
                 {
                     game_points -> endGame( "lose" );
                     game_state -> changeGameState ( "LOSE_GAME" );
                 }
             }
-
         }
     }
 
+    ball_x.clear();
+    ball_y.clear();
+    ball_w.clear();
+    ball_h.clear();
+
+    ball_x.shrink_to_fit();
+    ball_y.shrink_to_fit();
+    ball_w.shrink_to_fit();
+    ball_h.shrink_to_fit();
+}
+
+void UpdateGame::objectsCollisionHandle()
+{
     /* *** COLLISION OF OBJECTS HANDLE *** */
     SDL_Rect& temp_dst_paddle = paddle -> getPaddle();
-    std:: map < const int, SDL_Rect* > temp_bricks;
-    temp_bricks = bricks_level -> getAllBricks();
+    std:: map < const int, SDL_Rect* > temp_bricks = bricks_level -> getAllBricks();
 
     // CHECK LASER COLLISION:
     if ( is_shoot == true )
@@ -344,21 +308,21 @@ void UpdateGame:: resumeGameHandle() {
             }
 
             // If ball is hanging at paddle, fix this:
-            bool is_bottleneck = collisions -> isBottleneck();
+            const bool is_bottleneck = collisions -> isBottleneck();
             if ( is_bottleneck )
             {
-                int paddle_position = paddle -> getPaddlePosition("x");
-                int paddle_width = paddle -> getPaddlePosition("w");
-                int paddle_length = paddle_position + paddle_width;
+                const int paddle_position = paddle -> getPaddlePosition("x");
+                const int paddle_width = paddle -> getPaddlePosition("w");
+                const int paddle_length = paddle_position + paddle_width;
 
-                int ball_position = ball -> getBallPosition(i, "x");
-                int ball_width = ball -> getBallPosition(i, "w");
-                int ball_length = ball_position + ball_width;
+                const int ball_position = ball -> getBallPosition(i, "x");
+                const int ball_width = ball -> getBallPosition(i, "w");
+                const int ball_length = ball_position + ball_width;
 
-                int dist_x = std::abs( paddle_position - ball_position );
-                int dist_w = std::abs( paddle_length - ball_position );
+                const int dist_x = std::abs( paddle_position - ball_position );
+                const int dist_w = std::abs( paddle_length - ball_position );
 
-                if ( (ball_length < screen->w /*surf_nbs["width"]*/ - ball_width) && dist_x < dist_w )
+                if ( ball_length < screen->w - ball_width && dist_x < dist_w )
                     ball -> correctBottleneck( i, -dist_x );
                 else
                     ball -> correctBottleneck( i, dist_w );
@@ -367,7 +331,7 @@ void UpdateGame:: resumeGameHandle() {
 
         if ( detected_collision_brick != "None" )
         {
-            deleteBrickHandle();
+            removeBrick();
         }
 
         bonusHandle();
@@ -375,8 +339,51 @@ void UpdateGame:: resumeGameHandle() {
 
     if ( detected_collision_shoot == "Vertical" )
     {
-        deleteBrickHandle();
+        removeBrick();
     }
+}
+
+void UpdateGame:: onResumeGame() {
+    // IF ALL BRICKS ARE DELETED FROM SCREEN - PLAYER WIN:
+    if (bricks_level != nullptr && bricks_level->getTableOfIgnoredBricks().size() == bricks_level->getAllBricks().size())
+    {
+        // We don't want to move a ball when starting new or the same level
+        for (auto i = 0; i < ball_numbers; i++)
+        {
+            y_motion_rates[i] = MOTION_RATE_BALL_Y;
+            x_motion_rates[i] = 0;
+        }
+        is_ball_motion = false;
+        nr_of_collision = 0;
+
+        if ( level < MAX_LEVEL )
+        {
+            game_points -> endGame( "next_level" );
+            if ( keystate [ SDL_SCANCODE_RETURN ] )
+                game_state -> changeGameState( "NEXT_LEVEL" );
+        }
+        else
+        {
+            game_points -> endGame( "win" );
+            game_state -> changeGameState( "WIN_GAME" );
+        }
+    }
+
+    /* *** BASIC BALL MOTION HANDLE *** */
+    if ( is_ball_motion == true )
+    {
+        for (auto i = 0; i < ball_numbers; i++)
+        {
+            // motion in "y" axis
+            ball -> setBallMotion( i, "y", y_motion_rates[i] );
+
+            // motion in "x" axis
+            ball -> setBallMotion( i, "x", x_motion_rates[i] );
+        }
+    }
+
+    wallCollisionHandle();
+    objectsCollisionHandle();
 
     collisions->clearData();
     detected_collision_brick = "None";
@@ -384,14 +391,14 @@ void UpdateGame:: resumeGameHandle() {
     detected_collision_shoot = "None";
 }
 
-void UpdateGame:: nextLevelHandle() {
-    clearDatas();
+void UpdateGame:: onNextLevel() {
+    clearData();
 
     // Set starting positions of ball and paddle
-    paddle -> posPaddleAtStart();
+    paddle -> positionPaddleAtStart();
 
     ball_numbers = 0;
-    ball -> resetBall();
+    ball -> resetBalls();
     bonus -> clearBonus();
     y_motion_rates.clear();
     x_motion_rates.clear();
@@ -418,8 +425,8 @@ void UpdateGame:: nextLevelHandle() {
     game_state -> changeGameState( "RESUME_GAME" );
 }
 
-void UpdateGame:: loseGameHandle() {
-    clearDatas();
+void UpdateGame:: onLoseGame() {
+    clearData();
 
     // We don't want to move a ball when starting new or the same level
     y_motion_rates[0] = MOTION_RATE_BALL_Y;
@@ -429,7 +436,7 @@ void UpdateGame:: loseGameHandle() {
     if ( keystate [ SDL_SCANCODE_RETURN ] )
     {
         ball_numbers = 0;
-        ball -> resetBall();
+        ball -> resetBalls();
         ball -> createBall();
         ball_numbers++;
 
@@ -458,13 +465,13 @@ void UpdateGame:: loseGameHandle() {
     }
 }
 
-void UpdateGame:: winGameHandle() {
+void UpdateGame:: onWinGame() {
     if ( keystate [ SDL_SCANCODE_RETURN ] )
     {
-        clearDatas();
+        clearData();
 
         ball_numbers = 0;
-        ball -> resetBall();
+        ball -> resetBalls();
         bonus -> clearBonus();
 
         bricks_level -> clearData();
@@ -496,45 +503,46 @@ void UpdateGame::updateGame()
     /* *** SET DECLARATIONS AT START THE APPLICATION - AFTER MENU DESTROY: *** */
     if ( current_state == "START_GAME" )
     {
-        startGameHandle();
+        onStartGame();
     }
     else if ( current_state == "RESUME_GAME" )
     {
-        resumeGameHandle();
+        onResumeGame();
     }
     /* *** ENDING HANDLE *** */
     else if ( current_state == "NEXT_LEVEL" )
     {
-        nextLevelHandle();
+        onNextLevel();
     }
 
     if ( current_state == "LOSE_GAME" )
     {
-        loseGameHandle();
+        onLoseGame();
     }
     else if ( current_state == "WIN_GAME" )
     {
-        winGameHandle();
+        onWinGame();
     }
 }
 
 
-void UpdateGame:: deleteBrickHandle() {
+void UpdateGame:: removeBrick() const
+{
     // Add scores to actual
     game_points -> updateScores( 3 );
 
     // Get number of brick, which is collided in recent frame...
-    int brick = collisions -> getCollidedBrick();
+    const int brick = collisions -> getCollidedBrick();
 
     // and add it to Table of ignored bricks
     bricks_level -> addToTableIgnoredBricks( brick );
 
     // Try a luck and randomize bonus
-    std::string bonus = this->bonus -> getBonus();
+    const std::string bonus = this->bonus -> getBonus();
     if ( bonus == "none" )
     {
         // If collision occured, get brick's coordinates needed to generate proper Bonus Pack
-        SDL_Rect dst_brick = *(bricks_level -> getOneBrick( brick ));
+        const SDL_Rect dst_brick = * bricks_level -> getOneBrick(brick);
 
         this->bonus -> randomBonus();
         this->bonus -> setBonusPosition( dst_brick );
@@ -569,10 +577,8 @@ void UpdateGame:: loadLevelAtStart()
 }
 
 /* KEYBOARD HANDLE METHODS */
-void UpdateGame:: keysHandle( const Uint8 * keystate )
+void UpdateGame:: keysHandle( const Uint8 * keyState )
 {
-    int x = event.motion.x;
-
     while( SDL_PollEvent( &event ) )
     {
         if( event.type == SDL_QUIT )
@@ -581,47 +587,48 @@ void UpdateGame:: keysHandle( const Uint8 * keystate )
         }
     }
 
-    SDL_Rect temp_paddle = paddle -> getPaddle();
+    const SDL_Rect temp_paddle = paddle -> getPaddle();
 
     /* * DEBUG GOD MODE: * */
-    if ( keystate [ SDL_SCANCODE_PAUSE ] )
+    if ( keyState [ SDL_SCANCODE_PAUSE ] )
         is_ball_motion = false;
 
-    if ( keystate [ SDL_SCANCODE_P ] )
+    if ( keyState [ SDL_SCANCODE_P ] )
         ball -> setBallMotion( 0, "y", MOTION_RATE_BALL_Y );
 
-    if ( keystate [ SDL_SCANCODE_L ] )
+    if ( keyState [ SDL_SCANCODE_L ] )
         ball -> setBallMotion( 0, "y", -MOTION_RATE_BALL_Y );
 
-    if ( keystate [ SDL_SCANCODE_END ] )
+    if ( keyState [ SDL_SCANCODE_END ] )
         ball -> setBallMotion( 0, "x", MOTION_RATE_BALL_X );
 
-    if ( keystate [ SDL_SCANCODE_PAGEDOWN ] )
+    if ( keyState [ SDL_SCANCODE_PAGEDOWN ] )
         ball -> setBallMotion( 0, "x", -MOTION_RATE_BALL_X );
 
-    if ( keystate [ SDL_SCANCODE_F1 ] )
+    if ( keyState [ SDL_SCANCODE_F1 ] )
         game_state -> changeGameState( "START_GAME" );
 
-    if ( keystate [ SDL_SCANCODE_F12 ] )
+    if ( keyState [ SDL_SCANCODE_F12 ] )
         game_state -> changeGameState( "NEXT_LEVEL" );
 
-    if ( keystate [ SDL_SCANCODE_DELETE ] )
-        clearDatas();
+    if ( keyState [ SDL_SCANCODE_DELETE ] )
+        clearData();
 
     /* *************** */
 
 
     // If user pressed Space - ball was started moving
-    if ( keystate [ SDL_SCANCODE_SPACE ] || (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT ) )
+    if ( keyState [ SDL_SCANCODE_SPACE ] || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT )
         is_ball_motion = true;
 
-    if ( (keystate [ SDL_SCANCODE_LCTRL ] || (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT )) && is_gun == true )
+    if ( keyState [ SDL_SCANCODE_LCTRL ] || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT
+        && is_gun == true )
     {
         is_shoot = true;
         paddle -> createBullet();
     }
 
-    if ( keystate [ SDL_SCANCODE_ESCAPE ] )
+    if ( keyState [ SDL_SCANCODE_ESCAPE ] )
     {
         game_state -> changeGameState( "MAIN_MENU" );
 
@@ -629,7 +636,7 @@ void UpdateGame:: keysHandle( const Uint8 * keystate )
     }
 
     // STEER PADDLE TO THE LEFT
-    if ( keystate [ SDL_SCANCODE_LEFT ] || (event.type == SDL_MOUSEMOTION && (event.motion.xrel < 0)) )
+    if ( keyState [ SDL_SCANCODE_LEFT ] || event.type == SDL_MOUSEMOTION && event.motion.xrel < 0 )
     {
         event.motion.xrel = 0;
 
@@ -645,7 +652,7 @@ void UpdateGame:: keysHandle( const Uint8 * keystate )
     }
 
     // STEER PADDLE TO THE RIGHT
-    else if ( keystate [ SDL_SCANCODE_RIGHT ] || (event.type == SDL_MOUSEMOTION && (event.motion.xrel > 0) ) )
+    else if ( keyState [ SDL_SCANCODE_RIGHT ] || event.type == SDL_MOUSEMOTION && event.motion.xrel > 0 )
     {
         event.motion.xrel = 0;
 
@@ -656,7 +663,7 @@ void UpdateGame:: keysHandle( const Uint8 * keystate )
             paddle -> setPaddleMotion(9);
 
         // Back if paddle go off the screen at right
-        if ( (temp_paddle.x + temp_paddle.w) >= screen->w /*surf_nbs["width"]*/ )
+        if ( (temp_paddle.x + temp_paddle.w) >= screen->w )
             paddle -> setPaddlePosition( screen->w - temp_paddle.w );
     }
 
@@ -668,17 +675,17 @@ void UpdateGame:: menuKeyHandle()
     if ( game_state -> getCurrentState() == "MAIN_MENU" )
     {
         //If there's an event to handle
-        if( SDL_WaitEvent( &event ) )
+        if ( SDL_WaitEvent( &event ) )
         {
-            if( event.type == SDL_QUIT || main_menu -> getExitState() == true )
+            if ( event.type == SDL_QUIT || main_menu -> getExitState() == true )
             {
                 done = true;
             }
 
             //If a key was pressed
-            if( event.type == SDL_KEYDOWN )
+            if ( event.type == SDL_KEYDOWN )
             {
-                switch( event.key.keysym.sym )
+                switch ( event.key.keysym.sym )
                 {
                     case SDLK_DOWN:
                         main_menu -> moveSelection( "down" );
@@ -690,7 +697,7 @@ void UpdateGame:: menuKeyHandle()
 
                     case SDLK_RETURN:
                     {
-                        bool is_new_game = main_menu -> nextStep();
+                        const bool is_new_game = main_menu -> nextStep();
 
                         if ( is_new_game == true )
                         {
@@ -712,7 +719,6 @@ void UpdateGame:: menuKeyHandle()
 
                     default:
                         break;
-
                 }
             }
         }
@@ -739,7 +745,7 @@ void UpdateGame:: menuMouseHandle()
             {
                 if (y>140 && y < 173)
                 {
-                    bool is_new_game = main_menu -> nextStep();
+                    const bool is_new_game = main_menu -> nextStep();
 
                     if ( is_new_game == true )
                     {
@@ -750,9 +756,7 @@ void UpdateGame:: menuMouseHandle()
                     }
                 }
                 else if (y>180 && y < 210)
-                {
-
-                }
+                {}
                 else if (y>236 && y < 262)
                 {
                     main_menu -> setSelection(3);
@@ -817,7 +821,7 @@ void UpdateGame:: setTimer()
 {
     timeBeginPeriod(0);
 
-    timerID = timeSetEvent(10000, 0, &UpdateGame:: TimeProc, 0, TIME_ONESHOT);
+    timer_id = timeSetEvent(10000, 0, &UpdateGame:: TimeProc, 0, TIME_ONESHOT);
 }
 
 void CALLBACK UpdateGame:: TimeProc(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2)
@@ -825,97 +829,90 @@ void CALLBACK UpdateGame:: TimeProc(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1
     if ( set_paddle_default_look == false )
         set_paddle_default_look = true;
 
-    if ( slow_down == true )
-    {
-        slow_down = false;
-    }
+    if ( slow_down == true ) slow_down = false;
 
-    timeKillEvent(timerID);
+    timeKillEvent(timer_id);
     timeEndPeriod(0);
 }
 
 void UpdateGame:: bonusHandle()
 {
     if ( bonus -> getBonus() != "none" )
+    {
+        const SDL_Rect temp_dst_paddle = paddle -> getPaddle();
+        const SDL_Rect temp_dst_bonus = bonus -> getBonusPosition();
+
+        bonus -> moveBonus();
+
+        detected_collision_bonus = collisions -> detectCollision( temp_dst_bonus, temp_dst_paddle );
+
+        if ( detected_collision_bonus == "Vertical" || detected_collision_bonus == "Horizontal" )
         {
-            SDL_Rect temp_dst_paddle = paddle -> getPaddle();
-            SDL_Rect temp_dst_bonus = bonus -> getBonusPosition();
+            detected_collision_bonus = "none";
 
-            bonus -> moveBonus();
+            const auto which_bonus_exec = bonus -> executeBonus();
 
-            detected_collision_bonus = collisions -> detectCollision( temp_dst_bonus, temp_dst_paddle );
-
-            if ( detected_collision_bonus == "Vertical" || detected_collision_bonus == "Horizontal" )
+            switch ( which_bonus_exec )
             {
-                detected_collision_bonus = "none";
+                // gun
+                case 1:
+                        is_gun = true;
+                        paddle -> changePaddle( "paddle_war" );
+                        setTimer();
+                        break;
 
-                int which_bonus_exec = bonus -> executeBonus();
+                // live
+                case 2:
+                        game_points -> updateLives( 1 );
+                        break;
 
-                switch ( which_bonus_exec )
-                {
-                    // gun
-                    case 1:
-                            is_gun = true;
-                            paddle -> changePaddle( "paddle_war" );
-                            setTimer();
-                            which_bonus_exec = 0;
-                            break;
+                 // slow ball
+                case 3:
+                        slow_down = true;
+                        setTimer();
+                        break;
 
-                    // live
-                    case 2:
-                            game_points -> updateLives( 1 );
-                            which_bonus_exec = 0;
-                            break;
+                // duplicate ball
+                case 4:
+                        if ( ball_numbers < MAX_BALLS )
+                        {
+                            const int id = ball -> createBall();
+                            ball_numbers++;
 
-                     // slow
-                    case 3:
-                            slow_down = true;
-                            setTimer();
-                            which_bonus_exec = 0;
-                            break;
+                            const int temp_x = paddle -> getPaddlePosition( "x" );
+                            const int temp_w = paddle -> getPaddlePosition( "w" );
+                            const int temp_y = paddle -> getPaddlePosition( "y" );
 
-                    // dup
-                    case 4:
-                            if ( ball_numbers < MAX_BALLS )
-                            {
-                                int id = ball -> createBall();
-                                ball_numbers++;
+                            ball -> setBallPosition ( id, "x", temp_x + temp_w/2 );
+                            ball -> setBallPosition ( id, "y", temp_y - 21 );
 
-                                int temp_x = paddle -> getPaddlePosition( "x" );
-                                int temp_w = paddle -> getPaddlePosition( "w" );
-                                int temp_y = paddle -> getPaddlePosition( "y" );
-
-                                ball -> setBallPosition ( id, "x", temp_x + temp_w/2 );
-                                ball -> setBallPosition ( id, "y", temp_y - 21 );
-
-                                y_motion_rates.push_back(MOTION_RATE_BALL_Y);
-                                x_motion_rates.push_back(0);
-                            }
-                            which_bonus_exec = 0;
-                            break;
-                }
+                            y_motion_rates.push_back(MOTION_RATE_BALL_Y);
+                            x_motion_rates.push_back(0);
+                        }
+                        break;
             }
-
-            SDL_Rect& bonus_pos = this->bonus -> getBonusPosition();
-            if ( bonus_pos.y > screen->h /*surf_nbs["height"]*/ )
-                this->bonus -> removeBonus();
         }
 
-        if ( is_shoot == true )
-        {
-            paddle -> moveBullet();
-        }
+        SDL_Rect& bonus_pos = this->bonus -> getBonusPosition();
+        if ( bonus_pos.y > screen->h )
+            this->bonus -> removeBonus();
+    }
 
-        if ( set_paddle_default_look == true )
-        {
-            is_gun = false;
-            paddle -> changePaddle( "paddle" );
+    if ( is_shoot == true )
+    {
+        paddle -> moveBullet();
+    }
 
-            set_paddle_default_look = false;
-        }
+    if ( set_paddle_default_look == true )
+    {
+        is_gun = false;
+        paddle -> changePaddle( "paddle" );
+
+        set_paddle_default_look = false;
+    }
 }
 
-void UpdateGame:: clearDatas()
+void UpdateGame:: clearData()
 {
     if( is_gun == true )
     {
@@ -925,13 +922,10 @@ void UpdateGame:: clearDatas()
         set_paddle_default_look = false;
     }
 
-    if( slow_down == true )
-    {
-        slow_down = false;
-    }
+    if ( slow_down == true ) slow_down = false;
 }
 
-int UpdateGame:: getBallNumbers()
+int UpdateGame:: getBallNumbers() const
 {
     return ball_numbers;
 }

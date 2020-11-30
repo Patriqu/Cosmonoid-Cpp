@@ -13,8 +13,7 @@
 class Ball
 {
     public:
-        Ball( /*std::map<std::string, int>& surfer*/ );
-        //Ball();
+        Ball();
         virtual ~Ball();
 
         SDL_Rect& getBall( int nr );
@@ -22,9 +21,9 @@ class Ball
         int getBallNumbers();
         int createBall();
         void deleteBall( int nr );
-        void resetBall();
+        void resetBalls();
         void clearBalls();
-        void posBallAtStart( int nr );
+        void positionBallAtStart( int nr );
 
         void setBallMotion( int nr, std:: string t, int v );
         void setBallPosition( int nr, std:: string t, int p );
@@ -37,7 +36,6 @@ class Ball
         SDL_Rect dst_ball_default;
 
         SDL_Surface* screen;
-        //std::map<std::string, int> surf_nbs;
 };
 
 #endif // BALL_H

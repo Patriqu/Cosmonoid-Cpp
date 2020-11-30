@@ -10,9 +10,6 @@
 class BricksLevels
 {
     public:
-        BricksLevels();
-        virtual ~BricksLevels();
-
         virtual SDL_Rect* getOneBrick( int map_index ) = 0;
         virtual std:: map <const int, SDL_Rect* >& getAllBricks() = 0;
         virtual std:: map <const int, SDL_Rect* >& getSourceBricks() = 0;

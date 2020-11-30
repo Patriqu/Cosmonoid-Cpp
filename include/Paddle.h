@@ -13,8 +13,7 @@
 class Paddle
 {
     public:
-        Paddle( /*std::map<std::string, int>& surfer*/ );
-        //Paddle();
+        Paddle();
         virtual ~Paddle();
 
         SDL_Rect& getPaddle();
@@ -22,7 +21,7 @@ class Paddle
         std::string getPaddleName();
         SDL_Rect& getBullet();
         bool isBulletCreated();
-        void posPaddleAtStart();
+        void positionPaddleAtStart();
 
         void setPaddleMotion( float v );
         void setPaddlePosition ( int v );
@@ -30,6 +29,7 @@ class Paddle
 
         void createBullet();
         void shoot();
+        void moveBullet();
 
     private:
         static SDL_Rect dst_paddle;
@@ -41,7 +41,6 @@ class Paddle
         static bool bullet_created;
 
         SDL_Surface* screen;
-        //std::map<std::string, int> surf_nbs;
 };
 
 #endif // PADDLE_H

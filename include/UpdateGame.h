@@ -35,20 +35,22 @@
 class UpdateGame
 {
     public:
-        UpdateGame( GameState* game_state, /*std::map<std::string, int>&surfer,*/ const Uint8* keystate, int level );
+        UpdateGame( GameState* game_state, const Uint8* key_state, int level );
         virtual ~UpdateGame();
 
         // Main method for Update the Game
         void updateGame();
-        int getBallNumbers();
+        int getBallNumbers() const;
 
         bool done;
         static bool slow_down;
         static bool set_paddle_default_look;
 
     private:
+        void mainMenuHandle();
+    
         // Methods for handle keyboard
-        void keysHandle( const Uint8* keystate );
+        void keysHandle( const Uint8* keyState );
         void menuKeyHandle();
         void menuMouseHandle();
 
@@ -57,15 +59,26 @@ class UpdateGame
 
         void bonusHandle();
 
+        // Game state change event handlers
+        void onStartGame();
+        void onResumeGame();
+        void onNextLevel();
+        void onLoseGame();
+        void onWinGame();
+
+        // Collision handling
+        void wallCollisionHandle();
+        void objectsCollisionHandle();
+    
         // Change data about actual level (create new level object)
         void loadLevelAtStart();
-        void clearDatas();
+        void removeBrick() const;
+        void clearData();
 
         void stop_menu_music();
 
         // Definitions of variables:
         GameState* game_state;
-        //std::map<std::string, int> surf_nbs;
         SDL_Surface* screen;
 
         const int MAX_LEVEL;
@@ -113,7 +126,7 @@ class UpdateGame
         int ball_numbers;
         int MAX_BALLS;
 
-        static MMRESULT timerID;
+        static MMRESULT timer_id;
 
         bool start_menu_music;
 };

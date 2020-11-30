@@ -5,36 +5,29 @@ std::vector<SDL_Rect> Ball:: dst_ball;
 int Ball:: ball_numbers;
 
 /* functions: */
-Ball::Ball( /*std::map<std::string, int>& surfer*/ )
-    //: surf_nbs( surfer )
+Ball::Ball()
     : screen ( SDL_GetWindowSurface(SDL_GetWindowFromID(1)) )
 {
 }
-
-/*
-Ball:: Ball()
-{
-}
-*/
 
 Ball:: ~Ball()
 {
 }
 
-SDL_Rect& Ball:: getBall( int nr )
+SDL_Rect& Ball:: getBall( const int nr )
 {
     return dst_ball[nr];
 }
 
-int Ball:: getBallPosition( int nr, std:: string t )
+int Ball:: getBallPosition( const int nr, const std:: string t )
 {
     if ( t == "x" )
         return dst_ball[nr].x;
-    else if ( t == "y" )
+    if ( t == "y" )
         return dst_ball[nr].y;
-    else if ( t == "w" )
+    if ( t == "w" )
         return dst_ball[nr].w;
-    else if ( t == "h" )
+    if ( t == "h" )
         return dst_ball[nr].h;
 }
 
@@ -47,19 +40,19 @@ int Ball:: createBall()
 {
     SDL_Rect s;
     dst_ball.push_back(s);
-    posBallAtStart( ball_numbers );
+    positionBallAtStart( ball_numbers );
     ball_numbers++;
 
     return ball_numbers-1;
 }
 
-void Ball:: deleteBall( int nr )
+void Ball:: deleteBall( const int nr )
 {
     dst_ball.erase(dst_ball.begin() + nr);
     ball_numbers--;
 }
 
-void Ball:: resetBall()
+void Ball:: resetBalls()
 {
     dst_ball.clear();
     ball_numbers = 0;
@@ -70,10 +63,10 @@ void Ball:: clearBalls()
     dst_ball.clear();
 }
 
-void Ball:: posBallAtStart( int nr )
+void Ball:: positionBallAtStart( const int nr )
 {
-    dst_ball_default.x = ( /*surf_nbs["width"]*/ screen->w - ResManager:: getInstance().getImageWidth( "ball" ) )/ 2;
-    dst_ball_default.y = /*surf_nbs["height"]*/ screen->h - 56;
+    dst_ball_default.x = ( screen->w - ResManager:: getInstance().getImageWidth( "ball" ) )/ 2;
+    dst_ball_default.y = screen->h - 56;
     dst_ball_default.w = 21;
     dst_ball_default.h = 20;
 
@@ -83,7 +76,7 @@ void Ball:: posBallAtStart( int nr )
     dst_ball[nr].h = dst_ball_default.h;
 }
 
-void Ball:: setBallMotion( int nr, std:: string t, int v )
+void Ball:: setBallMotion( const int nr, const std:: string t, const int v )
 {
     if ( t == "x" )
         dst_ball[nr].x -= v;
@@ -91,7 +84,7 @@ void Ball:: setBallMotion( int nr, std:: string t, int v )
         dst_ball[nr].y -= v;
 }
 
-void Ball:: setBallPosition( int nr, std:: string t, int p )
+void Ball:: setBallPosition( const int nr, const std:: string t, const int p )
 {
     if ( t == "x" )
         dst_ball[nr].x = p;
@@ -99,7 +92,7 @@ void Ball:: setBallPosition( int nr, std:: string t, int p )
         dst_ball[nr].y = p;
 }
 
-void Ball:: correctBottleneck( int nr, int offset )
+void Ball:: correctBottleneck( const int nr, const int offset )
 {
     dst_ball[nr].x += offset;
 }
