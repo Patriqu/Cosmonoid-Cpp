@@ -13,7 +13,6 @@
 #include <map>
 
 #include <iostream>
-#include <fstream>
 
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
@@ -32,12 +31,12 @@ using namespace rapidxml;
 
 int main ( int argc, char** argv )
 {
-    //// READ CONFIG DATAS ////
+    //// READ CONFIG DATA ////
     bool is_fullscreen = false;
     int width;
     int height;
 
-    rapidxml::file<> xmlFile("text/config.xml");
+    rapidxml::file<> xmlFile("config/config.xml");
 
     xml_document <> document;
     try {
@@ -88,21 +87,23 @@ int main ( int argc, char** argv )
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     //// create a new window ////
-    SDL_Window* window;
-    SDL_Renderer* sdl_renderer;
+    SDL_Window* window = nullptr;
+    SDL_Renderer* sdl_renderer = nullptr;
 
     //// Initialize screen ////
+    auto title = "Cosmonoid - SDL2 v0.57";
+    
     if ( is_fullscreen == true )
     {
-        if (! (window = SDL_CreateWindow( "Simple Arkanoid - SDL2 v0.56", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                                width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_ALLOW_HIGHDPI /*| SDL_WINDOW_FULLSCREEN_DESKTOP*/ ) ))
-                                                return -1;
+        window = SDL_CreateWindow( title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                                width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_ALLOW_HIGHDPI /*| SDL_WINDOW_FULLSCREEN_DESKTOP*/ );
+        if (!window) return -1;
     }
     else if ( is_fullscreen == false )
     {
-        if (! (window = SDL_CreateWindow( "Simple Arkanoid - SDL2 v0.56", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                                width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI ) ))
-                                                return -1;
+        window = SDL_CreateWindow( title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                                width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI );
+        if (!window) return -1;
     }
 
     //// set icon at taskbar ////
@@ -122,7 +123,7 @@ int main ( int argc, char** argv )
 
     SDL_Surface* screen_surface = SDL_GetWindowSurface( window );
 
-    SDL_FillRect( screen_surface, 0, SDL_MapRGB( screen_surface->format, 255, 255, 255 ) );
+    SDL_FillRect( screen_surface, nullptr, SDL_MapRGB( screen_surface->format, 255, 255, 255 ) );
 
     //// Initialise TTF ////
     if ( TTF_Init() == -1 ) { return -1; }
@@ -139,8 +140,7 @@ int main ( int argc, char** argv )
     /* **************** program main loop *************** */
 
     //// Definitions of vars used in main loop ////
-    bool done = false;
-    const Uint8* keystate = SDL_GetKeyboardState( NULL );
+    const Uint8* keystate = SDL_GetKeyboardState( nullptr );
 
     const int INIT_LEVEL = 1;
 
@@ -148,8 +148,8 @@ int main ( int argc, char** argv )
     GameState game_state;
 
     //// Defs program main components ////
-    UpdateGame* update_game = new UpdateGame( &game_state, /*surf_nbs,*/ keystate, INIT_LEVEL );
-    Renderer* renderer = new Renderer( INIT_LEVEL, &game_state, window /*, sdl_texture */ );
+    UpdateGame* update_game = new UpdateGame(&game_state, keystate, INIT_LEVEL);
+    Renderer* renderer = new Renderer(INIT_LEVEL, &game_state);
 
     int frame = 0;                      //Keep track of the frame count
     Timer fpsTimer;
@@ -160,19 +160,15 @@ int main ( int argc, char** argv )
     #define UPDATE_INTERVAL (1.0 / MAX_FPS * 1000)
     #define MAX_UPDATES (MAX_FPS / MIN_FPS)
 
-    int screen_delay = 3.5;
-
     updateTimer.start();
     fpsTimer.start();
-    double currentTime;
 
-    std::cout << "Gra \"Arkanoid\" - ver. 0.56 zostala uruchomiona.\n";
-
+    std::cout << title << " game launched\n";
 
     /* START OF MAIN LOOP */
-    while ( !done )
+    while (true)
     {
-        currentTime = SDL_GetTicks();
+        SDL_GetTicks();
 
         update_game->updateGame();
 
@@ -180,15 +176,15 @@ int main ( int argc, char** argv )
         renderer->Render();
 
         if ( update_game->done == true )
-            done = true;
+            break;
 
         if ( update_game->slow_down == true )
             SDL_Delay(23);
 
         //// UPDATE SCREEN: ////
-        SDL_UpdateTexture(sdl_texture, NULL, screen_surface->pixels, screen_surface->pitch);
+        SDL_UpdateTexture(sdl_texture, nullptr, screen_surface->pixels, screen_surface->pitch);
 
-        SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL);
+        SDL_RenderCopy(sdl_renderer, sdl_texture, nullptr, nullptr);
 
         SDL_RenderPresent(sdl_renderer);
 
@@ -198,7 +194,7 @@ int main ( int argc, char** argv )
         if ( updateTimer.get_ticks() > 1000 )
         {
             std::stringstream caption;
-            caption << "Cosmonoid v. 0.57 - FPS: " << frame / ( fpsTimer.get_ticks() / 1000.f );
+            caption << title << " - FPS: " << frame / ( fpsTimer.get_ticks() / 1000.f );
 
             SDL_SetWindowTitle( window, caption.str().c_str() );
 

@@ -40,7 +40,7 @@ class MainMenu
         bool getExitState();
 
         void readOptionsFromXML();
-        void saveOptionToXML( std:: string option, std:: string value );
+        void saveOptionToXML( std:: string option, const char* value ) const;
 
         void clearChangedText();
         void resetOptionRestartWarn();
@@ -49,17 +49,19 @@ class MainMenu
         static int selection;
         static int page;
 
-        static std:: string screen_mode;
-        static std:: string resolution;
-        static std:: string background;
-        static std:: string language;
-        static std:: string volume_sound;
-        static std:: string volume_music;
-        static std:: string changed_text;
+        static const char* screen_mode;
+        static const char* resolution;
+        static const char* background;
+        static const char* language;
+        static const char* volume_sound;
+        static const char* volume_music;
+        static const char* changed_text;
         static int text_state;
 
         static bool is_option_restart_warn;
         static bool have_exit;
+
+        static const char* config_file_path;
 };
 
 #endif // MAINMENU_H

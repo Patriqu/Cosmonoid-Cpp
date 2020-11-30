@@ -2,21 +2,21 @@
 
 int MainMenu:: selection = 1;
 int MainMenu:: page = 1;
-std:: string MainMenu:: screen_mode = "none";
-std:: string MainMenu:: resolution = "640x480";
-std:: string MainMenu:: background = "yes";
-std:: string MainMenu:: language = "pl";
-std:: string MainMenu:: volume_sound = "low";
-std:: string MainMenu:: volume_music = "medium";
-std:: string MainMenu:: changed_text = "none";
+const char* MainMenu:: screen_mode = "none";
+const char* MainMenu:: resolution = "640x480";
+const char* MainMenu:: background = "yes";
+const char* MainMenu:: language = "pl";
+const char* MainMenu:: volume_sound = "low";
+const char* MainMenu:: volume_music = "medium";
+const char* MainMenu:: changed_text = "none";
 int MainMenu:: text_state = 1;
 bool MainMenu:: is_option_restart_warn = false;
 bool MainMenu:: have_exit = false;
 
+const char* MainMenu:: config_file_path = "config/config.xml";
+
 MainMenu:: MainMenu()
 {
-    //have_exit = false;
-
     readOptionsFromXML();
 }
 
@@ -257,82 +257,95 @@ bool MainMenu:: getExitState()
 
 void MainMenu:: readOptionsFromXML()
 {
-    rapidxml::file<> xmlFile("text/config.xml");
+    rapidxml::file<> xmlFile(config_file_path);
 
-    rapidxml::xml_document <> dokument;
+    rapidxml::xml_document <> document;
     try {
-        dokument.parse < rapidxml::parse_no_data_nodes >( xmlFile.data() );
+        document.parse < rapidxml::parse_no_data_nodes >( xmlFile.data() );
     } catch( rapidxml::parse_error p ) {
         p.what();
     }
 
-    rapidxml::xml_node <> * korzen = dokument.first_node("arkanoid");
-    korzen = korzen->first_node("config");
-    korzen = korzen->first_node("display");
-    korzen = korzen->first_node("fullscreen");
+    rapidxml::xml_node <> * root = document.first_node("arkanoid");
+    root = root->first_node("config");
+    root = root->first_node("display");
+    root = root->first_node("fullscreen");
 
-    std:: string s = korzen->value();
+    const char* s = root->value();
 
     if (s == "true")
         screen_mode = "full";
     else if (s == "false")
         screen_mode = "window";
 
-    korzen = korzen->next_sibling("width");
-    std:: string w(korzen->value());
+    root = root->next_sibling("width");
+    char* w(root->value());
 
-    korzen = korzen->next_sibling("height");
-    std:: string h(korzen->value());
+    root = root->next_sibling("height");
+    const char* h(root->value());
 
-    resolution = w + "x" + h;
+    //resolution = w + "x" + h;
+    char buf[100];
+    const char* x = "x";
 
-    korzen = dokument.first_node("arkanoid");
-    korzen = korzen->first_node("config");
-    korzen = korzen->first_node("sound");
+    // TODO: Convert to strcpy_s and strcat_s
+    strcpy(buf, w);
+    strcat(buf, x);
+    strcat(buf, h);
 
-    korzen = korzen->first_node("sound_volume");
-    std:: string sv(korzen->value());
+    /*strcat_s(buf, 2, x);
+    strcat_s(buf, 2, h);*/
+    
+    /*strcat_s(w, 2, x);
+    strcat_s(w, 2, h);*/
 
-    korzen = korzen->next_sibling("music_volume");
-    std:: string mv(korzen->value());
+    root = document.first_node("arkanoid");
+    root = root->first_node("config");
+    root = root->first_node("sound");
+
+    root = root->first_node("sound_volume");
+    const char* sv(root->value());
+
+    root = root->next_sibling("music_volume");
+    const char* mv(root->value());
 
     volume_sound = sv;
     volume_music = mv;
 
-    dokument.clear();
+    document.clear();
 }
 
-void MainMenu:: saveOptionToXML( std:: string option, std:: string value )
+void MainMenu:: saveOptionToXML( std:: string option, const char* value ) const
 {
-    rapidxml::file<> xmlFile("text/config.xml");
+    rapidxml::file<> xmlFile(config_file_path);
 
-    rapidxml::xml_document <> dokument;
+    rapidxml::xml_document <> document;
     try {
-        dokument.parse < rapidxml::parse_no_data_nodes >( xmlFile.data() );
+        document.parse < rapidxml::parse_no_data_nodes >( xmlFile.data() );
     } catch( rapidxml::parse_error p ) {
         p.what();
     }
 
-    rapidxml::xml_node <> * korzen = dokument.first_node("arkanoid");
+    rapidxml::xml_node <> * root = document.first_node("arkanoid");
 
     if (option == "screen_mode")
     {
-        korzen = korzen->first_node("config");
-        korzen = korzen->first_node("display");
+        root = root->first_node("config");
+        root = root->first_node("display");
 
         if (value == "full")
-            korzen->first_node("fullscreen")->value("true");
+            root->first_node("fullscreen")->value("true");
         else if (value == "window")
-            korzen->first_node("fullscreen")->value("false");
+            root->first_node("fullscreen")->value("false");
     }
     else if (option == "resolution")
     {
-        char* w = "";
-        char* h = "";
+        const char* w = "";
+        const char* h = "";
 
-        korzen = korzen->first_node("config");
-        korzen = korzen->first_node("display");
-        korzen = korzen->first_node("fullscreen");
+        root = root->first_node("config");
+        root = root->first_node("display");
+        root = root->first_node("fullscreen");
 
         if (value == "640x480")
         {
@@ -355,15 +368,16 @@ void MainMenu:: saveOptionToXML( std:: string option, std:: string value )
             h = "720";
         }
 
-        korzen->next_sibling("width")->value(w);
-        korzen->next_sibling("height")->value(h);
+        root->next_sibling("width")->value(w);
+        root->next_sibling("height")->value(h);
     }
     else if (option == "volume_sound")
     {
-        korzen = korzen->first_node("config");
-        korzen = korzen->first_node("sound");
+        root = root->first_node("config");
+        root = root->first_node("sound");
 
-        char* sv = "";
+        /*
+        const char* sv = "";
 
         if (value == "off")
         {
@@ -384,16 +398,17 @@ void MainMenu:: saveOptionToXML( std:: string option, std:: string value )
         else if (value == "very high")
         {
             sv = "very high";
-        }
+        }*/
 
-        korzen->first_node("sound_volume")->value(sv);
+        root->first_node("sound_volume")->value(value);
     }
     else if (option == "volume_music")
     {
-        korzen = korzen->first_node("config");
-        korzen = korzen->first_node("sound");
+        root = root->first_node("config");
+        root = root->first_node("sound");
 
-        char* mv = "";
+        /*
+        const char* mv = "";
 
         if (value == "off")
         {
@@ -414,19 +429,19 @@ void MainMenu:: saveOptionToXML( std:: string option, std:: string value )
         else if (value == "very high")
         {
             mv = "very high";
-        }
+        }*/
 
-        korzen->first_node("music_volume")->value(mv);
+        root->first_node("music_volume")->value(value);
     }
 
-    std::ofstream file("text/config.xml");
+    std::ofstream file(config_file_path);
     std::string s;
-    rapidxml::print(back_inserter(s), dokument, 0);
+    rapidxml::print(back_inserter(s), document, 0);
     file << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << std::endl;
     file << s;
     file.close();
 
-    dokument.clear();
+    document.clear();
 }
 
 void MainMenu:: clearChangedText()
