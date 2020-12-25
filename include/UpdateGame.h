@@ -53,11 +53,16 @@ class UpdateGame
         void keysHandle( const Uint8* keyState );
         void menuKeyHandle();
         void menuMouseHandle();
+        void debugKeys(const Uint8* keyState);
 
         void setTimer();
         static void CALLBACK TimeProc(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
 
         void bonusHandle();
+        void activateBonusLaser();
+        void activateBonusLive();
+        void activateBonusSlowdown();
+        void activateBonusDuplicateBall();
 
         // Game state change event handlers
         void onStartGame();
@@ -124,9 +129,9 @@ class UpdateGame
         int nr_of_collision;
 
         bool is_gun;
-        bool is_shoot;
+        bool is_shot;
 
-        int ball_numbers;
+        int actual_ball_count;
         int MAX_BALLS;
 
         static MMRESULT timer_id;
