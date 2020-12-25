@@ -47,6 +47,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -54,6 +55,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -133,12 +135,19 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>include;include/SDL2/</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ShowIncludes>true</ShowIncludes>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>lib\vs\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -199,6 +208,7 @@
     <ClInclude Include="include\BricksViewLevels.h" />
     <ClInclude Include="include\Bullet.h" />
     <ClInclude Include="include\Collisions.h" />
+    <ClInclude Include="include\Constants\MenuTexts.h" />
     <ClInclude Include="include\GameMenu.h" />
     <ClInclude Include="include\GameMenuView.h" />
     <ClInclude Include="include\GamePoints.h" />
@@ -293,10 +303,6 @@
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\UpdateGame.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\rapidxml\rapidxml.hpp" />
-    <ClInclude Include="src\rapidxml\rapidxml_iterators.hpp" />
-    <ClInclude Include="src\rapidxml\rapidxml_print.hpp" />
-    <ClInclude Include="src\rapidxml\rapidxml_utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />

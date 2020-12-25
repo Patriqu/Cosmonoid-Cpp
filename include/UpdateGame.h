@@ -75,6 +75,9 @@ class UpdateGame
         void removeBrick() const;
         void clearData();
 
+        // Sound
+        void setVolumeSound();
+        void setVolumeMusic();
         void stop_menu_music();
 
         // Definitions of variables:

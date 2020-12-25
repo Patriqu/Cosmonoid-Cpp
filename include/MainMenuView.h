@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <map>
+#include <list>
 
 #include <SDL.h>
 #include "SDL_image.h"
@@ -28,6 +30,8 @@ class MainMenuView
         std:: string getBgdName();
 
     private:
+        void changeToNextOption(std::string& text, char& c_text, const std::string value, const std:: string language, SDL_Surface* surface);
+    
         std:: string screen_mode_name;
         std:: string resolution_name;
         std:: string bgd_name;
@@ -74,6 +78,13 @@ class MainMenuView
         SDL_Rect restart_warn_dest;
 
         /* Texts */
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> screen_mode_iterator;
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> resolution_iterator;
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> background_iterator;
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> language_iterator;
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> volume_sound_iterator;
+        std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> volume_music_iterator;
+    
         std:: string text_new;
         std:: string text_trial;
         std:: string text_options;

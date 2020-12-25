@@ -13,55 +13,60 @@
 
 #include "GameState.h"
 
+#include "Constants/MenuTexts.h"
+
 class MainMenu
 {
-    public:
-        MainMenu();
-        virtual ~MainMenu();
+public:
+    MainMenu();
+    virtual ~MainMenu();
 
-        bool isOptionToChange();
+    bool isOptionToChange();
 
-        bool nextStep();
-        void setSelection( int selection );
-        void moveSelection( std:: string dest );
+    bool nextStep();
+    void setSelection(int selection);
+    void moveSelection(std::string dest);
 
-        int getSelectionNumber();
-        int getPageNumber();
-        std:: string getScreenMode();
-        std:: string getResolution();
-        std:: string getBackground();
-        std:: string getLanguage();
-        std:: string getVolume( std::string which );
-        std:: string getChangedText();
-        bool isOptionRestartWarn();
-        int getTextState();
-        void resetTextState();
+    int getSelectionNumber();
+    int getPageNumber();
+    std::string getScreenMode();
+    std::string getResolution();
+    std::string getBackground();
+    std::string getLanguage();
+    std::string getVolume(std::string which);
+    std::string getChangedText();
 
-        bool getExitState();
+    void resetChangedText();
+    
+    bool isOptionRestartWarn();
+    int getTextState();
+    void resetTextState();
 
-        void readOptionsFromXML();
-        void saveOptionToXML( std:: string option, const char* value ) const;
+    bool getExitState();
 
-        void clearChangedText();
-        void resetOptionRestartWarn();
+    void readOptionsFromXML();
+    void saveOptionToXML(std::string option, std::string value) const;
 
-    private:
-        static int selection;
-        static int page;
+    void clearChangedText();
+    void resetOptionRestartWarn();
 
-        static const char* screen_mode;
-        static const char* resolution;
-        static const char* background;
-        static const char* language;
-        static const char* volume_sound;
-        static const char* volume_music;
-        static const char* changed_text;
-        static int text_state;
+private:
+    static int selection;
+    static int page;
 
-        static bool is_option_restart_warn;
-        static bool have_exit;
+    static std::string screen_mode;
+    static std::string resolution;
+    static std::string background;
+    static std::string language;
+    static std::string volume_sound;
+    static std::string volume_music;
+    static std::string changed_text;
+    static int text_state;
 
-        static const char* config_file_path;
+    static bool is_option_restart_warn;
+    static bool have_exit;
+
+    static const char* config_file_path;
 };
 
 #endif // MAINMENU_H

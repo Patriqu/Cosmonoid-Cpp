@@ -1,5 +1,7 @@
 #include "MainMenuView.h"
 
+#include <windows.h>
+
 MainMenuView:: MainMenuView()
     : screen_mode_name( "none" ),
     resolution_name ( "640x480" ),
@@ -10,19 +12,19 @@ MainMenuView:: MainMenuView()
     font_sec ( TTF_OpenFont("arialbd.ttf", 13) ),
     font_color ( { 0, 0, 0 } ),
 
-    new_surface ( NULL ),
-    trial_surface ( NULL ),
-    options_surface ( NULL ),
-        opt_screen_surface ( NULL ),
-        opt_resolution_surface ( NULL ),
-        opt_bgd_surface ( NULL ),
-        opt_language_surface ( NULL ),
-        opt_volume_sound_surface ( NULL ),
-        opt_volume_music_surface ( NULL ),
-        opt_back_surface ( NULL ) ,
-    quit_surface ( NULL ),
+    new_surface ( nullptr ),
+    trial_surface ( nullptr ),
+    options_surface ( nullptr ),
+        opt_screen_surface ( nullptr ),
+        opt_resolution_surface ( nullptr ),
+        opt_bgd_surface ( nullptr ),
+        opt_language_surface ( nullptr ),
+        opt_volume_sound_surface ( nullptr ),
+        opt_volume_music_surface ( nullptr ),
+        opt_back_surface ( nullptr ) ,
+    quit_surface ( nullptr ),
 
-    restart_warn_surface ( NULL ),
+    restart_warn_surface ( nullptr ),
 
     text_new( new char[16] ),
     text_trial( new char[16] ),
@@ -93,7 +95,7 @@ void MainMenuView:: renderMenu()
 void MainMenuView:: renderTexts()
 {
     page = main_menu -> getPageNumber();
-    bool is_option_restart_warn = main_menu -> isOptionRestartWarn();
+    const bool is_option_restart_warn = main_menu -> isOptionRestartWarn();
 
     if ( page == 1 )
     {
@@ -134,13 +136,13 @@ void MainMenuView:: initOptions()
     << "init: height: " << screen -> h << std::endl;
 
     // Constant positions of menu objects surfaces:
-    bgd.x = screen->w/4;  //screen->w/1/4;
+    bgd.x = screen->w/4;
     bgd.y = screen->h/1/7;
 
     int HORIZONT = screen->w * 0.27;
 
     selection_dst.x = screen->w * 0.25;
-    selection_dst.y = 480 * 0.29 /*0.7*/;
+    selection_dst.y = 480 * 0.29;
 
     if (screen->w == 800)
     {
@@ -253,171 +255,40 @@ void MainMenuView:: initOptions()
     restart_warn_dest.y = screen->h * 0.93;
 
     // Default starting texts of menu objects:
-    std:: string language = main_menu -> getLanguage();
+    const std:: string language = main_menu -> getLanguage();
     screen_mode_name = main_menu -> getScreenMode();
     resolution_name = main_menu -> getResolution();
+    bgd_name = main_menu -> getBackground();
     std:: string sound_name = main_menu -> getVolume("sound");
     std:: string music_name = main_menu -> getVolume("music");
 
-    std:: string temp_screen;
-    std:: string temp_res;
+    // menu item texts
+    background_iterator = menu_texts.background_values.begin();
+    language_iterator = menu_texts.language_values.begin();
 
-    if (screen_mode_name == "full")
-    {
-        if ( language == "pl" )
-            temp_screen = "Ekran: Pelny";
-        else if (language == "en")
-            temp_screen = "Screen: Full";
-    }
-    else if (screen_mode_name == "window")
-    {
-        if ( language == "pl" )
-            temp_screen = "Ekran: Okno";
-        else if (language == "en")
-            temp_screen = "Screen: Window";
-    }
+    screen_mode_iterator = std::find(menu_texts.screen_mode_values.begin(), menu_texts.screen_mode_values.end(), screen_mode_name);
+    const std:: string temp_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[*screen_mode_iterator][language];
+    std::cout << temp_screen << std::endl;
 
-    if ( resolution_name == "640x480" )
-    {
-        if ( language == "pl" )
-            temp_res = "Rozdzielczosc: 640x480";
-        else if ( language == "en" )
-            temp_res = "Resolution: 640x480";
-    }
-    else if ( resolution_name == "800x600" )
-    {
-        if ( language == "pl" )
-            temp_res = "Rozdzielczosc: 800x600";
-        else if ( language == "en" )
-            temp_res = "Resolution: 800x600";
-    }
-    else if ( resolution_name == "1024x768" )
-    {
-        if ( language == "pl" )
-            temp_res = "Rozdzielczosc: 1024x768";
-        else if ( language == "en" )
-            temp_res = "Resolution: 1024x768";
-    }
-    else if ( resolution_name == "1280x720" )
-    {
-        if ( language == "pl" )
-            temp_res = "Rozdzielczosc: 1280x720";
-        else if ( language == "en" )
-            temp_res = "Resolution: 1280x720";
-    }
+    resolution_iterator = std::find(menu_texts.resolution_values.begin(), menu_texts.resolution_values.end(), resolution_name);
+    const std:: string temp_res = menu_texts.resolution_base_text[language] + *resolution_iterator;
+    std::cout << temp_res << std::endl;
 
-    if ( sound_name == "medium" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_sound = "Glosnosc dzwieku: Srednia";
+    background_iterator = std::find(menu_texts.background_values.begin(), menu_texts.background_values.end(), bgd_name);
+    const std:: string temp_background = menu_texts.background_base_text[language] + menu_texts.background_mapping[*background_iterator][language];
+    std::cout << temp_background << std::endl;
 
-            std::cout << text_opt_volume_sound << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_sound = "Sound Volume: Medium";
-    }
-    else if ( sound_name == "high" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_sound = "Glosnosc dzwieku: Wysoka";
+    language_iterator = std::find(menu_texts.language_values.begin(), menu_texts.language_values.end(), language);
+    const std:: string temp_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[*language_iterator][language];
+    std::cout << temp_language << std::endl;
+    
+    volume_sound_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), sound_name);
+    text_opt_volume_sound = menu_texts.volume_sound_base_text[language] + menu_texts.volume_value_mapping[*volume_sound_iterator][language];
+    std::cout << text_opt_volume_sound << std::endl;
 
-            std::cout << text_opt_volume_sound << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_sound = "Sound Volume: High";
-    }
-    else if ( sound_name == "very high" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_sound = "Glosnosc dzwieku: B. Wysoka";
-
-            std::cout << text_opt_volume_sound << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_sound = "Sound Volume: Very High";
-    }
-    else if ( sound_name == "off" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_sound = "Glosnosc dzwieku: Wyl";
-
-            std::cout << text_opt_volume_sound << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_sound = "Sound Volume: Off";
-    }
-    else if ( sound_name == "low" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_sound = "Glosnosc dzwieku: Niska";
-
-            std::cout << text_opt_volume_sound << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_sound = "Sound Volume: Low";
-    }
-
-    if ( music_name == "medium" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_music = "Glosnosc muzyki: Srednia";
-
-            std::cout << text_opt_volume_music << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_music = "Music Volume: Medium";
-    }
-    else if ( music_name == "high" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_music = "Glosnosc muzyki: Wysoka";
-
-            std::cout << text_opt_volume_music << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_music = "Music Volume: High";
-    }
-    else if ( music_name == "very high" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_music = "Glosnosc muzyki: B. Wysoka";
-
-            std::cout << text_opt_volume_music << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_music = "Music Volume: Very High";
-    }
-    else if ( music_name == "off" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_music = "Glosnosc muzyki: Wyl";
-
-            std::cout << text_opt_volume_music << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_music = "Music Volume: Off";
-    }
-    else if ( music_name == "low" )
-    {
-        if ( language == "pl" )
-        {
-            text_opt_volume_music = "Glosnosc muzyki: Niska";
-
-            std::cout << text_opt_volume_music << std::endl;
-        }
-        else if ( language == "en" )
-            text_opt_volume_music = "Music Volume: Low";
-    }
-
+    volume_music_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), music_name);
+    text_opt_volume_music = menu_texts.volume_music_base_text[language] + menu_texts.volume_value_mapping[*volume_music_iterator][language];
+    std::cout << text_opt_volume_music << std::endl;
 
     text_new = "Nowa Gra";
     c_text_new = const_cast<char*>(text_new.c_str());
@@ -434,16 +305,14 @@ void MainMenuView:: initOptions()
         text_opt_resolution = temp_res;
         c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
 
-        text_opt_bgd = "Tlo: Tak";
+        text_opt_bgd = temp_background;
         c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
 
-        text_opt_language = "Jezyk: Polski";
+        text_opt_language = temp_language;
         c_text_opt_language = const_cast<char*>(text_opt_language.c_str());
 
-        //text_opt_volume_sound = sound_name; /*"Glosnosc dzwieku: Niska";*/
         c_text_opt_volume_sound = const_cast<char*>(text_opt_volume_sound.c_str());
 
-        //text_opt_volume_music = music_name; /*"Glosnosc muzyki: Srednia"*/;
         c_text_opt_volume_music = const_cast<char*>(text_opt_volume_music.c_str());
 
         text_opt_back = "Powrot";
@@ -474,34 +343,34 @@ void MainMenuView:: initOptions()
 
 void MainMenuView:: updateDisplaySelection()
 {
-    int sel_number = main_menu -> getSelectionNumber();
+    const int sel_number = main_menu -> getSelectionNumber();
 
     if ( page == 1 )
     {
         switch ( sel_number )
         {
             case 1:
-                    selection_dst.y = /*screen->h*/ 480 * 0.29;
+                    selection_dst.y = 480 * 0.29;
                     break;
 
             case 2:
-                    selection_dst.y = /*screen->h*/ 480 * 0.39;
+                    selection_dst.y = 480 * 0.39;
                     break;
 
             case 3:
-                    selection_dst.y = /*screen->h*/ 480 * 0.49;
+                    selection_dst.y = 480 * 0.49;
                     break;
 
             case 4:
-                    selection_dst.y = /*screen->h*/ 480 * 0.59;
+                    selection_dst.y = 480 * 0.59;
                     break;
 
             case 5:
-                    selection_dst.y = /*screen->h*/ 480 * 0.69;
+                    selection_dst.y = 480 * 0.69;
                     break;
 
             case 6:
-                    selection_dst.y = /*screen->h*/ 480 * 0.79;
+                    selection_dst.y = 480 * 0.79;
                     break;
         }
     }
@@ -510,315 +379,146 @@ void MainMenuView:: updateDisplaySelection()
         switch ( sel_number )
         {
             case 1:
-                    selection_dst.y = /*screen->h*/ 480 * 0.29;
+                    selection_dst.y = 480 * 0.29;
                     break;
 
             case 2:
-                    selection_dst.y = /*screen->h*/ 480 * 0.37;
+                    selection_dst.y = 480 * 0.37;
                     break;
 
             case 3:
-                    selection_dst.y = /*screen->h*/ 480 * 0.45;
+                    selection_dst.y = 480 * 0.45;
                     break;
 
             case 4:
-                    selection_dst.y = /*screen->h*/ 480 * 0.53;
+                    selection_dst.y = 480 * 0.53;
                     break;
 
             case 5:
-                    selection_dst.y = /*screen->h*/ 480 * 0.61;
+                    selection_dst.y = 480 * 0.61;
                     break;
 
             case 6:
-                    selection_dst.y = /*screen->h*/ 480 * 0.69;
+                    selection_dst.y = 480 * 0.69;
                     break;
 
             case 7:
-                    selection_dst.y = /*screen->h*/ 480 * 0.77;
+                    selection_dst.y = 480 * 0.77;
                     break;
         }
     }
 }
 
+/*SDL_Surface* MainMenuView:: changeToNextOption(std::string& text, const char& c_text, const std::string value, const std:: string language)
+{
+    text = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[value][language];
+        
+    c_text = const_cast<&char>(text_opt_screen.c_str());
+
+    return TTF_RenderText_Solid( font, &c_text, font_color );
+}*/
+
 void MainMenuView:: updateTexts()
 {
-    std:: string screen_mode = main_menu -> getScreenMode();
-    std:: string resolution = main_menu -> getResolution();
-    std:: string background = main_menu -> getBackground();
-    std:: string language = main_menu -> getLanguage();
-    std:: string volume_sound = main_menu -> getVolume( "sound" );
-    std:: string volume_music = main_menu -> getVolume( "music" );
+    const std:: string screen_mode = main_menu -> getScreenMode();
+    const std:: string resolution = main_menu -> getResolution();
+    const std:: string background = main_menu -> getBackground();
+    const std:: string language = main_menu -> getLanguage();
+    const std:: string volume_sound = main_menu -> getVolume( "sound" );
+    const std:: string volume_music = main_menu -> getVolume( "music" );
 
-    std:: string changed_text = main_menu -> getChangedText();
-    int text_state = main_menu -> getTextState();
+    const std:: string changed_text = main_menu -> getChangedText();
 
     if ( changed_text == "none" )
         return;
 
-    else if ( changed_text == "screen_mode" )
+    if ( changed_text == "screen_mode" )
     {
-        if ( screen_mode == "window" )
-        {
-            if ( language == "pl" )
-                text_opt_screen = "Ekran: Okno";
-            else if ( language == "en" )
-                text_opt_screen = "Screen: Window";
+        if (++screen_mode_iterator == menu_texts.screen_mode_values.end())
+            screen_mode_iterator = menu_texts.screen_mode_values.begin();
 
-            screen_mode_name = "window";
-        }
-        else if ( screen_mode == "full" )
-        {
-            if ( language == "pl" )
-                text_opt_screen = "Ekran: Pelny";
-            else if ( language == "en" )
-                text_opt_screen = "Screen: Full";
-
-            screen_mode_name = "full";
-        }
-
+        const std::string val = *screen_mode_iterator;
+        
+        text_opt_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[val][language];
+        
         c_text_opt_screen = const_cast<char*>(text_opt_screen.c_str());
         opt_screen_surface = TTF_RenderText_Solid( font, c_text_opt_screen, font_color );
-
-        main_menu -> resetTextState();
-
     }
     else if ( changed_text == "resolution" )
     {
         std::cout << resolution << std::endl;
 
-        if ( resolution == "640x480" )
-        {
-            if ( language == "pl" )
-                text_opt_resolution = "Rozdzielczosc: 640x480";
-            else if ( language == "en" )
-                text_opt_resolution = "Resolution: 640x480";
+        if (++resolution_iterator == menu_texts.resolution_values.end())
+            resolution_iterator = menu_texts.resolution_values.begin();
 
-            resolution_name = "800x600";
-        }
-        if ( resolution == "800x600" )
-        {
-            if ( language == "pl" )
-                text_opt_resolution = "Rozdzielczosc: 800x600";
-            else if ( language == "en" )
-                text_opt_resolution = "Resolution: 800x600";
-
-            resolution_name = "800x600";
-        }
-        else if ( resolution == "1024x768" )
-        {
-            if ( language == "pl" )
-                text_opt_resolution = "Rozdzielczosc: 1024x768";
-            else if ( language == "en" )
-                text_opt_resolution = "Resolution: 1024x768";
-
-            resolution_name = "1024x768";
-        }
-        else if ( resolution == "1280x720" )
-        {
-            if ( language == "pl" )
-                text_opt_resolution = "Rozdzielczosc: 1280x720";
-            else if ( language == "en" )
-                text_opt_resolution = "Resolution: 1280x720";
-
-            resolution_name = "1280x720";
-        }
-
+        const std::string val = *resolution_iterator;
+        
+        text_opt_resolution = menu_texts.resolution_base_text[language] + val;
+        
         c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
         opt_resolution_surface = TTF_RenderText_Solid( font, c_text_opt_resolution, font_color );
     }
     else if ( changed_text == "background" )
     {
-        if ( background == "no" )
-        {
-            if ( language == "pl" )
-                text_opt_bgd = "Tlo: Nie";
-            else if ( language == "en" )
-                text_opt_bgd = "Background: No";
+        if (++background_iterator == menu_texts.background_values.end())
+            background_iterator = menu_texts.background_values.begin();
 
-            bgd_name = "no";
-        }
-        else if ( background == "yes" )
-        {
-            if ( language == "pl" )
-                text_opt_bgd = "Tlo: Tak";
-            else if ( language == "en" )
-                text_opt_bgd = "Background: Yes";
-
-            bgd_name = "yes";
-        }
-
+        const std::string val = *background_iterator;
+        
+        text_opt_bgd = menu_texts.background_base_text[language] + menu_texts.background_mapping[val][language];
+        
         c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
         opt_bgd_surface = TTF_RenderText_Solid( font, c_text_opt_bgd, font_color );
-
-        main_menu -> resetTextState();
     }
     else if ( changed_text == "language" )
     {
-        if ( language == "en" )
-        {
-            // if ( language == "pl" )
-            //    text_opt_language = "Jezyk: Polski";
-            // else if ( language == "en" )
-            text_opt_language = "Language: English";
-        }
-        else if ( language == "pl" )
-        {
-            //if ( language == "pl" )
-            //    text_opt_bgd = "Jezyk: Angielski";
-            //else if ( language == "en" )
-            //    text_opt_bgd = "Language: Polish";
-            text_opt_language = "Jezyk: Polski";
-        }
+        if (++language_iterator == menu_texts.language_values.end())
+            language_iterator = menu_texts.language_values.begin();
+
+        const std::string val = *language_iterator;
+        
+        text_opt_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[val][language];
 
         c_text_opt_language = const_cast<char*>( text_opt_language.c_str() );
         opt_language_surface = TTF_RenderText_Solid( font, c_text_opt_language, font_color );
-
-        main_menu -> resetTextState();
     }
     else if ( changed_text == "volume_sound" )
     {
-        if ( volume_sound == "medium" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_sound = "Glosnosc dzwieku: Srednia";
+        if (++volume_sound_iterator == menu_texts.volume_values.end())
+            volume_sound_iterator = menu_texts.volume_values.begin();
 
-                std::cout << text_opt_volume_sound << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_sound = "Sound Volume: Medium";
-        }
-        else if ( volume_sound == "high" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_sound = "Glosnosc dzwieku: Wysoka";
-
-                std::cout << text_opt_volume_sound << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_sound = "Sound Volume: High";
-        }
-        else if ( volume_sound == "very high" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_sound = "Glosnosc dzwieku: B. Wysoka";
-
-                std::cout << text_opt_volume_sound << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_sound = "Sound Volume: Very High";
-        }
-        else if ( volume_sound == "off" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_sound = "Glosnosc dzwieku: Wyl";
-
-                std::cout << text_opt_volume_sound << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_sound = "Sound Volume: Off";
-        }
-        else if ( volume_sound == "low" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_sound = "Glosnosc dzwieku: Niska";
-
-                std::cout << text_opt_volume_sound << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_sound = "Sound Volume: Low";
-        }
+        const std::string val = *volume_sound_iterator;
+        
+        text_opt_volume_sound = menu_texts.volume_sound_base_text[language]
+            + menu_texts.volume_value_mapping[val][language];
 
         c_text_opt_volume_sound = const_cast<char*>( text_opt_volume_sound.c_str() );
         opt_volume_sound_surface = TTF_RenderText_Solid( font, c_text_opt_volume_sound, font_color );
-
-        main_menu -> resetTextState();
     }
     else if ( changed_text == "volume_music" )
     {
-        if ( volume_music == "medium" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_music = "Glosnosc muzyki: Srednia";
+        if (++volume_music_iterator == menu_texts.volume_values.end())
+            volume_music_iterator = menu_texts.volume_values.begin();
 
-                std::cout << text_opt_volume_music << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_music = "Music Volume: Medium";
-        }
-        else if ( volume_music == "high" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_music = "Glosnosc muzyki: Wysoka";
-
-                std::cout << text_opt_volume_music << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_music = "Music Volume: High";
-        }
-        else if ( volume_music == "very high" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_music = "Glosnosc muzyki: B. Wysoka";
-
-                std::cout << text_opt_volume_music << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_music = "Music Volume: Very High";
-        }
-        else if ( volume_music == "off" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_music = "Glosnosc muzyki: Wyl";
-
-                std::cout << text_opt_volume_music << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_music = "Music Volume: Off";
-        }
-        else if ( volume_music == "low" )
-        {
-            if ( language == "pl" )
-            {
-                text_opt_volume_music = "Glosnosc muzyki: Niska";
-
-                std::cout << text_opt_volume_music << std::endl;
-            }
-            else if ( language == "en" )
-                text_opt_volume_music = "Music Volume: Low";
-        }
+        const std::string val = *volume_music_iterator;
+        
+        text_opt_volume_music = menu_texts.volume_music_base_text[language]
+            + menu_texts.volume_value_mapping[val][language];
 
         c_text_opt_volume_music = const_cast<char*>( text_opt_volume_music.c_str() );
         opt_volume_music_surface = TTF_RenderText_Solid( font, c_text_opt_volume_music, font_color );
-
-        main_menu -> resetTextState();
     }
-    else
-        return;
+
+    main_menu -> resetTextState();
+    main_menu -> resetChangedText();
 }
 
 std:: string MainMenuView:: getScreenModeName()
 {
-    //std:: string temp = screen_mode_name;
-    //screen_mode_name = "none";
-
-    //return temp;
     return screen_mode_name;
 }
 
 std::string MainMenuView:: getBgdName()
 {
-    //std:: string temp = bgd_name;
-    //bgd_name = "none";
-
-    //return bgd_name;
     return bgd_name;
 }

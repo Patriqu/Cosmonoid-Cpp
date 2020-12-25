@@ -3,11 +3,13 @@
 	<config>
 		<display>
 			<fullscreen>false</fullscreen>
-			<width>800</width>
-			<height>600</height>
+			<background>true</background>
+			<language>en</language>
+			<width>640</width>
+			<height>480</height>
 		</display>
 		<sound>
-			<sound_volume>off</sound_volume>
+			<sound_volume>low</sound_volume>
 			<music_volume>off</music_volume>
 		</sound>
 	</config>

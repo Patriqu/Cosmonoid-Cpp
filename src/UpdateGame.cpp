@@ -46,17 +46,16 @@ UpdateGame:: UpdateGame( GameState* game_state, const Uint8* key_state, const in
 
     // Music definitions
     menu_music = Mix_LoadMUS("sound/menu_music.mp3");
-    Mix_VolumeMusic( 15 );
-
+    setVolumeMusic();
+    
     // Sound sample definition
     snd_bounce = Mix_LoadWAV("sound/92622__nigelcoop__canbounce-2.wav");
-    Mix_Volume( 1, 8 );
+    setVolumeSound();
 
     // Load data of images in menu
     SDL_Surface* screen = SDL_GetWindowSurface(SDL_GetWindowFromID(1));
 
-    const std:: string str = std::to_string(screen->h);
-
+    const auto str = std::to_string(screen->h);
     ResManager:: getInstance().loadImageMenu(str);
     ResManager:: getInstance().loadImageSelection();
 
@@ -83,6 +82,37 @@ UpdateGame:: ~UpdateGame()
     delete game_state;
 }
 
+void UpdateGame:: setVolumeSound()
+{
+    const auto sound_vol = main_menu -> getVolume( "sound" );
+
+    if ( sound_vol == "off" )
+        Mix_Volume( 1, 0 );
+    else if ( sound_vol == "low" )
+        Mix_Volume( 1, 8 );
+    else if ( sound_vol == "medium" )
+        Mix_Volume( 1, 15 );
+    else if ( sound_vol == "high" )
+        Mix_Volume( 1, 30 );
+    else if ( sound_vol == "very high" )
+        Mix_Volume( 1, 45 );
+}
+void UpdateGame:: setVolumeMusic()
+{
+    const auto music_vol = main_menu -> getVolume( "music" );
+
+    if ( music_vol == "off" )
+        Mix_VolumeMusic( 0 );
+    else if ( music_vol == "low" )
+        Mix_VolumeMusic( 8 );
+    else if ( music_vol == "medium" )
+        Mix_VolumeMusic( 15 );
+    else if ( music_vol == "high" )
+        Mix_VolumeMusic( 30 );
+    else if ( music_vol == "very high" )
+        Mix_VolumeMusic( 45 );
+}
+
 void UpdateGame:: mainMenuHandle() {
     if (SDL_GetRelativeMouseMode() == SDL_TRUE)
         SDL_SetRelativeMouseMode(SDL_FALSE);
@@ -92,39 +122,22 @@ void UpdateGame:: mainMenuHandle() {
     menuMouseHandle();
 
     // CHECK IF IS CHANGED OPTIONS TO EXECUTE AND DO IT
-    if ( main_menu -> isOptionToChange() == true || start_menu_music == true )
+    if ( main_menu -> isOptionToChange() == true/* || start_menu_music == true*/ )
     {
         const auto option = main_menu -> getChangedText();
 
         if ( option == "volume_sound" )
         {
-            const auto sound_vol = main_menu -> getVolume( "sound" );
-
-            if ( sound_vol == "off" )
-                Mix_Volume( 1, 0 );
-            else if ( sound_vol == "low" )
-                Mix_Volume( 1, 8 );
-            else if ( sound_vol == "medium" )
-                Mix_Volume( 1, 15 );
-            else if ( sound_vol == "high" )
-                Mix_Volume( 1, 30 );
-            else if ( sound_vol == "very high" )
-                Mix_Volume( 1, 45 );
+            setVolumeSound();
         }
         else if ( option == "volume_music" )
         {
-            const auto music_vol = main_menu -> getVolume( "music" );
-
-            if ( music_vol == "off" )
-                Mix_VolumeMusic( 0 );
-            else if ( music_vol == "low" )
-                Mix_VolumeMusic( 8 );
-            else if ( music_vol == "medium" )
-                Mix_VolumeMusic( 15 );
-            else if ( music_vol == "high" )
-                Mix_VolumeMusic( 30 );
-            else if ( music_vol == "very high" )
-                Mix_VolumeMusic( 45 );
+            setVolumeMusic();
+        }
+        else if ( option == "background" )
+        {
+            const auto background = main_menu -> getBackground();
+            
         }
     }
 
@@ -509,7 +522,7 @@ void UpdateGame::updateGame()
     {
         onResumeGame();
     }
-    /* *** ENDING HANDLE *** */
+        /* *** ENDING HANDLE *** */
     else if ( current_state == "NEXT_LEVEL" )
     {
         onNextLevel();
@@ -755,8 +768,6 @@ void UpdateGame:: menuMouseHandle()
                         stop_menu_music();
                     }
                 }
-                else if (y>180 && y < 210)
-                {}
                 else if (y>236 && y < 262)
                 {
                     main_menu -> setSelection(3);
@@ -933,6 +944,4 @@ int UpdateGame:: getBallNumbers() const
 void UpdateGame:: stop_menu_music()
 {
     Mix_HaltMusic();
-    //Mix_FreeMusic(menu_music);
-    //menu_music = NULL;
 }
