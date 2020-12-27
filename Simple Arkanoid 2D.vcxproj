@@ -235,6 +235,16 @@
     <ClInclude Include="include\SDL2\SDL_blendmode.h" />
     <ClInclude Include="include\SDL2\SDL_clipboard.h" />
     <ClInclude Include="include\SDL2\SDL_config.h" />
+    <ClInclude Include="include\SDL2\SDL_config_android.h" />
+    <ClInclude Include="include\SDL2\SDL_config_iphoneos.h" />
+    <ClInclude Include="include\SDL2\SDL_config_macosx.h" />
+    <ClInclude Include="include\SDL2\SDL_config_minimal.h" />
+    <ClInclude Include="include\SDL2\SDL_config_pandora.h" />
+    <ClInclude Include="include\SDL2\SDL_config_psp.h" />
+    <ClInclude Include="include\SDL2\SDL_config_windows.h" />
+    <ClInclude Include="include\SDL2\SDL_config_winrt.h" />
+    <ClInclude Include="include\SDL2\SDL_config_wiz.h" />
+    <ClInclude Include="include\SDL2\SDL_copying.h" />
     <ClInclude Include="include\SDL2\SDL_cpuinfo.h" />
     <ClInclude Include="include\SDL2\SDL_egl.h" />
     <ClInclude Include="include\SDL2\SDL_endian.h" />
@@ -250,9 +260,12 @@
     <ClInclude Include="include\SDL2\SDL_keyboard.h" />
     <ClInclude Include="include\SDL2\SDL_keycode.h" />
     <ClInclude Include="include\SDL2\SDL_loadso.h" />
+    <ClInclude Include="include\SDL2\SDL_locale.h" />
     <ClInclude Include="include\SDL2\SDL_log.h" />
     <ClInclude Include="include\SDL2\SDL_main.h" />
     <ClInclude Include="include\SDL2\SDL_messagebox.h" />
+    <ClInclude Include="include\SDL2\SDL_metal.h" />
+    <ClInclude Include="include\SDL2\SDL_misc.h" />
     <ClInclude Include="include\SDL2\SDL_mixer.h" />
     <ClInclude Include="include\SDL2\SDL_mouse.h" />
     <ClInclude Include="include\SDL2\SDL_mutex.h" />
@@ -274,6 +287,7 @@
     <ClInclude Include="include\SDL2\SDL_revision.h" />
     <ClInclude Include="include\SDL2\SDL_rwops.h" />
     <ClInclude Include="include\SDL2\SDL_scancode.h" />
+    <ClInclude Include="include\SDL2\SDL_sensor.h" />
     <ClInclude Include="include\SDL2\SDL_shape.h" />
     <ClInclude Include="include\SDL2\SDL_stdinc.h" />
     <ClInclude Include="include\SDL2\SDL_surface.h" />
@@ -306,28 +320,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="CMakeLists.txt" />
     <Content Include="config\config.xml" />
-    <Content Include="lib\cmake\SDL2\sdl2-config.cmake" />
-    <Content Include="lib\libSDL2.a" />
-    <Content Include="lib\libSDL2.dll.a" />
-    <Content Include="lib\libSDL2.la" />
-    <Content Include="lib\libSDL2main.a" />
-    <Content Include="lib\libSDL2main.la" />
-    <Content Include="lib\libSDL2_image.a" />
-    <Content Include="lib\libSDL2_image.dll.a" />
-    <Content Include="lib\libSDL2_image.la" />
-    <Content Include="lib\libSDL2_mixer.a" />
-    <Content Include="lib\libSDL2_mixer.dll.a" />
-    <Content Include="lib\libSDL2_mixer.la" />
-    <Content Include="lib\libSDL2_test.a" />
-    <Content Include="lib\libSDL2_test.la" />
-    <Content Include="lib\libSDL2_ttf.a" />
-    <Content Include="lib\libSDL2_ttf.dll.a" />
-    <Content Include="lib\libSDL2_ttf.la" />
-    <Content Include="lib\pkgconfig\sdl2.pc" />
-    <Content Include="lib\pkgconfig\SDL2_image.pc" />
-    <Content Include="lib\pkgconfig\SDL2_mixer.pc" />
-    <Content Include="lib\pkgconfig\SDL2_ttf.pc" />
+    <Content Include="include\SDL2\SDL_config.h.cmake" />
+    <Content Include="include\SDL2\SDL_config.h.in" />
+    <Content Include="include\SDL2\SDL_config_macosx.h.orig" />
     <Content Include="lib\vs\x64\libFLAC-8.dll" />
     <Content Include="lib\vs\x64\libfreetype-6.dll" />
     <Content Include="lib\vs\x64\libjpeg-9.dll" />
@@ -435,6 +432,10 @@
   <ItemGroup>
     <Font Include="arial.ttf" />
     <Font Include="arialbd.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\cmake\x64" />
+    <Folder Include="lib\cmake\x86" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
