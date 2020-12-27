@@ -325,6 +325,30 @@
     <Content Include="include\SDL2\SDL_config.h.cmake" />
     <Content Include="include\SDL2\SDL_config.h.in" />
     <Content Include="include\SDL2\SDL_config_macosx.h.orig" />
+    <Content Include="lib\mingw\x64\cmake\SDL2\sdl2-config-version.cmake" />
+    <Content Include="lib\mingw\x64\cmake\SDL2\sdl2-config.cmake" />
+    <Content Include="lib\mingw\x64\libSDL2.a" />
+    <Content Include="lib\mingw\x64\libSDL2.dll.a" />
+    <Content Include="lib\mingw\x64\libSDL2.la" />
+    <Content Include="lib\mingw\x64\libSDL2main.a" />
+    <Content Include="lib\mingw\x64\libSDL2main.la" />
+    <Content Include="lib\mingw\x64\libSDL2_test.a" />
+    <Content Include="lib\mingw\x64\libSDL2_test.la" />
+    <Content Include="lib\mingw\x64\pkgconfig\sdl2.pc" />
+    <Content Include="lib\mingw\x86\cmake\SDL2\sdl2-config-version.cmake" />
+    <Content Include="lib\mingw\x86\cmake\SDL2\sdl2-config.cmake" />
+    <Content Include="lib\mingw\x86\libSDL2.a" />
+    <Content Include="lib\mingw\x86\libSDL2.dll.a" />
+    <Content Include="lib\mingw\x86\libSDL2.la" />
+    <Content Include="lib\mingw\x86\libSDL2main.a" />
+    <Content Include="lib\mingw\x86\libSDL2main.la" />
+    <Content Include="lib\mingw\x86\libSDL2_image.a" />
+    <Content Include="lib\mingw\x86\libSDL2_image.dll.a" />
+    <Content Include="lib\mingw\x86\libSDL2_image.la" />
+    <Content Include="lib\mingw\x86\libSDL2_test.a" />
+    <Content Include="lib\mingw\x86\libSDL2_test.la" />
+    <Content Include="lib\mingw\x86\pkgconfig\sdl2.pc" />
+    <Content Include="lib\mingw\x86\pkgconfig\SDL2_image.pc" />
     <Content Include="lib\vs\x64\libFLAC-8.dll" />
     <Content Include="lib\vs\x64\libfreetype-6.dll" />
     <Content Include="lib\vs\x64\libjpeg-9.dll" />
@@ -432,10 +456,6 @@
   <ItemGroup>
     <Font Include="arial.ttf" />
     <Font Include="arialbd.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\cmake\x64" />
-    <Folder Include="lib\cmake\x86" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
