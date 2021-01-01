@@ -5,7 +5,7 @@
 /obj/
 /x86/
 /x64/
-.git/
-.idea/
-.vs/
+/.git/
+/.idea/
+/.vs/
 
