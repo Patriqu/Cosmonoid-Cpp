@@ -56,7 +56,7 @@ class UpdateGame
         void debugKeys(const Uint8* keyState);
 
         void setTimer();
-        static void CALLBACK TimeProc(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
+        static void CALLBACK TimeProc(UINT uID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
 
         void bonusHandle();
         void activateBonusLaser();

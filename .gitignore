@@ -1,5 +1,11 @@
 /Debug/
+/Release/
 /bin/
-/bin/Debug
-/bin/Release/
+/build/
 /obj/
+/x86/
+/x64/
+.git/
+.idea/
+.vs/
+

@@ -10,7 +10,7 @@
 		</display>
 		<sound>
 			<sound_volume>low</sound_volume>
-			<music_volume>off</music_volume>
+			<music_volume>low</music_volume>
 		</sound>
 	</config>
 </arkanoid>
