@@ -348,7 +348,6 @@
     <ClInclude Include="include\SDL2\SDL_vulkan.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\UpdateGame.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
@@ -456,9 +455,6 @@
     <Content Include="README.md" />
     <Content Include="sound\92622__nigelcoop__canbounce-2.wav" />
     <Content Include="sound\menu_music.mp3" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Simple Arkanoid 2D.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\background_480.jpg" />

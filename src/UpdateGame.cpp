@@ -779,11 +779,8 @@ void UpdateGame::menuMouseHandle()
 
     if (event.button.state == SDL_RELEASED && event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
     {
-        int x = event.button.x;
-        int y = event.button.y;
-
-        //std:: cout << "\nx: " << x;
-        //std:: cout << "\ny: " << y;
+        const Sint32 x = event.button.x;
+        const Sint32 y = event.button.y;
 
         if (x < 460 && x > 164)
         {
@@ -920,7 +917,7 @@ void UpdateGame::bonusHandle()
             }
         }
 
-        SDL_Rect& bonus_pos = this->bonus->getBonusPosition();
+        auto& bonus_pos = this->bonus->getBonusPosition();
         if (bonus_pos.y > screen->h)
             this->bonus->removeBonus();
     }
@@ -946,7 +943,7 @@ void UpdateGame::activateBonusLaser()
     setTimer();
 }
 
-void UpdateGame::activateBonusLive()
+void UpdateGame::activateBonusLive() const
 {
     game_points->updateLives(1);
 }

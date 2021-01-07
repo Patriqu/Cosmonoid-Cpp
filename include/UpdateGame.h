@@ -10,7 +10,6 @@
 #include <cmath>
 #include <Mmsystem.h>
 
-//#include <SDL.h>
 #include <SDL.h>
 #include "SDL_image.h"
 #include "SDL_mixer.h"
@@ -34,109 +33,109 @@
 
 class UpdateGame
 {
-    public:
-        UpdateGame( GameState* game_state, const Uint8* key_state, int level );
-        virtual ~UpdateGame();
+public:
+    UpdateGame(GameState* game_state, const Uint8* key_state, int level);
+    virtual ~UpdateGame();
 
-        // Main method for Update the Game
-        void updateGame();
-        int getBallNumbers() const;
+    // Main method for Update the Game
+    void updateGame();
+    int getBallNumbers() const;
 
-        bool done;
-        static bool slow_down;
-        static bool set_paddle_default_look;
+    bool done;
+    static bool slow_down;
+    static bool set_paddle_default_look;
 
-    private:
-        void mainMenuHandle();
-    
-        // Methods for handle keyboard
-        void keysHandle( const Uint8* keyState );
-        void menuKeyHandle();
-        void menuMouseHandle();
-        void debugKeys(const Uint8* keyState);
+private:
+    void mainMenuHandle();
 
-        void setTimer();
-        static void CALLBACK TimeProc(UINT uID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
+    // Methods for handle keyboard
+    void keysHandle(const Uint8* keyState);
+    void menuKeyHandle();
+    void menuMouseHandle();
+    void debugKeys(const Uint8* keyState);
 
-        void bonusHandle();
-        void activateBonusLaser();
-        void activateBonusLive();
-        void activateBonusSlowdown();
-        void activateBonusDuplicateBall();
+    void setTimer();
+    static void CALLBACK TimeProc(UINT uID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
 
-        // Game state change event handlers
-        void onStartGame();
-        void onResumeGame();
-        void onNextLevel();
-        void onLoseGame();
-        void onWinGame();
+    void bonusHandle();
+    void activateBonusLaser();
+    void activateBonusLive() const;
+    void activateBonusSlowdown();
+    void activateBonusDuplicateBall();
 
-        // Collision handling
-        void wallCollisionHandle();
-        void objectsCollisionHandle();
-    
-        // Change data about actual level (create new level object)
-        void loadLevelAtStart();
-        void removeBrick() const;
-        void clearData();
+    // Game state change event handlers
+    void onStartGame();
+    void onResumeGame();
+    void onNextLevel();
+    void onLoseGame();
+    void onWinGame();
 
-        // Sound
-        void setVolumeSound();
-        void setVolumeMusic();
-        void stop_menu_music();
+    // Collision handling
+    void wallCollisionHandle();
+    void objectsCollisionHandle();
 
-        // Definitions of variables:
-        GameState* game_state;
-        SDL_Surface* screen;
+    // Change data about actual level (create new level object)
+    void loadLevelAtStart();
+    void removeBrick() const;
+    void clearData();
 
-        const int MAX_LEVEL;
-        const Uint8* keystate;
-        int level;
-        std:: string current_state;
+    // Sound
+    void setVolumeSound();
+    void setVolumeMusic();
+    void stop_menu_music();
 
-        SDL_Event event;
+    // Definitions of variables:
+    GameState* game_state;
+    SDL_Surface* screen;
 
-        // Motion:
-        bool is_ball_motion;
-        int MOTION_RATE_BALL_Y;
-        int MOTION_RATE_BALL_X;
-        int MOTION_RATE_BALL_X_SLOW;
-        int MOTION_RATE_BALL_Y_SLOW;
-        int MOTION_RATE_PADDLE;
-        std::vector<int> x_motion_rates;
-        std::vector<int> y_motion_rates;
+    const int MAX_LEVEL;
+    const Uint8* keystate;
+    int level;
+    std::string current_state;
 
-        // Defs of pointers to physical objects
-        MainMenu* main_menu;
+    SDL_Event event;
 
-        Paddle* paddle;
-        Ball* ball;
-        BricksLevels* bricks_level;
+    // Motion:
+    bool is_ball_motion;
+    int MOTION_RATE_BALL_Y;
+    int MOTION_RATE_BALL_X;
+    int MOTION_RATE_BALL_X_SLOW;
+    int MOTION_RATE_BALL_Y_SLOW;
+    int MOTION_RATE_PADDLE;
+    std::vector<int> x_motion_rates;
+    std::vector<int> y_motion_rates;
 
-        Collisions* collisions;
-        GamePoints* game_points;
-        Bonus* bonus;
+    // Defs of pointers to physical objects
+    MainMenu* main_menu;
 
-        // Sounds:
-        Mix_Music* menu_music;
-        Mix_Chunk* snd_bounce;
+    Paddle* paddle;
+    Ball* ball;
+    BricksLevels* bricks_level;
 
-        std:: string detected_collision_brick;
-        std:: string detected_collision_paddle;
-        std:: string detected_collision_bonus;
-        std:: string detected_collision_shoot;
+    Collisions* collisions;
+    GamePoints* game_points;
+    Bonus* bonus;
 
-        int nr_of_collision;
+    // Sounds:
+    Mix_Music* menu_music;
+    Mix_Chunk* snd_bounce;
 
-        bool is_gun;
-        bool is_shot;
+    std::string detected_collision_brick;
+    std::string detected_collision_paddle;
+    std::string detected_collision_bonus;
+    std::string detected_collision_shoot;
 
-        int actual_ball_count;
-        int MAX_BALLS;
+    int nr_of_collision;
 
-        static MMRESULT timer_id;
+    bool is_gun;
+    bool is_shot;
 
-        bool start_menu_music;
+    int actual_ball_count;
+    int MAX_BALLS;
+
+    static MMRESULT timer_id;
+
+    bool start_menu_music;
 };
 
 #endif // UPDATEGAME_H

@@ -25,7 +25,7 @@ SDL_Rect& Paddle::getPaddle()
     return dst_paddle;
 }
 
-int Paddle::getPaddlePosition(std::string t)
+int Paddle::getPaddlePosition(const std::string t)
 {
     if (t == "x")
         return dst_paddle.x;
@@ -35,6 +35,8 @@ int Paddle::getPaddlePosition(std::string t)
         return dst_paddle.w;
     if (t == "h")
         return dst_paddle.h;
+    
+    return dst_paddle.x;
 }
 
 std::string Paddle::getPaddleName()
