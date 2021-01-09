@@ -12,7 +12,7 @@
 
 #include <SDL.h>
 #include "SDL_image.h"
-#include "SDL_mixer.h"
+//#include "SDL_mixer.h"
 
 // Standard data modules of game:
 #include "Gamestate.h"
@@ -30,6 +30,8 @@
 #include "BricksLevel2.h"
 #include "BricksLevel3.h"
 #include "BricksLevel4.h"
+
+#include "SoundSystem.h"
 
 class UpdateGame
 {
@@ -79,10 +81,10 @@ private:
     void removeBrick() const;
     void clearData();
 
-    // Sound
+    /*// Sound
     void setVolumeSound();
     void setVolumeMusic();
-    void stop_menu_music();
+    void stopMenuMusic();*/
 
     // Definitions of variables:
     GameState* game_state;
@@ -117,8 +119,9 @@ private:
     Bonus* bonus;
 
     // Sounds:
-    Mix_Music* menu_music;
-    Mix_Chunk* snd_bounce;
+    std::unique_ptr<SoundSystem> sound_system;
+    /*Mix_Music* menu_music;
+    Mix_Chunk* snd_bounce;*/
 
     std::string detected_collision_brick;
     std::string detected_collision_paddle;

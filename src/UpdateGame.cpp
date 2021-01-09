@@ -48,13 +48,10 @@ UpdateGame::UpdateGame(GameState* game_state, const Uint8* key_state, const int 
     y_motion_rates.push_back(MOTION_RATE_BALL_Y);
     x_motion_rates.push_back(0);
 
-    // Music definitions
-    menu_music = Mix_LoadMUS("sound/menu_music.mp3");
-    setVolumeMusic();
-
-    // Sound sample definition
-    snd_bounce = Mix_LoadWAV("sound/92622__nigelcoop__canbounce-2.wav");
-    setVolumeSound();
+    // Sound
+    sound_system = std::make_unique<SoundSystem>();
+    sound_system->setVolumeMusic(main_menu->getVolume("music"));
+    sound_system->setVolumeSound(main_menu->getVolume("sound"));
 
     // Load data of images in menu
     SDL_Surface* screen = SDL_GetWindowSurface(SDL_GetWindowFromID(1));
@@ -86,38 +83,6 @@ UpdateGame::~UpdateGame()
     delete game_state;
 }
 
-void UpdateGame::setVolumeSound()
-{
-    const auto sound_vol = main_menu->getVolume("sound");
-
-    if (sound_vol == "off")
-        Mix_Volume(1, 0);
-    else if (sound_vol == "low")
-        Mix_Volume(1, 8);
-    else if (sound_vol == "medium")
-        Mix_Volume(1, 15);
-    else if (sound_vol == "high")
-        Mix_Volume(1, 30);
-    else if (sound_vol == "very high")
-        Mix_Volume(1, 45);
-}
-
-void UpdateGame::setVolumeMusic()
-{
-    const auto music_vol = main_menu->getVolume("music");
-
-    if (music_vol == "off")
-        Mix_VolumeMusic(0);
-    else if (music_vol == "low")
-        Mix_VolumeMusic(8);
-    else if (music_vol == "medium")
-        Mix_VolumeMusic(15);
-    else if (music_vol == "high")
-        Mix_VolumeMusic(30);
-    else if (music_vol == "very high")
-        Mix_VolumeMusic(45);
-}
-
 void UpdateGame::mainMenuHandle()
 {
     if (SDL_GetRelativeMouseMode() == SDL_TRUE)
@@ -134,11 +99,11 @@ void UpdateGame::mainMenuHandle()
 
         if (option == "volume_sound")
         {
-            setVolumeSound();
+            sound_system->setVolumeSound(main_menu->getVolume("sound"));
         }
         else if (option == "volume_music")
         {
-            setVolumeMusic();
+            sound_system->setVolumeMusic(main_menu->getVolume("music"));
         }
         else if (option == "background")
         {
@@ -148,7 +113,7 @@ void UpdateGame::mainMenuHandle()
 
     if (start_menu_music == true)
     {
-        Mix_PlayMusic(menu_music, -1);
+        sound_system->playMusic("menu_music");
 
         start_menu_music = false;
     }
@@ -305,10 +270,7 @@ void UpdateGame::objectsCollisionHandle()
                 ball->setBallMotion(i, "x", x_motion_rates[i]);
             }
 
-            if (Mix_PlayChannel(1, snd_bounce, 0) == -1)
-            {
-                printf("Mix_PlayChannel: %s\n",Mix_GetError());
-            }
+            sound_system->playSoundSample("ball_collision");
         }
         else if (detected_collision_brick == "Horizontal" || detected_collision_paddle == "Horizontal")
         {
@@ -329,10 +291,7 @@ void UpdateGame::objectsCollisionHandle()
             ball->setBallMotion(i, "y", y_motion_rates[i]);
 
             // play bounce sound
-            if (Mix_PlayChannel(1, snd_bounce, 0) == -1)
-            {
-                printf("Mix_PlayChannel: %s\n",Mix_GetError());
-            }
+            sound_system->playSoundSample("ball_collision");
 
             // If ball is hanging at paddle, fix this:
             const bool is_bottleneck = collisions->isBottleneck();
@@ -750,9 +709,8 @@ void UpdateGame::menuKeyHandle()
                             game_state->changeGameState("START_GAME");
                             current_state = game_state->getCurrentState();
 
-                            stop_menu_music();
+                            sound_system->stopMenuMusic();
                         }
-
                         break;
                     }
 
@@ -795,7 +753,7 @@ void UpdateGame::menuMouseHandle()
                         game_state->changeGameState("START_GAME");
                         current_state = game_state->getCurrentState();
 
-                        stop_menu_music();
+                        sound_system->stopMenuMusic();
                     }
                 }
                 else if (y > 236 && y < 262)
@@ -989,9 +947,4 @@ void UpdateGame::clearData()
 int UpdateGame::getBallNumbers() const
 {
     return actual_ball_count;
-}
-
-void UpdateGame::stop_menu_music()
-{
-    Mix_HaltMusic();
 }
