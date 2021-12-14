@@ -15,23 +15,22 @@
 //#include "SDL_mixer.h"
 
 // Standard data modules of game:
-#include "Gamestate.h"
-#include "MainMenu.h"
-#include "Collisions.h"
-#include "GamePoints.h"
-#include "Bonus.h"
+#include "rules/Gamestate.h"
+#include "rules/GamePoints.h"
+#include "gui/MainMenu.h"
+#include "controllers/SoundSystem.h"
+#include "controllers/Collisions.h"
 
-#include "Paddle.h"
-#include "Ball.h"
+#include "model/Bonus.h"
+#include "model/Paddle.h"
+#include "model/Ball.h"
 
 // Data about levels:
-#include "BricksLevels.h"
-#include "BricksLevel1.h"
-#include "BricksLevel2.h"
-#include "BricksLevel3.h"
-#include "BricksLevel4.h"
-
-#include "SoundSystem.h"
+#include "controllers/BricksLevels.h"
+#include "model/BricksLevel1.h"
+#include "model/BricksLevel2.h"
+#include "model/BricksLevel3.h"
+#include "model/BricksLevel4.h"
 
 class UpdateGame
 {

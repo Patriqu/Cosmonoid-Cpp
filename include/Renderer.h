@@ -4,21 +4,21 @@
 #include <SDL.h>
 #include "SDL_image.h"
 
-#include "Timer.h"
-#include "Gamestate.h"
+#include "controllers/Timer.h"
+#include "rules/Gamestate.h"
 
 /* Rendering primary objects of the game: */
-#include "PaddleView.h"
-#include "BallView.h"
+#include "view/PaddleView.h"
+#include "view/BallView.h"
 
-#include "MainMenuView.h"
-#include "GameMenuView.h"
+#include "gui/MainMenuView.h"
+#include "gui/GameMenuView.h"
+#include "gui/GamePointsView.h"
 
-#include "GamePointsView.h"
-#include "BonusView.h"
+#include "view/BonusView.h"
 
 /* Rendering of levels: */
-#include "BricksViewLevels.h"
+#include "view/BricksViewLevels.h"
 
 #include <windows.h>
 

@@ -12,8 +12,8 @@
 
 #include <iostream>
 
-#include "rapidxml.hpp"
-#include "rapidxml_utils.hpp"
+#include "tools/rapidxml.hpp"
+#include "tools/rapidxml_utils.hpp"
 
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
@@ -23,8 +23,8 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
-#include "Timer.h"
-#include "GameState.h"
+#include "controllers/Timer.h"
+#include "rules/GameState.h"
 #include "UpdateGame.h"
 #include "Renderer.h"
 
