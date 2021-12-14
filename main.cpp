@@ -24,6 +24,8 @@
 #include "UpdateGame.h"
 #include "Renderer.h"
 
+#include "Constants/Config.h"
+
 int main(int argc, char** argv)
 {
     //// READ CONFIG DATA ////
@@ -85,7 +87,8 @@ int main(int argc, char** argv)
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     //// Initialize screen ////
-    auto title = "Cosmonoid - SDL2 v0.57";
+    //auto title = "Cosmonoid - SDL2 v" + GAME_VERSION_MAJOR + "." + GAME_VERSION_MINOR;
+    auto title = "Cosmonoid - SDL2";
     SDL_Window* window = nullptr;
 
     if (is_fullscreen == true)
