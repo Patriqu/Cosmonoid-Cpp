@@ -2,11 +2,11 @@
 
 Timer::Timer()
 {
-   //Initialize the variables
-   startTicks = 0;
-   pausedTicks = 0;
-   paused = false;
-   started = false;
+    //Initialize the variables
+    startTicks = 0;
+    pausedTicks = 0;
+    paused = false;
+    started = false;
 }
 
 Timer::~Timer()
@@ -37,10 +37,10 @@ void Timer::stop()
 int Timer::get_ticks()
 {
     //If the timer is running
-    if( started == true )
+    if (started == true)
     {
         //If the timer is paused
-        if( paused == true )
+        if (paused == true)
         {
             //Return the number of ticks when the timer was paused
             return pausedTicks;
@@ -59,7 +59,7 @@ int Timer::get_ticks()
 void Timer::pause()
 {
     //If the timer is running and isn't already paused
-    if( ( started == true ) && ( paused == false ) )
+    if ((started == true) && (paused == false))
     {
         //Pause the timer
         paused = true;
@@ -72,7 +72,7 @@ void Timer::pause()
 void Timer::unpause()
 {
     //If the timer is paused
-    if( paused == true )
+    if (paused == true)
     {
         //Unpause the timer
         paused = false;
@@ -94,6 +94,3 @@ bool Timer::is_paused()
 {
     return paused;
 }
-
-
-

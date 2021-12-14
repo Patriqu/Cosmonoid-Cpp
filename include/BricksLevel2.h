@@ -77,8 +77,8 @@ class BricksLevel2 : public BricksLevels
         SDL_Rect dst_block_violet4;
         SDL_Rect dst_block_dark4;
 
-        static std:: map < const int, SDL_Rect* > destsMap;
-        static std:: map < const int, SDL_Rect* > sourcesMap;
+        static std:: map < const int, SDL_Rect* > destinations;
+        static std:: map < const int, SDL_Rect* > sources;
 
         static std:: vector<int> bricksToDestroy;
 

@@ -35,7 +35,7 @@ int Paddle::getPaddlePosition(const std::string t)
         return dst_paddle.w;
     if (t == "h")
         return dst_paddle.h;
-    
+
     return dst_paddle.x;
 }
 

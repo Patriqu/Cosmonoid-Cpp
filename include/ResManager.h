@@ -9,90 +9,65 @@
 
 #include "Image.h"
 
-// Klasa Mened¿er Zasobów jest singletonem, poniewa¿ chcê aby utworzy³a siê pojedyncza instancja z dostêpem globalnym.
-// Inne modu³y ca³ego programu maj¹ w razie potrzeby dostêp do ró¿nego rodzaju zasobów, czyli Tekstury (obrazki), pliki
-// dŸwiêkowe i muzyczne. Te modu³y uzyskuj¹ dostêp w taki sposób: ResManager:: getInstance().metoda();
-// Do ka¿dego modu³u, który wykorzystuje metody z ResManager nale¿y zainkludowaæ "ResManager.h"
-
-// Utworzenie instancji, czyli pierwsze u¿ycie ResManagera nastêpuje w g³ównej klasie "main".
-// Wtedy po uruchomieniu gry, przed g³ówn¹ pêtl¹ gry nastêpuje za³adowanie do pamiêci obrazków Paletki, bloków i pi³ki
-// Robimy to w ten sposób: ResManager:: getInstance().loadMainImages();
-
+// Resource Manager is an singleton for the global access to a single instance of it, where other modules have easier
+// access to different kind of resources, like textures, sound and music files.
+// To access the resources: ResManager::getInstance().method()
 class ResManager
 {
-    public:
-        // Destruktor musi byæ publiczny (w singletonie równie¿), w przeciwnym razie wyst¹pi b³¹d:
-        virtual ~ResManager();
+public:
+    virtual ~ResManager();
 
-        // Metoda za pierwszym razem tworz¹ca jedyn¹, statyczn¹ instancjê klasy ResManager. PóŸniej tego nie robi,
-        // poniewa¿ sprawdza, ¿e ten obiekt statyczny jest ju¿ utworzony:
-        static ResManager getInstance()
-        {
-          //Inicjalizacja statycznego obiektu.
-          //Obiekt zostanie utworzony przy pierwszym wywo³aniu tej metody
-          //i tylko wtedy nast¹pi inicjalizacja przy pomocy konstruktora.
-          //Ka¿de nastêpne wywo³anie jedynie zwróci referencjê tego obiektu.
+    static ResManager getInstance()
+    {
+        static ResManager res_manager;
+        return res_manager;
+    }
 
-          // res_manager = new ResManager();
+    SDL_Surface* loadImageMenu(std::string res);
+    SDL_Surface* loadImageSelection();
 
-          static ResManager res_manager;
-          return res_manager;
-        }
+    SDL_Surface* loadImageBall();
+    SDL_Surface* loadImagePaddle();
+    SDL_Surface* loadImagePaddleWar();
+    SDL_Surface* loadImageBullet();
+    SDL_Surface* loadImageBlocks();
 
-        // Za³adowanie g³ównych obrazków gry do pamiêci:
-        // void loadMainImages();
-        SDL_Surface* loadImageMenu(std:: string res);
-        SDL_Surface* loadImageSelection();
+    // bonuses
+    SDL_Surface* loadImageGunPack();
+    SDL_Surface* loadImageSlowPack();
+    SDL_Surface* loadImageDupPack();
+    SDL_Surface* loadImageLivePack();
+    
+    SDL_Surface* getImage(std::string img);
+    
+    SDL_Color getBgdColor();
+    
+    int getImageWidth(std::string attr);
+    int getImageHeight(std::string attr);
 
-        SDL_Surface* loadImageBall();
-        SDL_Surface* loadImagePaddle();
-        SDL_Surface* loadImagePaddleWar();
-        SDL_Surface* loadImageBullet();
-        SDL_Surface* loadImageBlocks();
+private:
+    ResManager();
 
-        // £adowanie obrazków bonusów:
-        SDL_Surface* loadImageGunPack();
-        SDL_Surface* loadImageSlowPack();
-        SDL_Surface* loadImageDupPack();
-        SDL_Surface* loadImageLivePack();
+    // copy constructor
+    ResManager(const ResManager&)
+    {
+    }
 
-        // Metody u¿ywane do pobierania zasobów, które wybraliœmy jako parametr metody w razie potrzeby.
-        // U¿ywane w ró¿nych klasach operuj¹cych na obiektach zasobów gry:
-        SDL_Surface* getImage ( std:: string img );
+    ResManager& operator=(const ResManager&);
 
-        // Pobierz kolor t³a ekranu:
-        SDL_Color getBgdColor();
+    SDL_Surface* menu_img;
+    SDL_Surface* selection_img;
 
-        // Pobieranie informacji o ró¿nych obrazkach (np. wysokoœæ) w razie potrzeby. U¿ywane analogicznie w ró¿nych
-        // klasach jak powy¿sze metody:
-        int getImageWidth( std::string attr );
-        int getImageHeight( std::string attr );
+    SDL_Surface* ball_img;
+    SDL_Surface* paddle_img;
+    SDL_Surface* paddle_war_img;
+    SDL_Surface* bullet_img;
+    SDL_Surface* blocks_img;
 
-
-    private:
-        // Te konstruktury s¹ prywatne, poniewa¿ chcemy tylko raz utworzyæ statyczn¹ instancjê ResManager:
-        ResManager();
-
-        // Konstruktor kopiuj¹cy (dla kopiowania z jednej instancji danej klasy do drugiej instancji danej klasy)
-        ResManager(const ResManager &) {};
-
-        // Prze³adowanie operatora przypisania dla instancji tej klasy
-        ResManager& operator=(const ResManager&);
-
-        // WskaŸniki do adresów le¿¹cych w pamiêci zasobów. Do tych obiektów s¹ przypisywane istniej¹ce pliki zasobów w metodach loadImages():
-        SDL_Surface* menu_img;
-        SDL_Surface* selection_img;
-
-        SDL_Surface* ball_img;
-        SDL_Surface* paddle_img;
-        SDL_Surface* paddle_war_img;
-        SDL_Surface* bullet_img;
-        SDL_Surface* blocks_img;
-
-        SDL_Surface* gun_pack_img;
-        SDL_Surface* slow_pack_img;
-        SDL_Surface* dup_pack_img;
-        SDL_Surface* live_pack_img;
+    SDL_Surface* gun_pack_img;
+    SDL_Surface* slow_pack_img;
+    SDL_Surface* dup_pack_img;
+    SDL_Surface* live_pack_img;
 };
 
 #endif // RESMANAGER_H

@@ -2,62 +2,62 @@
 
 #include <windows.h>
 
-MainMenuView:: MainMenuView()
-    : screen_mode_name( "none" ),
-    resolution_name ( "640x480" ),
-    bgd_name( "yes" ),
-    screen( SDL_GetWindowSurface(SDL_GetWindowFromID(1)) ),
-    main_menu ( new MainMenu() ),
-    font ( TTF_OpenFont("arialbd.ttf", 20) ),
-    font_sec ( TTF_OpenFont("arialbd.ttf", 13) ),
-    font_color ( { 0, 0, 0 } ),
+MainMenuView::MainMenuView()
+    : screen_mode_name("none"),
+      resolution_name("640x480"),
+      bgd_name("yes"),
+      screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1))),
+      main_menu(new MainMenu()),
+      font(TTF_OpenFont("arialbd.ttf", 20)),
+      font_sec(TTF_OpenFont("arialbd.ttf", 13)),
+      font_color({0, 0, 0}),
 
-    new_surface ( nullptr ),
-    trial_surface ( nullptr ),
-    options_surface ( nullptr ),
-        opt_screen_surface ( nullptr ),
-        opt_resolution_surface ( nullptr ),
-        opt_bgd_surface ( nullptr ),
-        opt_language_surface ( nullptr ),
-        opt_volume_sound_surface ( nullptr ),
-        opt_volume_music_surface ( nullptr ),
-        opt_back_surface ( nullptr ) ,
-    quit_surface ( nullptr ),
+      new_surface(nullptr),
+      trial_surface(nullptr),
+      options_surface(nullptr),
+      opt_screen_surface(nullptr),
+      opt_resolution_surface(nullptr),
+      opt_bgd_surface(nullptr),
+      opt_language_surface(nullptr),
+      opt_volume_sound_surface(nullptr),
+      opt_volume_music_surface(nullptr),
+      opt_back_surface(nullptr),
+      quit_surface(nullptr),
 
-    restart_warn_surface ( nullptr ),
+      restart_warn_surface(nullptr),
 
-    text_new( new char[16] ),
-    text_trial( new char[16] ),
-    text_options( new char[16] ),
-        text_opt_screen( new char[16] ),
-        text_opt_resolution( new char[16] ),
-        text_opt_bgd( new char[16] ),
-        text_opt_language( new char[16] ),
-        text_opt_volume_sound( new char[16] ),
-        text_opt_volume_music( new char[16] ),
-        text_opt_back( new char[16] ),
-    text_quit( new char[16] ),
+      text_new(new char[16]),
+      text_trial(new char[16]),
+      text_options(new char[16]),
+      text_opt_screen(new char[16]),
+      text_opt_resolution(new char[16]),
+      text_opt_bgd(new char[16]),
+      text_opt_language(new char[16]),
+      text_opt_volume_sound(new char[16]),
+      text_opt_volume_music(new char[16]),
+      text_opt_back(new char[16]),
+      text_quit(new char[16]),
 
-    text_restart_warn( new char[16] ),
+      text_restart_warn(new char[16]),
 
-    page ( 1 )
+      page(1)
 {
     initOptions();
 }
 
-MainMenuView:: ~MainMenuView()
+MainMenuView::~MainMenuView()
 {
     SDL_FreeSurface(screen);
     SDL_FreeSurface(new_surface);
     SDL_FreeSurface(trial_surface);
     SDL_FreeSurface(options_surface);
-        SDL_FreeSurface(opt_screen_surface);
-        SDL_FreeSurface(opt_resolution_surface);
-        SDL_FreeSurface(opt_bgd_surface);
-        SDL_FreeSurface(opt_language_surface);
-        SDL_FreeSurface(opt_volume_sound_surface);
-        SDL_FreeSurface(opt_volume_music_surface);
-        SDL_FreeSurface(opt_back_surface);
+    SDL_FreeSurface(opt_screen_surface);
+    SDL_FreeSurface(opt_resolution_surface);
+    SDL_FreeSurface(opt_bgd_surface);
+    SDL_FreeSurface(opt_language_surface);
+    SDL_FreeSurface(opt_volume_sound_surface);
+    SDL_FreeSurface(opt_volume_music_surface);
+    SDL_FreeSurface(opt_back_surface);
     SDL_FreeSurface(quit_surface);
 
     SDL_FreeSurface(restart_warn_surface);
@@ -66,78 +66,78 @@ MainMenuView:: ~MainMenuView()
     delete new_surface;
     delete trial_surface;
     delete options_surface;
-        delete opt_screen_surface;
-        delete opt_resolution_surface;
-        delete opt_bgd_surface;
-        delete opt_language_surface;
-        delete opt_volume_sound_surface;
-        delete opt_volume_music_surface;
-        delete opt_back_surface;
+    delete opt_screen_surface;
+    delete opt_resolution_surface;
+    delete opt_bgd_surface;
+    delete opt_language_surface;
+    delete opt_volume_sound_surface;
+    delete opt_volume_music_surface;
+    delete opt_back_surface;
     delete quit_surface;
 
     delete restart_warn_surface;
 
-    TTF_CloseFont( font );
+    TTF_CloseFont(font);
 }
 
-void MainMenuView:: renderMenu()
+void MainMenuView::renderMenu()
 {
-    SDL_BlitSurface( ResManager::getInstance().getImage( "menu" ), 0, screen, &bgd );
+    SDL_BlitSurface(ResManager::getInstance().getImage("menu"), 0, screen, &bgd);
 
     updateDisplaySelection();
 
-    SDL_BlitSurface( ResManager::getInstance().getImage( "selection" ), 0, screen, &selection_dst );
+    SDL_BlitSurface(ResManager::getInstance().getImage("selection"), 0, screen, &selection_dst);
 
     updateTexts();
     renderTexts();
 }
 
-void MainMenuView:: renderTexts()
+void MainMenuView::renderTexts()
 {
-    page = main_menu -> getPageNumber();
-    const bool is_option_restart_warn = main_menu -> isOptionRestartWarn();
+    page = main_menu->getPageNumber();
+    const bool is_option_restart_warn = main_menu->isOptionRestartWarn();
 
-    if ( page == 1 )
+    if (page == 1)
     {
-        if ( is_option_restart_warn == true )
-            main_menu -> resetOptionRestartWarn();
+        if (is_option_restart_warn == true)
+            main_menu->resetOptionRestartWarn();
 
-        SDL_BlitSurface( new_surface, 0, screen, &new_dest );
-        SDL_BlitSurface( trial_surface, 0, screen, &trial_dest );
-        SDL_BlitSurface( options_surface, 0, screen, &options_dest );
-        SDL_BlitSurface( quit_surface, 0, screen, &quit_dest );
+        SDL_BlitSurface(new_surface, 0, screen, &new_dest);
+        SDL_BlitSurface(trial_surface, 0, screen, &trial_dest);
+        SDL_BlitSurface(options_surface, 0, screen, &options_dest);
+        SDL_BlitSurface(quit_surface, 0, screen, &quit_dest);
     }
-    else if ( page == 2 )
+    else if (page == 2)
     {
-        SDL_BlitSurface( opt_screen_surface, 0, screen, &opt_screen_dest );
-        SDL_BlitSurface( opt_resolution_surface, 0, screen, &opt_resolution_dest );
-        SDL_BlitSurface( opt_bgd_surface, 0, screen, &opt_bgd_dest );
-        SDL_BlitSurface( opt_language_surface, 0, screen, &opt_language_dest );
-        SDL_BlitSurface( opt_volume_sound_surface, 0, screen, &opt_volume_sound_dest );
-        SDL_BlitSurface( opt_volume_music_surface, 0, screen, &opt_volume_music_dest );
-        SDL_BlitSurface( opt_back_surface, 0, screen, &opt_back_dest );
+        SDL_BlitSurface(opt_screen_surface, 0, screen, &opt_screen_dest);
+        SDL_BlitSurface(opt_resolution_surface, 0, screen, &opt_resolution_dest);
+        SDL_BlitSurface(opt_bgd_surface, 0, screen, &opt_bgd_dest);
+        SDL_BlitSurface(opt_language_surface, 0, screen, &opt_language_dest);
+        SDL_BlitSurface(opt_volume_sound_surface, 0, screen, &opt_volume_sound_dest);
+        SDL_BlitSurface(opt_volume_music_surface, 0, screen, &opt_volume_music_dest);
+        SDL_BlitSurface(opt_back_surface, 0, screen, &opt_back_dest);
 
-        if ( is_option_restart_warn == true )
-            SDL_BlitSurface( restart_warn_surface, 0, screen, &restart_warn_dest );
+        if (is_option_restart_warn == true)
+            SDL_BlitSurface(restart_warn_surface, 0, screen, &restart_warn_dest);
     }
     else
     {
-        SDL_BlitSurface( new_surface, 0, screen, &new_dest );
-        SDL_BlitSurface( trial_surface, 0, screen, &trial_dest );
-        SDL_BlitSurface( options_surface, 0, screen, &options_dest );
-        SDL_BlitSurface( quit_surface, 0, screen, &quit_dest );
+        SDL_BlitSurface(new_surface, 0, screen, &new_dest);
+        SDL_BlitSurface(trial_surface, 0, screen, &trial_dest);
+        SDL_BlitSurface(options_surface, 0, screen, &options_dest);
+        SDL_BlitSurface(quit_surface, 0, screen, &quit_dest);
     }
 }
 
 
-void MainMenuView:: initOptions()
+void MainMenuView::initOptions()
 {
     std::cout << "init: width: " << screen->w << std::endl
-    << "init: height: " << screen -> h << std::endl;
+        << "init: height: " << screen->h << std::endl;
 
     // Constant positions of menu objects surfaces:
-    bgd.x = screen->w/4;
-    bgd.y = screen->h/1/7;
+    bgd.x = screen->w / 4;
+    bgd.y = screen->h / 1 / 7;
 
     int HORIZONT = screen->w * 0.27;
 
@@ -184,26 +184,26 @@ void MainMenuView:: initOptions()
     options_dest.x = HORIZONT;
     options_dest.y = screen->h * 0.5;
 
-        opt_screen_dest.x = HORIZONT;
-        opt_screen_dest.y = screen->h * 0.3;
+    opt_screen_dest.x = HORIZONT;
+    opt_screen_dest.y = screen->h * 0.3;
 
-        opt_resolution_dest.x = HORIZONT;
-        opt_resolution_dest.y = screen->h * 0.38;
+    opt_resolution_dest.x = HORIZONT;
+    opt_resolution_dest.y = screen->h * 0.38;
 
-        opt_bgd_dest.x = HORIZONT;
-        opt_bgd_dest.y = screen->h * 0.46;
+    opt_bgd_dest.x = HORIZONT;
+    opt_bgd_dest.y = screen->h * 0.46;
 
-        opt_language_dest.x = HORIZONT;
-        opt_language_dest.y = screen->h * 0.54;
+    opt_language_dest.x = HORIZONT;
+    opt_language_dest.y = screen->h * 0.54;
 
-        opt_volume_sound_dest.x = HORIZONT;
-        opt_volume_sound_dest.y = screen->h * 0.62;
+    opt_volume_sound_dest.x = HORIZONT;
+    opt_volume_sound_dest.y = screen->h * 0.62;
 
-        opt_volume_music_dest.x = HORIZONT;
-        opt_volume_music_dest.y = screen->h * 0.70;
+    opt_volume_music_dest.x = HORIZONT;
+    opt_volume_music_dest.y = screen->h * 0.70;
 
-        opt_back_dest.x = HORIZONT;
-        opt_back_dest.y = screen->h * 0.78;
+    opt_back_dest.x = HORIZONT;
+    opt_back_dest.y = screen->h * 0.78;
 
     quit_dest.x = HORIZONT;
     quit_dest.y = screen->h * 0.6;
@@ -255,39 +255,46 @@ void MainMenuView:: initOptions()
     restart_warn_dest.y = screen->h * 0.93;
 
     // Default starting texts of menu objects:
-    const std:: string language = main_menu -> getLanguage();
-    screen_mode_name = main_menu -> getScreenMode();
-    resolution_name = main_menu -> getResolution();
-    bgd_name = main_menu -> getBackground();
-    std:: string sound_name = main_menu -> getVolume("sound");
-    std:: string music_name = main_menu -> getVolume("music");
+    const std::string language = main_menu->getLanguage();
+    screen_mode_name = main_menu->getScreenMode();
+    resolution_name = main_menu->getResolution();
+    bgd_name = main_menu->getBackground();
+    std::string sound_name = main_menu->getVolume("sound");
+    std::string music_name = main_menu->getVolume("music");
 
     // menu item texts
     background_iterator = menu_texts.background_values.begin();
     language_iterator = menu_texts.language_values.begin();
 
-    screen_mode_iterator = std::find(menu_texts.screen_mode_values.begin(), menu_texts.screen_mode_values.end(), screen_mode_name);
-    const std:: string temp_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[*screen_mode_iterator][language];
+    screen_mode_iterator = std::find(menu_texts.screen_mode_values.begin(), menu_texts.screen_mode_values.end(),
+                                     screen_mode_name);
+    const std::string temp_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[*
+        screen_mode_iterator][language];
     std::cout << temp_screen << std::endl;
 
-    resolution_iterator = std::find(menu_texts.resolution_values.begin(), menu_texts.resolution_values.end(), resolution_name);
-    const std:: string temp_res = menu_texts.resolution_base_text[language] + *resolution_iterator;
+    resolution_iterator = std::find(menu_texts.resolution_values.begin(), menu_texts.resolution_values.end(),
+                                    resolution_name);
+    const std::string temp_res = menu_texts.resolution_base_text[language] + *resolution_iterator;
     std::cout << temp_res << std::endl;
 
     background_iterator = std::find(menu_texts.background_values.begin(), menu_texts.background_values.end(), bgd_name);
-    const std:: string temp_background = menu_texts.background_base_text[language] + menu_texts.background_mapping[*background_iterator][language];
+    const std::string temp_background = menu_texts.background_base_text[language] + menu_texts.background_mapping[*
+        background_iterator][language];
     std::cout << temp_background << std::endl;
 
     language_iterator = std::find(menu_texts.language_values.begin(), menu_texts.language_values.end(), language);
-    const std:: string temp_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[*language_iterator][language];
+    const std::string temp_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[*
+        language_iterator][language];
     std::cout << temp_language << std::endl;
-    
+
     volume_sound_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), sound_name);
-    text_opt_volume_sound = menu_texts.volume_sound_base_text[language] + menu_texts.volume_value_mapping[*volume_sound_iterator][language];
+    text_opt_volume_sound = menu_texts.volume_sound_base_text[language] + menu_texts.volume_value_mapping[*
+        volume_sound_iterator][language];
     std::cout << text_opt_volume_sound << std::endl;
 
     volume_music_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), music_name);
-    text_opt_volume_music = menu_texts.volume_music_base_text[language] + menu_texts.volume_value_mapping[*volume_music_iterator][language];
+    text_opt_volume_music = menu_texts.volume_music_base_text[language] + menu_texts.volume_value_mapping[*
+        volume_music_iterator][language];
     std::cout << text_opt_volume_music << std::endl;
 
     text_new = "Nowa Gra";
@@ -299,24 +306,24 @@ void MainMenuView:: initOptions()
     text_options = "Opcje";
     c_text_options = const_cast<char*>(text_options.c_str());
 
-        text_opt_screen = temp_screen;
-        c_text_opt_screen = const_cast<char*>(text_opt_screen.c_str());
+    text_opt_screen = temp_screen;
+    c_text_opt_screen = const_cast<char*>(text_opt_screen.c_str());
 
-        text_opt_resolution = temp_res;
-        c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
+    text_opt_resolution = temp_res;
+    c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
 
-        text_opt_bgd = temp_background;
-        c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
+    text_opt_bgd = temp_background;
+    c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
 
-        text_opt_language = temp_language;
-        c_text_opt_language = const_cast<char*>(text_opt_language.c_str());
+    text_opt_language = temp_language;
+    c_text_opt_language = const_cast<char*>(text_opt_language.c_str());
 
-        c_text_opt_volume_sound = const_cast<char*>(text_opt_volume_sound.c_str());
+    c_text_opt_volume_sound = const_cast<char*>(text_opt_volume_sound.c_str());
 
-        c_text_opt_volume_music = const_cast<char*>(text_opt_volume_music.c_str());
+    c_text_opt_volume_music = const_cast<char*>(text_opt_volume_music.c_str());
 
-        text_opt_back = "Powrot";
-        c_text_opt_back = const_cast<char*>(text_opt_back.c_str());
+    text_opt_back = "Powrot";
+    c_text_opt_back = const_cast<char*>(text_opt_back.c_str());
 
     text_quit = "Wyjscie";
     c_text_quit = const_cast<char*>(text_quit.c_str());
@@ -325,86 +332,86 @@ void MainMenuView:: initOptions()
     c_text_restart_warn = const_cast<char*>(text_restart_warn.c_str());
 
     // Generate standard texts to display within menu:
-    new_surface = TTF_RenderText_Solid( font, c_text_new, font_color );
-    trial_surface = TTF_RenderText_Solid( font, c_text_trial, font_color );
-    options_surface = TTF_RenderText_Solid( font, c_text_options, font_color );
-        opt_screen_surface = TTF_RenderText_Solid( font, c_text_opt_screen, font_color );
-        opt_resolution_surface = TTF_RenderText_Solid( font, c_text_opt_resolution, font_color );
-        opt_bgd_surface = TTF_RenderText_Solid( font, c_text_opt_bgd, font_color );
-        opt_language_surface = TTF_RenderText_Solid( font, c_text_opt_language, font_color );
-        opt_volume_sound_surface = TTF_RenderText_Solid( font, c_text_opt_volume_sound, font_color );
-        opt_volume_music_surface = TTF_RenderText_Solid( font, c_text_opt_volume_music, font_color );
-        opt_back_surface = TTF_RenderText_Solid( font, c_text_opt_back, font_color );
-    quit_surface = TTF_RenderText_Solid( font, c_text_quit, font_color );
+    new_surface = TTF_RenderText_Solid(font, c_text_new, font_color);
+    trial_surface = TTF_RenderText_Solid(font, c_text_trial, font_color);
+    options_surface = TTF_RenderText_Solid(font, c_text_options, font_color);
+    opt_screen_surface = TTF_RenderText_Solid(font, c_text_opt_screen, font_color);
+    opt_resolution_surface = TTF_RenderText_Solid(font, c_text_opt_resolution, font_color);
+    opt_bgd_surface = TTF_RenderText_Solid(font, c_text_opt_bgd, font_color);
+    opt_language_surface = TTF_RenderText_Solid(font, c_text_opt_language, font_color);
+    opt_volume_sound_surface = TTF_RenderText_Solid(font, c_text_opt_volume_sound, font_color);
+    opt_volume_music_surface = TTF_RenderText_Solid(font, c_text_opt_volume_music, font_color);
+    opt_back_surface = TTF_RenderText_Solid(font, c_text_opt_back, font_color);
+    quit_surface = TTF_RenderText_Solid(font, c_text_quit, font_color);
 
-    restart_warn_surface = TTF_RenderText_Solid( font_sec, c_text_restart_warn, { 255, 0, 0 } );
+    restart_warn_surface = TTF_RenderText_Solid(font_sec, c_text_restart_warn, {255, 0, 0});
 }
 
 
-void MainMenuView:: updateDisplaySelection()
+void MainMenuView::updateDisplaySelection()
 {
-    const int sel_number = main_menu -> getSelectionNumber();
+    const int sel_number = main_menu->getSelectionNumber();
 
-    if ( page == 1 )
+    if (page == 1)
     {
-        switch ( sel_number )
+        switch (sel_number)
         {
-            case 1:
-                    selection_dst.y = 480 * 0.29;
-                    break;
+        case 1:
+            selection_dst.y = 480 * 0.29;
+            break;
 
-            case 2:
-                    selection_dst.y = 480 * 0.39;
-                    break;
+        case 2:
+            selection_dst.y = 480 * 0.39;
+            break;
 
-            case 3:
-                    selection_dst.y = 480 * 0.49;
-                    break;
+        case 3:
+            selection_dst.y = 480 * 0.49;
+            break;
 
-            case 4:
-                    selection_dst.y = 480 * 0.59;
-                    break;
+        case 4:
+            selection_dst.y = 480 * 0.59;
+            break;
 
-            case 5:
-                    selection_dst.y = 480 * 0.69;
-                    break;
+        case 5:
+            selection_dst.y = 480 * 0.69;
+            break;
 
-            case 6:
-                    selection_dst.y = 480 * 0.79;
-                    break;
+        case 6:
+            selection_dst.y = 480 * 0.79;
+            break;
         }
     }
     else if (page == 2)
     {
-        switch ( sel_number )
+        switch (sel_number)
         {
-            case 1:
-                    selection_dst.y = 480 * 0.29;
-                    break;
+        case 1:
+            selection_dst.y = 480 * 0.29;
+            break;
 
-            case 2:
-                    selection_dst.y = 480 * 0.37;
-                    break;
+        case 2:
+            selection_dst.y = 480 * 0.37;
+            break;
 
-            case 3:
-                    selection_dst.y = 480 * 0.45;
-                    break;
+        case 3:
+            selection_dst.y = 480 * 0.45;
+            break;
 
-            case 4:
-                    selection_dst.y = 480 * 0.53;
-                    break;
+        case 4:
+            selection_dst.y = 480 * 0.53;
+            break;
 
-            case 5:
-                    selection_dst.y = 480 * 0.61;
-                    break;
+        case 5:
+            selection_dst.y = 480 * 0.61;
+            break;
 
-            case 6:
-                    selection_dst.y = 480 * 0.69;
-                    break;
+        case 6:
+            selection_dst.y = 480 * 0.69;
+            break;
 
-            case 7:
-                    selection_dst.y = 480 * 0.77;
-                    break;
+        case 7:
+            selection_dst.y = 480 * 0.77;
+            break;
         }
     }
 }
@@ -418,33 +425,33 @@ void MainMenuView:: updateDisplaySelection()
     return TTF_RenderText_Solid( font, &c_text, font_color );
 }*/
 
-void MainMenuView:: updateTexts()
+void MainMenuView::updateTexts()
 {
-    const std:: string screen_mode = main_menu -> getScreenMode();
-    const std:: string resolution = main_menu -> getResolution();
-    const std:: string background = main_menu -> getBackground();
-    const std:: string language = main_menu -> getLanguage();
-    const std:: string volume_sound = main_menu -> getVolume( "sound" );
-    const std:: string volume_music = main_menu -> getVolume( "music" );
+    const std::string screen_mode = main_menu->getScreenMode();
+    const std::string resolution = main_menu->getResolution();
+    const std::string background = main_menu->getBackground();
+    const std::string language = main_menu->getLanguage();
+    const std::string volume_sound = main_menu->getVolume("sound");
+    const std::string volume_music = main_menu->getVolume("music");
 
-    const std:: string changed_text = main_menu -> getChangedText();
+    const std::string changed_text = main_menu->getChangedText();
 
-    if ( changed_text == "none" )
+    if (changed_text == "none")
         return;
 
-    if ( changed_text == "screen_mode" )
+    if (changed_text == "screen_mode")
     {
         if (++screen_mode_iterator == menu_texts.screen_mode_values.end())
             screen_mode_iterator = menu_texts.screen_mode_values.begin();
 
         const std::string val = *screen_mode_iterator;
-        
+
         text_opt_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[val][language];
-        
+
         c_text_opt_screen = const_cast<char*>(text_opt_screen.c_str());
-        opt_screen_surface = TTF_RenderText_Solid( font, c_text_opt_screen, font_color );
+        opt_screen_surface = TTF_RenderText_Solid(font, c_text_opt_screen, font_color);
     }
-    else if ( changed_text == "resolution" )
+    else if (changed_text == "resolution")
     {
         std::cout << resolution << std::endl;
 
@@ -452,73 +459,73 @@ void MainMenuView:: updateTexts()
             resolution_iterator = menu_texts.resolution_values.begin();
 
         const std::string val = *resolution_iterator;
-        
+
         text_opt_resolution = menu_texts.resolution_base_text[language] + val;
-        
+
         c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
-        opt_resolution_surface = TTF_RenderText_Solid( font, c_text_opt_resolution, font_color );
+        opt_resolution_surface = TTF_RenderText_Solid(font, c_text_opt_resolution, font_color);
     }
-    else if ( changed_text == "background" )
+    else if (changed_text == "background")
     {
         if (++background_iterator == menu_texts.background_values.end())
             background_iterator = menu_texts.background_values.begin();
 
         const std::string val = *background_iterator;
-        
+
         text_opt_bgd = menu_texts.background_base_text[language] + menu_texts.background_mapping[val][language];
-        
+
         c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
-        opt_bgd_surface = TTF_RenderText_Solid( font, c_text_opt_bgd, font_color );
+        opt_bgd_surface = TTF_RenderText_Solid(font, c_text_opt_bgd, font_color);
     }
-    else if ( changed_text == "language" )
+    else if (changed_text == "language")
     {
         if (++language_iterator == menu_texts.language_values.end())
             language_iterator = menu_texts.language_values.begin();
 
         const std::string val = *language_iterator;
-        
+
         text_opt_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[val][language];
 
-        c_text_opt_language = const_cast<char*>( text_opt_language.c_str() );
-        opt_language_surface = TTF_RenderText_Solid( font, c_text_opt_language, font_color );
+        c_text_opt_language = const_cast<char*>(text_opt_language.c_str());
+        opt_language_surface = TTF_RenderText_Solid(font, c_text_opt_language, font_color);
     }
-    else if ( changed_text == "volume_sound" )
+    else if (changed_text == "volume_sound")
     {
         if (++volume_sound_iterator == menu_texts.volume_values.end())
             volume_sound_iterator = menu_texts.volume_values.begin();
 
         const std::string val = *volume_sound_iterator;
-        
+
         text_opt_volume_sound = menu_texts.volume_sound_base_text[language]
             + menu_texts.volume_value_mapping[val][language];
 
-        c_text_opt_volume_sound = const_cast<char*>( text_opt_volume_sound.c_str() );
-        opt_volume_sound_surface = TTF_RenderText_Solid( font, c_text_opt_volume_sound, font_color );
+        c_text_opt_volume_sound = const_cast<char*>(text_opt_volume_sound.c_str());
+        opt_volume_sound_surface = TTF_RenderText_Solid(font, c_text_opt_volume_sound, font_color);
     }
-    else if ( changed_text == "volume_music" )
+    else if (changed_text == "volume_music")
     {
         if (++volume_music_iterator == menu_texts.volume_values.end())
             volume_music_iterator = menu_texts.volume_values.begin();
 
         const std::string val = *volume_music_iterator;
-        
+
         text_opt_volume_music = menu_texts.volume_music_base_text[language]
             + menu_texts.volume_value_mapping[val][language];
 
-        c_text_opt_volume_music = const_cast<char*>( text_opt_volume_music.c_str() );
-        opt_volume_music_surface = TTF_RenderText_Solid( font, c_text_opt_volume_music, font_color );
+        c_text_opt_volume_music = const_cast<char*>(text_opt_volume_music.c_str());
+        opt_volume_music_surface = TTF_RenderText_Solid(font, c_text_opt_volume_music, font_color);
     }
 
-    main_menu -> resetTextState();
-    main_menu -> resetChangedText();
+    main_menu->resetTextState();
+    main_menu->resetChangedText();
 }
 
-std:: string MainMenuView:: getScreenModeName()
+std::string MainMenuView::getScreenModeName()
 {
     return screen_mode_name;
 }
 
-std::string MainMenuView:: getBgdName()
+std::string MainMenuView::getBgdName()
 {
     return bgd_name;
 }

@@ -12,22 +12,22 @@
 
 class BonusView
 {
-    public:
-        BonusView();
-        virtual ~BonusView();
+public:
+    BonusView();
+    virtual ~BonusView();
 
-        void renderBonus();
+    void renderBonus();
 
-    private:
-        std::ofstream saving;
+private:
+    std::ofstream saving;
 
-        SDL_Surface* screen;
+    SDL_Surface* screen;
 
-        Bonus* bonus;
+    Bonus* bonus;
 
-        static std:: string bonus_pack;
+    static std::string bonus_pack;
 
-        void checkBonus();
+    void checkBonus();
 };
 
 #endif // BONUSVIEW_H

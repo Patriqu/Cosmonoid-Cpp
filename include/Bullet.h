@@ -4,11 +4,9 @@
 
 class Bullet
 {
-    public:
-        Bullet();
-        virtual ~Bullet();
-    protected:
-    private:
+public:
+    Bullet();
+    virtual ~Bullet();
 };
 
 #endif // BULLET_H

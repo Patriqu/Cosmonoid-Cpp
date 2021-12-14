@@ -10,15 +10,15 @@
 
 class BallView
 {
-    public:
-        BallView();
-        virtual ~BallView();
+public:
+    BallView();
+    virtual ~BallView();
 
-        void placeBall( int nr );
+    void placeBall(int nr);
 
-    private:
-        SDL_Surface* screen;
-        Ball* ball;
+private:
+    SDL_Surface* screen;
+    Ball* ball;
 };
 
 #endif // BALLVIEW_H

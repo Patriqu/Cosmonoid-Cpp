@@ -24,45 +24,45 @@
 
 class Renderer
 {
-    public:
-        Renderer( int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */ );
-        virtual ~Renderer();
+public:
+    Renderer(int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */);
+    virtual ~Renderer();
 
-        void Render();
+    void Render();
 
-    private:
-        void onStartGame();
-        void onBeginGame();
-    
-        // Defs of variables:
-        SDL_Surface* screen;
-        /*SDL_Window* window;
-        SDL_Texture* texture;*/
+private:
+    void onStartGame();
+    void onBeginGame();
 
-        Uint32 color_bgd;
-        SDL_Surface* bgd_surface;
+    // Defs of variables:
+    SDL_Surface* screen;
+    /*SDL_Window* window;
+    SDL_Texture* texture;*/
 
-        int level;
-        std:: string current_state;
+    Uint32 color_bgd;
+    SDL_Surface* bgd_surface;
 
-        GameState* game_state;
-        MainMenuView* main_menu_view;
+    int level;
+    std::string current_state;
 
-        PaddleView* paddle_view;
-        BallView* ball_view;
-        BricksViewLevels* bricks_view_level;
-        GamePointsView* game_points_view;
-        BonusView* bonus_view;
+    GameState* game_state;
+    MainMenuView* main_menu_view;
 
-        const int FPS;
-        const int SKIP_TICKS;
-        int sleep_time;
-        DWORD next_game_tick;
+    PaddleView* paddle_view;
+    BallView* ball_view;
+    BricksViewLevels* bricks_view_level;
+    GamePointsView* game_points_view;
+    BonusView* bonus_view;
 
-        bool is_window;
-        bool is_full;
+    const int FPS;
+    const int SKIP_TICKS;
+    int sleep_time;
+    DWORD next_game_tick;
 
-        bool is_screen_changed;
+    bool is_window;
+    bool is_full;
+
+    bool is_screen_changed;
 };
 
 #endif // RENDERER_H

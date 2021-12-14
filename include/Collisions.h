@@ -12,30 +12,31 @@
 
 class Collisions
 {
-    public:
-        Collisions();
-        virtual ~Collisions();
+public:
+    Collisions();
+    virtual ~Collisions();
 
-        enum coll_detects { NONE = 0, HORIZONTAL, VERTICAL };
-        coll_detects coll_side;
+    enum coll_detects { NONE = 0, HORIZONTAL, VERTICAL };
 
-        std:: string detectCollision( SDL_Rect A, std:: map < const int, SDL_Rect* >& B );
-        std:: string detectCollision( SDL_Rect A, SDL_Rect B );
+    coll_detects coll_side;
 
-        int getCollidedBrick();
-        int bounceBall();
+    std::string detectCollision(SDL_Rect A, std::map<const int, SDL_Rect*>& B);
+    std::string detectCollision(SDL_Rect A, SDL_Rect B);
 
-        bool isBottleneck();
+    int getCollidedBrick();
+    int bounceBall();
 
-        void clearData();
+    bool isBottleneck();
 
-    private:
-        bool is_brick_collided;
-        static int nr_brick_collided;
+    void clearData();
 
-        std:: string return_text;
+private:
+    bool is_brick_collided;
+    static int nr_brick_collided;
 
-        bool bottleneck;
+    std::string return_text;
+
+    bool bottleneck;
 };
 
 #endif // COLLISIONS_H

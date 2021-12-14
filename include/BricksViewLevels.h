@@ -18,20 +18,20 @@
 
 class BricksViewLevels
 {
-    public:
-        BricksViewLevels( int level );
-        virtual ~BricksViewLevels();
+public:
+    BricksViewLevels(int level);
+    virtual ~BricksViewLevels();
 
-        void changeDisplayLevel( int level );
-        void placeAllBricks();
+    void changeDisplayLevel(int level);
+    void placeAllBricks();
 
-    private:
-        SDL_Surface* screen;
-        BricksLevels* bricks_level;
+private:
+    SDL_Surface* screen;
+    BricksLevels* bricks_level;
 
-        bool is_valid_state;
+    bool is_valid_state;
 
-        void getLevelData( int level );
+    void getLevelData(int level);
 };
 
 #endif // BRICKSVIEWLEVELS_H

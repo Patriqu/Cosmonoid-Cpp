@@ -37,7 +37,7 @@ public:
     std::string getChangedText();
 
     void resetChangedText();
-    
+
     bool isOptionRestartWarn();
     int getTextState();
     void resetTextState();

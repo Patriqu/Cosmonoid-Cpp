@@ -2,6 +2,8 @@
 @file main.cpp
 */
 
+//#pragma comment(lib, "SDL2main.lib")
+
 #include <cstdlib>
 
 #include <windows.h>
@@ -15,6 +17,8 @@
 
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
+//#undef main
+//#include "SDL2/SDL.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -26,7 +30,7 @@
 
 #include "Constants/Config.h"
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
     //// READ CONFIG DATA ////
     bool is_fullscreen = false;

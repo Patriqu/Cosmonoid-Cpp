@@ -81,11 +81,6 @@ private:
     void removeBrick() const;
     void clearData();
 
-    /*// Sound
-    void setVolumeSound();
-    void setVolumeMusic();
-    void stopMenuMusic();*/
-
     // Definitions of variables:
     GameState* game_state;
     SDL_Surface* screen;
@@ -118,10 +113,8 @@ private:
     GamePoints* game_points;
     Bonus* bonus;
 
-    // Sounds:
+    // Sounds
     std::unique_ptr<SoundSystem> sound_system;
-    /*Mix_Music* menu_music;
-    Mix_Chunk* snd_bounce;*/
 
     std::string detected_collision_brick;
     std::string detected_collision_paddle;

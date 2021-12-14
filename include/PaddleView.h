@@ -11,15 +11,15 @@
 
 class PaddleView
 {
-    public:
-        PaddleView();
-        virtual ~PaddleView();
+public:
+    PaddleView();
+    virtual ~PaddleView();
 
-        void placePaddle();
+    void placePaddle();
 
-    private:
-        SDL_Surface* screen;
-        Paddle* paddle;
+private:
+    SDL_Surface* screen;
+    Paddle* paddle;
 };
 
 #endif // PADDLEVIEW_H

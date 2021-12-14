@@ -16,34 +16,34 @@
 
 class Bonus
 {
-    public:
-        Bonus();
-        virtual ~Bonus();
+public:
+    Bonus();
+    virtual ~Bonus();
 
-        void initiateGenerator();
-        void randomBonus();
+    void initiateGenerator();
+    void randomBonus();
 
-        void setBonusPosition( SDL_Rect bonus );
+    void setBonusPosition(SDL_Rect bonus);
 
-        void moveBonus();
-        int executeBonus();
+    void moveBonus();
+    int executeBonus();
 
-        void removeBonus();
+    void removeBonus();
 
-        std:: string getBonus();
-        SDL_Rect& getBonusPosition();
-        void clearBonus();
+    std::string getBonus();
+    SDL_Rect& getBonusPosition();
+    void clearBonus();
 
-        static SDL_Rect dst_bonus;
-        static bool bonus_set;
+    static SDL_Rect dst_bonus;
+    static bool bonus_set;
 
-    private:
-        std::ofstream saving;
-        static std:: string actual_bonus;
+private:
+    std::ofstream saving;
+    static std::string actual_bonus;
 
-        static int draw_number;
+    static int draw_number;
 
-        void setBonus( std:: string bonus_name );
+    void setBonus(std::string bonus_name);
 };
 
 #endif // BONUS_H

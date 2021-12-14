@@ -7,11 +7,9 @@
 
 class GameMenuView
 {
-    public:
-        GameMenuView();
-        virtual ~GameMenuView();
-    protected:
-    private:
+public:
+    GameMenuView();
+    virtual ~GameMenuView();
 };
 
 #endif // GAMEMENUVIEW_H
