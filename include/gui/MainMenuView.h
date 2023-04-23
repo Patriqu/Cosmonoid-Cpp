@@ -79,12 +79,12 @@ private:
     SDL_Rect restart_warn_dest;
 
     /* Texts */
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> screen_mode_iterator;
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> resolution_iterator;
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> background_iterator;
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> language_iterator;
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> volume_sound_iterator;
-    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> volume_music_iterator;
+    std::list<std::string>::iterator screen_mode_iterator;
+    std::list<std::string>::iterator resolution_iterator;
+    std::list<std::string>::iterator background_iterator;
+    std::list<std::string>::iterator language_iterator;
+    std::list<std::string>::iterator volume_sound_iterator;
+    std::list<std::string>::iterator volume_music_iterator;
 
     std::string text_new;
     std::string text_trial;

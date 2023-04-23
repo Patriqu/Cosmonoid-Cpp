@@ -2,14 +2,8 @@
 @file main.cpp
 */
 
-//#pragma comment(lib, "SDL2main.lib")
-
 #include <cstdlib>
-
-#include <windows.h>
-#include <ctime>
 #include <map>
-
 #include <iostream>
 
 #include "tools/rapidxml.hpp"
@@ -17,8 +11,6 @@
 
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-//#undef main
-//#include "SDL2/SDL.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -33,7 +25,7 @@
 int main(int argc, char* argv[])
 {
     //// READ CONFIG DATA ////
-    bool is_fullscreen = false;
+    bool is_fullscreen;
     int width;
     int height;
 
@@ -80,7 +72,6 @@ int main(int argc, char* argv[])
 
     document.clear();
 
-
     //// Define a vector of velocities of context screen for objects ////
     std::map<std::string, int> surf_nbs;
     surf_nbs["width"] = 640;
@@ -91,18 +82,15 @@ int main(int argc, char* argv[])
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     //// Initialize screen ////
-    //auto title = "Cosmonoid - SDL2 v" + GAME_VERSION_MAJOR + "." + GAME_VERSION_MINOR;
     auto title = "Cosmonoid - SDL2";
-    SDL_Window* window = nullptr;
+    SDL_Window* window;
 
-    if (is_fullscreen == true)
+    if (is_fullscreen)
     {
         window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                  width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_ALLOW_HIGHDPI
-                                  /*| SDL_WINDOW_FULLSCREEN_DESKTOP*/);
+                                  width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_ALLOW_HIGHDPI);
     }
-    else if (is_fullscreen == false)
-    {
+    else {
         window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                   width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI);
     }
@@ -117,7 +105,7 @@ int main(int argc, char* argv[])
     if (!sdl_renderer)
         return -1;
 
-    if (is_fullscreen == true)
+    if (is_fullscreen)
         SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 
     SDL_Texture* sdl_texture = SDL_CreateTexture(sdl_renderer,
@@ -132,44 +120,38 @@ int main(int argc, char* argv[])
     //// Initialise TTF ////
     if (TTF_Init() == -1) { return -1; }
 
-    // open 44.1KHz, signed 16bit, system byte order,
-    // stereo audio, using 1024 byte chunks
+    // open 44.1KHz, signed 16bit, system byte order, stereo audio, using 1024 byte chunks
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
     {
         printf("Mix_OpenAudio: %s\n", Mix_GetError());
         exit(2);
     }
 
-
     /* **************** program main loop *************** */
 
-    //// Definitions of vars used in main loop ////
     const Uint8* keystate = SDL_GetKeyboardState(nullptr);
-
     const int INIT_LEVEL = 1;
 
-    //// at start default state is "Begin game"
     GameState game_state;
 
-    //// Defs program main components ////
-    UpdateGame* update_game = new UpdateGame(&game_state, keystate, INIT_LEVEL);
-    Renderer* renderer = new Renderer(INIT_LEVEL, &game_state);
+    //// Main components
+    auto* update_game = new UpdateGame(&game_state, keystate, INIT_LEVEL);
+    auto* renderer = new Renderer(INIT_LEVEL, &game_state);
 
-    int frame = 0; //Keep track of the frame count
+    int frameCount = 0;
     Timer fpsTimer;
-    Timer updateTimer; //Timer used to update the caption
+    Timer captionUpdateTimer;
 
-#define MAX_FPS 150
-#define MIN_FPS 30
-#define UPDATE_INTERVAL (1.0 / MAX_FPS * 1000)
-#define MAX_UPDATES (MAX_FPS / MIN_FPS)
+    #define MAX_FPS 150
+    #define MIN_FPS 30
+    #define UPDATE_INTERVAL (1.0 / MAX_FPS * 1000)
+    #define MAX_UPDATES (MAX_FPS / MIN_FPS)
 
-    updateTimer.start();
+    captionUpdateTimer.start();
     fpsTimer.start();
 
     std::cout << title << " game launched\n";
 
-    /* START OF MAIN LOOP */
     while (true)
     {
         SDL_GetTicks();
@@ -179,36 +161,32 @@ int main(int argc, char* argv[])
         SDL_RenderClear(sdl_renderer);
         renderer->Render();
 
-        if (update_game->done == true)
+        if (update_game->done)
             break;
 
-        if (update_game->slow_down == true)
+        if (UpdateGame::slow_down)
             SDL_Delay(23);
 
         //// UPDATE SCREEN: ////
         SDL_UpdateTexture(sdl_texture, nullptr, screen_surface->pixels, screen_surface->pitch);
-
         SDL_RenderCopy(sdl_renderer, sdl_texture, nullptr, nullptr);
-
         SDL_RenderPresent(sdl_renderer);
 
-        frame++;
+        frameCount++;
 
         //If a second has passed since the caption was last updated
-        if (updateTimer.get_ticks() > 1000)
+        if (captionUpdateTimer.get_ticks() > 1000)
         {
             std::stringstream caption;
-            caption << title << " - FPS: " << frame / (fpsTimer.get_ticks() / 1000.f);
+            caption << title << " - FPS: " << frameCount / (fpsTimer.get_ticks() / 1000);
 
             SDL_SetWindowTitle(window, caption.str().c_str());
 
-            updateTimer.start();
+            //captionUpdateTimer.start();
         }
     }
-    /* end main loop */
 
     atexit(SDL_Quit);
-
     SDL_Quit();
     return 0;
 }

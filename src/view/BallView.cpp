@@ -1,4 +1,4 @@
-#include "BallView.h"
+#include "view/BallView.h"
 
 BallView::BallView()
     : screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1))),

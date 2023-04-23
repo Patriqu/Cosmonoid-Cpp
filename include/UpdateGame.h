@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include <cmath>
+#include <memory>
 #include <Mmsystem.h>
 
 #include <SDL.h>
