@@ -93,7 +93,7 @@ void UpdateGame::mainMenuHandle()
     menuMouseHandle();
 
     // CHECK IF IS CHANGED OPTIONS TO EXECUTE AND DO IT
-    if (main_menu->isOptionToChange() == true/* || start_menu_music == true*/)
+    if (main_menu->isOptionToChange()/* || start_menu_music == true*/)
     {
         const auto option = main_menu->getChangedText();
 
@@ -111,7 +111,7 @@ void UpdateGame::mainMenuHandle()
         }
     }
 
-    if (start_menu_music == true)
+    if (start_menu_music)
     {
         sound_system->playMusic("menu_music");
 
@@ -123,7 +123,7 @@ void UpdateGame::onStartGame()
 {
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
-    if (is_ball_motion == true) is_ball_motion = false;
+    if (is_ball_motion) is_ball_motion = false;
 
     // Set coordinates to place objects on the screen after start a level
     paddle->positionPaddleAtStart();
@@ -238,7 +238,7 @@ void UpdateGame::objectsCollisionHandle()
     std::map<const int, SDL_Rect*> temp_bricks = bricks_level->getAllBricks();
 
     // CHECK LASER COLLISION:
-    if (is_shot == true)
+    if (is_shot)
     {
         SDL_Rect& temp_dst_shoot = paddle->getBullet();
         detected_collision_shoot = collisions->detectCollision(temp_dst_shoot, temp_bricks);
@@ -359,7 +359,7 @@ void UpdateGame::onResumeGame()
     }
 
     /* *** BASIC BALL MOTION HANDLE *** */
-    if (is_ball_motion == true)
+    if (is_ball_motion)
     {
         for (auto i = 0; i < actual_ball_count; i++)
         {
@@ -442,8 +442,7 @@ void UpdateGame::onLoseGame()
             level = 1;
             loadLevelAtStart();
         }
-        else if (level == 1)
-        {
+        else {
             // Reset data and clear all tables left from previous level
             bricks_level->clearData();
             bricks_level->replaceAllBricks();
@@ -477,7 +476,6 @@ void UpdateGame::onWinGame()
 
 void UpdateGame::updateGame()
 {
-    // Pumping events
     SDL_PumpEvents();
 
     /* *** MENU STATE PROCEDURES *** */
@@ -501,7 +499,6 @@ void UpdateGame::updateGame()
     {
         onResumeGame();
     }
-        /* *** ENDING HANDLE *** */
     else if (current_state == "NEXT_LEVEL")
     {
         onNextLevel();
@@ -533,7 +530,7 @@ void UpdateGame::removeBrick() const
     const std::string bonus = this->bonus->getBonus();
     if (bonus == "none")
     {
-        // If collision occured, get brick's coordinates needed to generate proper Bonus Pack
+        // If collision occurred, get brick's coordinates needed to generate proper Bonus Pack
         const SDL_Rect dst_brick = *bricks_level->getOneBrick(brick);
 
         this->bonus->randomBonus();
@@ -626,7 +623,7 @@ void UpdateGame::keysHandle(const Uint8* keyState)
 
     if ((keyState[SDL_SCANCODE_LCTRL]
             || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
-        && is_gun == true && !is_shot)
+        && is_gun && !is_shot)
     {
         is_shot = true;
         paddle->createBullet();
@@ -682,7 +679,7 @@ void UpdateGame::menuKeyHandle()
         //If there's an event to handle
         if (SDL_WaitEvent(&event))
         {
-            if (event.type == SDL_QUIT || main_menu->getExitState() == true)
+            if (event.type == SDL_QUIT || main_menu->getExitState())
             {
                 done = true;
             }
@@ -704,7 +701,7 @@ void UpdateGame::menuKeyHandle()
                     {
                         const bool is_new_game = main_menu->nextStep();
 
-                        if (is_new_game == true)
+                        if (is_new_game)
                         {
                             game_state->changeGameState("START_GAME");
                             current_state = game_state->getCurrentState();
@@ -748,7 +745,7 @@ void UpdateGame::menuMouseHandle()
                 {
                     const bool is_new_game = main_menu->nextStep();
 
-                    if (is_new_game == true)
+                    if (is_new_game)
                     {
                         game_state->changeGameState("START_GAME");
                         current_state = game_state->getCurrentState();
@@ -825,10 +822,10 @@ void UpdateGame::setTimer()
 
 void CALLBACK UpdateGame::TimeProc(UINT uID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2)
 {
-    if (set_paddle_default_look == false)
+    if (!set_paddle_default_look)
         set_paddle_default_look = true;
 
-    if (slow_down == true) slow_down = false;
+    if (slow_down) slow_down = false;
 
     timeKillEvent(timer_id);
     timeEndPeriod(0);
@@ -853,22 +850,15 @@ void UpdateGame::bonusHandle()
 
             switch (which_bonus_exec)
             {
-                // gun
             case 1:
                 activateBonusLaser();
                 break;
-
-                // live
             case 2:
                 activateBonusLive();
                 break;
-
-                // slow ball
             case 3:
                 activateBonusSlowdown();
                 break;
-
-                // duplicate ball
             case 4:
                 activateBonusDuplicateBall();
                 break;
@@ -880,12 +870,12 @@ void UpdateGame::bonusHandle()
             this->bonus->removeBonus();
     }
 
-    if (is_shot == true)
+    if (is_shot)
     {
         paddle->moveBullet();
     }
 
-    if (set_paddle_default_look == true)
+    if (set_paddle_default_look)
     {
         is_gun = false;
         paddle->changePaddle("paddle");
@@ -933,7 +923,7 @@ void UpdateGame::activateBonusDuplicateBall()
 
 void UpdateGame::clearData()
 {
-    if (is_gun == true)
+    if (is_gun)
     {
         set_paddle_default_look = true;
         is_gun = false;
@@ -941,7 +931,7 @@ void UpdateGame::clearData()
         set_paddle_default_look = false;
     }
 
-    if (slow_down == true) slow_down = false;
+    if (slow_down) slow_down = false;
 }
 
 int UpdateGame::getBallNumbers() const
