@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.10.2)
 
 project(Cosmonoid2D VERSION 0.57)
 
@@ -35,9 +35,9 @@ file(GLOB SOUND_FILES ${CMAKE_SOURCE_DIR}/sound/*)
 file(COPY ${SOUND_FILES} DESTINATION sound/)
 
 file(GLOB TTF_FILES ${CMAKE_SOURCE_DIR}/*.ttf)
-file(COPY ${TTF_FILES} DESTINATION )
+file(COPY ${TTF_FILES} DESTINATION ./)
 
 file(GLOB DLL_FILES ${CMAKE_SOURCE_DIR}/${LIB_DIR}/*.dll)
-file(COPY ${DLL_FILES} DESTINATION )
+file(COPY ${DLL_FILES} DESTINATION ./)
 
 set(CPACK_INSTALL_CMAKE_PROJECTS "debug;${PROJECT_NAME};ALL;/" "release;${PROJECT_NAME};ALL;/")
