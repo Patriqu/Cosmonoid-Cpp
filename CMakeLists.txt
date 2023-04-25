@@ -9,7 +9,8 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED On)
 
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*/*.cpp ${PROJECT_SOURCE_DIR}/src/*.c main.cpp)
-add_executable(${PROJECT_NAME} ${SOURCES})
+file(GLOB INCLUDES ${PROJECT_SOURCE_DIR}/include/*.h ${PROJECT_SOURCE_DIR}/include/*/*.h)
+add_executable(${PROJECT_NAME} ${SOURCES} ${INCLUDES})
 
 set(LIB_DIR lib/vs)
 set(SDL2_CMAKE_DIR cmake/SDL2)

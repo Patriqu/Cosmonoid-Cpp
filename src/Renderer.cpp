@@ -66,10 +66,6 @@ void Renderer::Render()
         Sleep( sleep_time );
         //SDL_Delay(2);
     }
-    */
-
-
-    //screen = SDL_GetWindowSurface(SDL_GetWindowFromID(1));
 
     //// Draw background: ////
     SDL_BlitSurface(bgd_surface, nullptr, screen, nullptr);
@@ -81,60 +77,6 @@ void Renderer::Render()
         color_bgd = SDL_MapRGB(screen->format, 0, 0, 0);
         SDL_FillRect(screen, nullptr, color_bgd);
     }
-    //else if ( color_name == "yes" )
-    //{
-    //    color_bgd = SDL_MapRGB( screen->format, 0, 0, 0);
-    //    SDL_FillRect( screen, 0, color_bgd );
-    //}
-
-
-    // Check whether change screen mode
-    /*
-    std:: string screen_name = main_menu_view -> getScreenModeName();
-    if ( is_window == false && screen_name == "window" )
-    {
-        if (is_full == true)
-            is_full = false;
-        is_window = true;
-
-        //SDL_Window* window;
-        SDL_Event event;
-
-        try
-        {
-            //// NOT WORKING PROPERLY - CRASH AFTER SELECT THE NEW GAME - I DON'T KNOW WHY: ////
-            //SDL_SetWindowFullscreen( window, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP );
-
-            //SDL_DestroyTexture(SDL_Get);
-
-            //is_screen_changed = true;
-
-            //SDL_FillRect( screen, 0, color_bgd );
-        }
-        catch(std::string obj)
-        {
-            obj = "Nie zmieniono trybu wyœwietlania ekranu";
-            throw obj;
-        }
-
-    }
-    else if ( is_full == false && screen_name == "full" )
-    {
-        if (is_window == true)
-            is_window = false;
-        is_full = true;
-
-        try
-        {
-            // SDL_FillRect( screen, 0, color_bgd );
-        }
-        catch(std::string obj)
-        {
-            obj = "Nie zmieniono trybu wyœwietlania ekranu";
-            throw obj;
-        }
-    }
-    */
 
     /* *** STATES *** */
 
@@ -184,7 +126,6 @@ void Renderer::onStartGame()
 
 void Renderer::onBeginGame()
 {
-    // Place Paddle and Ball at screen:
     paddle_view->placePaddle();
     ball_view->placeBall(0);
 
@@ -197,10 +138,7 @@ void Renderer::onBeginGame()
         }
     }
 
-    // Place all bricks for chosen level:
     bricks_view_level->placeAllBricks();
-
-    // Place all scores, lives and current level at top of screen:
     game_points_view->placeAllPoints();
 
     // Render if bonus is now available:

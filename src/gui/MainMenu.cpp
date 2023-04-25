@@ -164,11 +164,6 @@ std::string MainMenu::getChangedText()
     return changed_text;
 }
 
-int MainMenu::getTextState()
-{
-    return text_state;
-}
-
 void MainMenu::resetTextState()
 {
     text_state = 1;
@@ -419,11 +414,6 @@ void MainMenu::saveOptionToXML(std::string option, const std::string value) cons
     file.close();
 
     document.clear();
-}
-
-void MainMenu::clearChangedText()
-{
-    changed_text = "none";
 }
 
 void MainMenu::resetOptionRestartWarn()

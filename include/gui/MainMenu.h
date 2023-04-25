@@ -39,7 +39,7 @@ public:
     void resetChangedText();
 
     bool isOptionRestartWarn();
-    int getTextState();
+
     void resetTextState();
 
     bool getExitState();
@@ -47,7 +47,6 @@ public:
     void readOptionsFromXML();
     void saveOptionToXML(std::string option, std::string value) const;
 
-    void clearChangedText();
     void resetOptionRestartWarn();
 
 private:
