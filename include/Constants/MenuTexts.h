@@ -1,104 +1,139 @@
-﻿#pragma once
+#pragma once
 #include <list>
 #include <map>
 #include <string>
 
-inline struct MenuTexts
-{
-    std::map<std::string, std::string> screen_mode_base_text =
-    {
-        {"en", "Screen: "},
-        {"pl", "Ekran: "}
-    };
-    std::map<std::string, std::string> resolution_base_text =
-    {
-        {"en", "Resolution: "},
-        {"pl", "Rozdzielczosc: "}
-    };
-    std::map<std::string, std::string> background_base_text =
-    {
-        {"en", "Background: "},
-        {"pl", "Tlo: "}
-    };
-    std::map<std::string, std::string> language_base_text =
-    {
-        {"en", "Language: "},
-        {"pl", "Jezyk: "}
-    };
-    std::map<std::string, std::string> volume_sound_base_text
-        =
+inline struct MenuTexts {
+    std::map<std::string, std::map<std::string, std::string>> baseTexts =
         {
-            {"en", "Sound volume: "},
-            {"pl", "Glosnosc dzwieku: "}
-        };
-    std::map<std::string, std::string> volume_music_base_text
-        =
-        {
-            {"en", "Music volume: "},
-            {"pl", "Glosnosc muzyki: "}
-        };
-
-    std::list<std::string> screen_mode_values
-        =
-        {
-            "window",
-            "full"
-        };
-    std::list<std::string> resolution_values
-        =
-        {
-            "640x480",
-            "800x600",
-            "1024x768",
-            "1280x720"
-        };
-    std::list<std::string> background_values
-        =
-        {
-            "yes",
-            "no"
-        };
-    std::list<std::string> language_values
-        =
-        {
-            "en",
-            "pl"
-        };
-    std::list<std::string> volume_values
-        =
-        {
-            "off",
-            "low",
-            "medium",
-            "high",
-            "very high"
+            {
+            "screen_mode", {
+                {"en", "Screen: "},
+                {"pl", "Ekran: "} }
+            },
+            {
+            "resolution", {
+                {"en", "Resolution: "},
+                {"pl", "Rozdzielczosc: "} }
+            },
+            {
+            "background", {
+                {"en", "Background: "},
+                {"pl", "Tlo: "} }
+            },
+            {
+            "language", {
+                {"en", "Language: "},
+                {"pl", "Jezyk: "} }
+            },
+            {
+            "volume_sound", {
+                {"en", "Sound volume: "},
+                {"pl", "Glosnosc dzwieku: "} }
+            },
+            {
+            "volume_music", {
+                {"en", "Music volume: "},
+                {"pl", "Glosnosc muzyki: "} }
+            }
         };
 
-    std::map<std::string, std::map<std::string, std::string>> screen_mode_mapping
-        =
+    std::map<std::string, std::list<std::string>> values =
         {
-            {"window", {{"en", "Window"}, {"pl", "Okno"}}},
-            {"full", {{"en", "Full"}, {"pl", "Pelny"}}}
+            { "screen_mode", {"window", "full"} },
+            { "resolution", {"640x480", "800x600", "1024x768", "1280x720"} },
+            { "background", {"yes", "no"} },
+            { "language", {"en", "pl"} },
+            { "volume_sound", {"off", "low", "medium", "high", "very high"} },
+            { "volume_music", {"off", "low", "medium", "high", "very high"} }
         };
-    std::map<std::string, std::map<std::string, std::string>> background_mapping
-        =
+
+    std::map<std::string, std::map<std::string, std::map<std::string, std::string>>> mappings =
         {
-            {"yes", {{"en", "yes"}, {"pl", "tak"}}},
-            {"no", {{"en", "no"}, {"pl", "nie"}}}
+            {
+                "screen_mode", {
+                    {"window", {{"en", "Window"}, {"pl", "Okno"}}},
+                    {"full", {{"en", "Full"}, {"pl", "Pelny"}}} }
+            },
+            {
+                "resolution", {
+                   {"640x480", {{"en", "640x480"}, {"pl", "640x480"}}},
+                   {"800x600", {{"en", "800x600"}, {"pl", "800x600"}}},
+                  {"1024x768", {{"en", "1024x768"}, {"pl", "1024x768"}}},
+                  {"1280x720", {{"en", "1280x720"}, {"pl", "1280x720"}}} }
+            },
+            {
+                "background", {
+                {
+                    "yes", {{"en", "yes"},
+                            {"pl", "tak"}}
+                },
+                {
+                    "no", {{"en", "no"},
+                           {"pl", "nie"}}
+                } }
+            },
+            {
+                "language",
+                {
+                        {
+                                "en", {{"en", "English"},
+                                              {"pl", "Angielski"}}
+                        },
+                        {
+                                "pl", {{"en", "Polish"},
+                                              {"pl", "Polski"}}
+                        } }
+            },
+            {
+                "volume_sound",
+                {
+                        {
+                                "off", {{"en", "off"},
+                                               {"pl", "wyl"}}
+                        },
+                        {
+                                "low", {{"en", "low"},
+                                               {"pl", "niska"}}
+                        },
+                        {
+                                "medium", {{"en", "medium"},
+                                                  {"pl", "srednia"}}
+                        },
+                        {
+                                "high", {{"en", "high"},
+                                                {"pl", "wysoka"}}
+                        },
+                        {
+                                "very high", {{"en", "very high"},
+                                                     {"pl", "b. wysoka"}}
+                        }
+                }
+            },
+            {
+                "volume_music",
+                {
+                        {
+                                "off", {{"en", "off"},
+                                               {"pl", "wyl"}}
+                        },
+                        {
+                                "low", {{"en", "low"},
+                                               {"pl", "niska"}}
+                        },
+                        {
+                                "medium", {{"en", "medium"},
+                                                  {"pl", "srednia"}}
+                        },
+                        {
+                                "high", {{"en", "high"},
+                                                {"pl", "wysoka"}}
+                        },
+                        {
+                                "very high", {{"en", "very high"},
+                                                     {"pl", "b. wysoka"}}
+                        }
+                }
+            }
         };
-    std::map<std::string, std::map<std::string, std::string>> language_mapping
-        =
-        {
-            {"en", {{"en", "English"}, {"pl", "Angielski"}}},
-            {"pl", {{"en", "Polish"}, {"pl", "Polski"}}}
-        };
-    std::map<std::string, std::map<std::string, std::string>> volume_value_mapping
-        =
-        {
-            {"off", {{"en", "off"}, {"pl", "wyl"}}},
-            {"low", {{"en", "low"}, {"pl", "niska"}}},
-            {"medium", {{"en", "medium"}, {"pl", "srednia"}}},
-            {"high", {{"en", "high"}, {"pl", "wysoka"}}},
-            {"very high", {{"en", "very high"}, {"pl", "b. wysoka"}}}
-        };
-} menu_texts;
+} menu_texts_new;

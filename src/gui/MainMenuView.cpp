@@ -1,6 +1,5 @@
 #include "gui/MainMenuView.h"
-
-#include <windows.h>
+#include "Constants/MenuTexts.h"
 
 MainMenuView::MainMenuView()
     : screen_mode_name("none"),
@@ -99,7 +98,7 @@ void MainMenuView::renderTexts()
 
     if (page == 1)
     {
-        if (is_option_restart_warn == true)
+        if (is_option_restart_warn)
             main_menu->resetOptionRestartWarn();
 
         SDL_BlitSurface(new_surface, 0, screen, &new_dest);
@@ -117,7 +116,7 @@ void MainMenuView::renderTexts()
         SDL_BlitSurface(opt_volume_music_surface, 0, screen, &opt_volume_music_dest);
         SDL_BlitSurface(opt_back_surface, 0, screen, &opt_back_dest);
 
-        if (is_option_restart_warn == true)
+        if (is_option_restart_warn)
             SDL_BlitSurface(restart_warn_surface, 0, screen, &restart_warn_dest);
     }
     else
@@ -128,7 +127,6 @@ void MainMenuView::renderTexts()
         SDL_BlitSurface(quit_surface, 0, screen, &quit_dest);
     }
 }
-
 
 void MainMenuView::initOptions()
 {
@@ -263,38 +261,38 @@ void MainMenuView::initOptions()
     std::string music_name = main_menu->getVolume("music");
 
     // menu item texts
-    background_iterator = menu_texts.background_values.begin();
-    language_iterator = menu_texts.language_values.begin();
+    background_iterator = menu_texts_new.values["background"].begin();
+    language_iterator = menu_texts_new.values["language"].begin();
 
-    screen_mode_iterator = std::find(menu_texts.screen_mode_values.begin(), menu_texts.screen_mode_values.end(),
+    screen_mode_iterator = std::find(menu_texts_new.values["screen_mode"].begin(), menu_texts_new.values["screen_mode"].end(),
                                      screen_mode_name);
-    const std::string temp_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[*
-        screen_mode_iterator][language];
+    const std::string temp_screen = menu_texts_new.baseTexts["screen_mode"][language]
+            + menu_texts_new.mappings["screen_mode"][*screen_mode_iterator][language];
     std::cout << temp_screen << std::endl;
 
-    resolution_iterator = std::find(menu_texts.resolution_values.begin(), menu_texts.resolution_values.end(),
+    resolution_iterator = std::find(menu_texts_new.values["resolution"].begin(), menu_texts_new.values["resolution"].end(),
                                     resolution_name);
-    const std::string temp_res = menu_texts.resolution_base_text[language] + *resolution_iterator;
+    const std::string temp_res = menu_texts_new.baseTexts["resolution"][language] + *resolution_iterator;
     std::cout << temp_res << std::endl;
 
-    background_iterator = std::find(menu_texts.background_values.begin(), menu_texts.background_values.end(), bgd_name);
-    const std::string temp_background = menu_texts.background_base_text[language] + menu_texts.background_mapping[*
-        background_iterator][language];
+    background_iterator = std::find(menu_texts_new.values["background"].begin(), menu_texts_new.values["background"].end(), bgd_name);
+    const std::string temp_background = menu_texts_new.baseTexts["background"][language]
+            + menu_texts_new.mappings["background"][*background_iterator][language];
     std::cout << temp_background << std::endl;
 
-    language_iterator = std::find(menu_texts.language_values.begin(), menu_texts.language_values.end(), language);
-    const std::string temp_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[*
-        language_iterator][language];
+    language_iterator = std::find(menu_texts_new.values["language"].begin(), menu_texts_new.values["language"].end(), language);
+    const std::string temp_language = menu_texts_new.baseTexts["language"][language]
+            + menu_texts_new.mappings["language"][*language_iterator][language];
     std::cout << temp_language << std::endl;
 
-    volume_sound_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), sound_name);
-    text_opt_volume_sound = menu_texts.volume_sound_base_text[language] + menu_texts.volume_value_mapping[*
-        volume_sound_iterator][language];
+    volume_sound_iterator = std::find(menu_texts_new.values["volume_sound"].begin(), menu_texts_new.values["volume_sound"].end(), sound_name);
+    text_opt_volume_sound = menu_texts_new.baseTexts["volume_sound"][language]
+            + menu_texts_new.mappings["volume_sound"][*volume_sound_iterator][language];
     std::cout << text_opt_volume_sound << std::endl;
 
-    volume_music_iterator = std::find(menu_texts.volume_values.begin(), menu_texts.volume_values.end(), music_name);
-    text_opt_volume_music = menu_texts.volume_music_base_text[language] + menu_texts.volume_value_mapping[*
-        volume_music_iterator][language];
+    volume_music_iterator = std::find(menu_texts_new.values["volume_music"].begin(), menu_texts_new.values["volume_music"].end(), music_name);
+    text_opt_volume_music = menu_texts_new.baseTexts["volume_music"][language]
+            + menu_texts_new.mappings["volume_music"][*volume_music_iterator][language];
     std::cout << text_opt_volume_music << std::endl;
 
     text_new = "Nowa Gra";
@@ -346,7 +344,6 @@ void MainMenuView::initOptions()
 
     restart_warn_surface = TTF_RenderText_Solid(font_sec, c_text_restart_warn, {255, 0, 0});
 }
-
 
 void MainMenuView::updateDisplaySelection()
 {
@@ -416,15 +413,6 @@ void MainMenuView::updateDisplaySelection()
     }
 }
 
-/*SDL_Surface* MainMenuView:: changeToNextOption(std::string& text, const char& c_text, const std::string value, const std:: string language)
-{
-    text = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[value][language];
-        
-    c_text = const_cast<&char>(text_opt_screen.c_str());
-
-    return TTF_RenderText_Solid( font, &c_text, font_color );
-}*/
-
 void MainMenuView::updateTexts()
 {
     const std::string screen_mode = main_menu->getScreenMode();
@@ -441,88 +429,54 @@ void MainMenuView::updateTexts()
 
     if (changed_text == "screen_mode")
     {
-        if (++screen_mode_iterator == menu_texts.screen_mode_values.end())
-            screen_mode_iterator = menu_texts.screen_mode_values.begin();
-
-        const std::string val = *screen_mode_iterator;
-
-        text_opt_screen = menu_texts.screen_mode_base_text[language] + menu_texts.screen_mode_mapping[val][language];
-
-        c_text_opt_screen = const_cast<char*>(text_opt_screen.c_str());
-        opt_screen_surface = TTF_RenderText_Solid(font, c_text_opt_screen, font_color);
+        opt_screen_surface = updateText(changed_text, screen_mode_iterator, text_opt_screen, c_text_opt_screen, language);
     }
     else if (changed_text == "resolution")
     {
-        std::cout << resolution << std::endl;
-
-        if (++resolution_iterator == menu_texts.resolution_values.end())
-            resolution_iterator = menu_texts.resolution_values.begin();
-
-        const std::string val = *resolution_iterator;
-
-        text_opt_resolution = menu_texts.resolution_base_text[language] + val;
-
-        c_text_opt_resolution = const_cast<char*>(text_opt_resolution.c_str());
-        opt_resolution_surface = TTF_RenderText_Solid(font, c_text_opt_resolution, font_color);
+        opt_resolution_surface = updateText(changed_text, resolution_iterator, text_opt_resolution, c_text_opt_resolution, language);
     }
     else if (changed_text == "background")
     {
-        if (++background_iterator == menu_texts.background_values.end())
-            background_iterator = menu_texts.background_values.begin();
-
-        const std::string val = *background_iterator;
-
-        text_opt_bgd = menu_texts.background_base_text[language] + menu_texts.background_mapping[val][language];
-
-        c_text_opt_bgd = const_cast<char*>(text_opt_bgd.c_str());
-        opt_bgd_surface = TTF_RenderText_Solid(font, c_text_opt_bgd, font_color);
+        opt_bgd_surface = updateText(changed_text, background_iterator, text_opt_bgd, c_text_opt_bgd, language);
     }
     else if (changed_text == "language")
     {
-        if (++language_iterator == menu_texts.language_values.end())
-            language_iterator = menu_texts.language_values.begin();
-
-        const std::string val = *language_iterator;
-
-        text_opt_language = menu_texts.language_base_text[language] + menu_texts.language_mapping[val][language];
-
-        c_text_opt_language = const_cast<char*>(text_opt_language.c_str());
-        opt_language_surface = TTF_RenderText_Solid(font, c_text_opt_language, font_color);
+        opt_language_surface = updateText(changed_text, language_iterator, text_opt_language, c_text_opt_language, language);
     }
     else if (changed_text == "volume_sound")
     {
-        if (++volume_sound_iterator == menu_texts.volume_values.end())
-            volume_sound_iterator = menu_texts.volume_values.begin();
-
-        const std::string val = *volume_sound_iterator;
-
-        text_opt_volume_sound = menu_texts.volume_sound_base_text[language]
-            + menu_texts.volume_value_mapping[val][language];
-
-        c_text_opt_volume_sound = const_cast<char*>(text_opt_volume_sound.c_str());
-        opt_volume_sound_surface = TTF_RenderText_Solid(font, c_text_opt_volume_sound, font_color);
+        opt_volume_sound_surface = updateText(changed_text, volume_sound_iterator, text_opt_volume_sound, c_text_opt_volume_sound, language);
     }
     else if (changed_text == "volume_music")
     {
-        if (++volume_music_iterator == menu_texts.volume_values.end())
-            volume_music_iterator = menu_texts.volume_values.begin();
-
-        const std::string val = *volume_music_iterator;
-
-        text_opt_volume_music = menu_texts.volume_music_base_text[language]
-            + menu_texts.volume_value_mapping[val][language];
-
-        c_text_opt_volume_music = const_cast<char*>(text_opt_volume_music.c_str());
-        opt_volume_music_surface = TTF_RenderText_Solid(font, c_text_opt_volume_music, font_color);
+        opt_volume_music_surface = updateText(changed_text, volume_music_iterator, text_opt_volume_music, c_text_opt_volume_music, language);
     }
 
     main_menu->resetTextState();
     main_menu->resetChangedText();
 }
 
-std::string MainMenuView::getScreenModeName()
+SDL_Surface* MainMenuView::updateText(const std::string& changed_text, std::list<std::string>::iterator& iterator,
+                              std::string& text_opt, const char *c_text_opt, const std::string& language) {
+    iterateMenuItemIfNeeded(changed_text, iterator);
+
+    const std::string val = *iterator;
+
+    return this->changeToNextOption(text_opt, c_text_opt, val, language, changed_text);
+}
+
+void MainMenuView::iterateMenuItemIfNeeded(const std::string& item, std::list<std::string>::iterator& iterator) {
+    if (++iterator == menu_texts_new.values[item].end())
+        iterator = menu_texts_new.values[item].begin();
+}
+
+SDL_Surface * MainMenuView::changeToNextOption(std::string &text, const char *c_text, const std::string &value,
+                                               const std::string &language, const std::string &option)
 {
-    return screen_mode_name;
+    text = menu_texts_new.baseTexts[option][language] + menu_texts_new.mappings[option][value][language];
+
+    c_text = (text.c_str());
+    return TTF_RenderText_Solid( font, c_text, font_color );
 }
 
 std::string MainMenuView::getBgdName()

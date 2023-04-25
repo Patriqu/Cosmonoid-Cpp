@@ -26,13 +26,9 @@ public:
     void renderTexts();
     void updateTexts();
 
-    std::string getScreenModeName();
     std::string getBgdName();
 
 private:
-    void changeToNextOption(std::string& text, char& c_text, const std::string value, const std::string language,
-                            SDL_Surface* surface);
-
     std::string screen_mode_name;
     std::string resolution_name;
     std::string bgd_name;
@@ -115,6 +111,15 @@ private:
     char* c_text_restart_warn;
 
     int page;
+
+    SDL_Surface *changeToNextOption(std::string &text, const char *c_text, const std::string &value,
+                                    const std::string &language, const std::string &option);
+
+    void iterateMenuItemIfNeeded(const std::string& item, std::list<std::string>::iterator& iterator);
+
+    SDL_Surface* updateText(const std::string &changed_text,
+                    std::_List_iterator<std::_List_val<std::_List_simple_types<std::string>>> &iterator,
+                    std::string &text_opt, const char *c_text_opt, const std::string &language);
 };
 
 #endif // MAINMENUVIEW_H
