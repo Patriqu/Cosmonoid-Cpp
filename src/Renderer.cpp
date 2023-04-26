@@ -65,7 +65,7 @@ void Renderer::Render()
     {
         Sleep( sleep_time );
         //SDL_Delay(2);
-    }
+    }*/
 
     //// Draw background: ////
     SDL_BlitSurface(bgd_surface, nullptr, screen, nullptr);

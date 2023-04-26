@@ -275,7 +275,8 @@ void MainMenuView::initOptions()
     const std::string temp_res = menu_texts_new.baseTexts["resolution"][language] + *resolution_iterator;
     std::cout << temp_res << std::endl;
 
-    background_iterator = std::find(menu_texts_new.values["background"].begin(), menu_texts_new.values["background"].end(), bgd_name);
+    background_iterator = std::find(menu_texts_new.values["background"].begin(),
+                                    menu_texts_new.values["background"].end(), bgd_name);
     const std::string temp_background = menu_texts_new.baseTexts["background"][language]
             + menu_texts_new.mappings["background"][*background_iterator][language];
     std::cout << temp_background << std::endl;
@@ -481,5 +482,5 @@ SDL_Surface * MainMenuView::changeToNextOption(std::string &text, const char *c_
 
 std::string MainMenuView::getBgdName()
 {
-    return bgd_name;
+    return *background_iterator;
 }
