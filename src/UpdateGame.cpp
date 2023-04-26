@@ -39,7 +39,6 @@ UpdateGame::UpdateGame(GameState* game_state, const Uint8* key_state, const int 
       detected_collision_shoot(""),
 
       is_gun(false),
-      is_shot(false),
 
       MAX_BALLS(4),
 
