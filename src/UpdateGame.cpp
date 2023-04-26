@@ -1,4 +1,5 @@
 #include "UpdateGame.h"
+#include "SDL_rect.h"
 
 bool UpdateGame::slow_down = false;
 bool UpdateGame::set_paddle_default_look = false;
@@ -92,7 +93,7 @@ void UpdateGame::mainMenuHandle()
     menuMouseHandle();
 
     // CHECK IF IS CHANGED OPTIONS TO EXECUTE AND DO IT
-    if (main_menu->isOptionToChange()/* || start_menu_music == true*/)
+    if (main_menu->isOptionToChange())
     {
         const auto option = main_menu->getChangedText();
 
@@ -209,11 +210,7 @@ void UpdateGame::wallCollisionHandle()
     }
 
     /* *** LASER OFF SCREEN *** */
-    if (paddle->getBullet().y < 0)
-    {
-        paddle->destroyBullet();
-        is_shot = false;
-    }
+    paddle->destroyOffscreenBullets();
 
     ball_x.clear();
     ball_y.clear();
@@ -233,10 +230,12 @@ void UpdateGame::objectsCollisionHandle()
     std::map<const int, SDL_Rect*> temp_bricks = bricks_level->getAllBricks();
 
     // CHECK LASER COLLISION:
-    if (is_shot)
-    {
-        SDL_Rect& temp_dst_shoot = paddle->getBullet();
-        detected_collision_shoot = collisions->detectCollision(temp_dst_shoot, temp_bricks);
+    std::vector<SDL_Rect*>& dst_bullets = paddle->getBullets();
+    for (auto bullet : dst_bullets) {
+        detected_collision_shoot = collisions->detectCollision(*bullet, temp_bricks);
+        if (detected_collision_shoot != "None") {
+            paddle->addLaserToDestroyLater(*bullet);
+        }
     }
 
     // CHECK BALL -> PADDLE & BALL -> BRICK COLLISIONS:
@@ -247,67 +246,14 @@ void UpdateGame::objectsCollisionHandle()
         detected_collision_brick = collisions->detectCollision(temp_dst_ball, temp_bricks);
         detected_collision_paddle = collisions->detectCollision(temp_dst_ball, temp_dst_paddle);
 
-        // Change move vector of ball if collision was detected:
+        // Change direction of ball if collision was detected:
         if (detected_collision_brick == "Vertical" || detected_collision_paddle == "Vertical")
         {
-            y_motion_rates[i] *= -1;
-
-            if (detected_collision_paddle == "Vertical" && (x_motion_rates[i] == MOTION_RATE_BALL_X || x_motion_rates[i]
-                == -MOTION_RATE_BALL_X))
-            {
-                y_motion_rates[i] = MOTION_RATE_BALL_Y;
-
-                if (ball->getBallPosition(i, "x") > 0)
-                    x_motion_rates[i] = MOTION_RATE_BALL_X_SLOW;
-                else
-                    x_motion_rates[i] = -MOTION_RATE_BALL_X_SLOW;
-
-                ball->setBallMotion(i, "x", x_motion_rates[i]);
-            }
-
-            sound_system->playSoundSample("ball_collision");
+            ballVerticalCollision(i);
         }
         else if (detected_collision_brick == "Horizontal" || detected_collision_paddle == "Horizontal")
         {
-            // Change move x-axis
-            if (x_motion_rates[i] != -MOTION_RATE_BALL_X)
-                x_motion_rates[i] = MOTION_RATE_BALL_X;
-
-            x_motion_rates[i] *= -1;
-
-            // Change move y-axis
-            if (y_motion_rates[i] == MOTION_RATE_BALL_Y || y_motion_rates[i] == -MOTION_RATE_BALL_Y)
-                y_motion_rates[i] /= -MOTION_RATE_BALL_Y;
-            else
-                y_motion_rates[i] /= -MOTION_RATE_BALL_Y_SLOW;
-
-            y_motion_rates[i] *= MOTION_RATE_BALL_Y_SLOW;
-
-            ball->setBallMotion(i, "y", y_motion_rates[i]);
-
-            // play bounce sound
-            sound_system->playSoundSample("ball_collision");
-
-            // If ball is hanging at paddle, fix this:
-            const bool is_bottleneck = collisions->isBottleneck();
-            if (is_bottleneck)
-            {
-                const int paddle_position = paddle->getPaddlePosition("x");
-                const int paddle_width = paddle->getPaddlePosition("w");
-                const int paddle_length = paddle_position + paddle_width;
-
-                const int ball_position = ball->getBallPosition(i, "x");
-                const int ball_width = ball->getBallPosition(i, "w");
-                const int ball_length = ball_position + ball_width;
-
-                const int dist_x = std::abs(paddle_position - ball_position);
-                const int dist_w = std::abs(paddle_length - ball_position);
-
-                if (ball_length < screen->w - ball_width && dist_x < dist_w)
-                    ball->correctBottleneck(i, -dist_x);
-                else
-                    ball->correctBottleneck(i, dist_w);
-            }
+            ballHorizontalCollision(i);
         }
 
         if (detected_collision_brick != "None")
@@ -321,8 +267,69 @@ void UpdateGame::objectsCollisionHandle()
     if (detected_collision_shoot == "Vertical")
     {
         removeBrick();
-        paddle->destroyBullet();
+        paddle->destroyBulletsFromDestroyList();
     }
+}
+
+void UpdateGame::ballHorizontalCollision(int ballNr) {
+    // Change move x-axis
+    if (this->x_motion_rates[ballNr] != -this->MOTION_RATE_BALL_X)
+        this->x_motion_rates[ballNr] = this->MOTION_RATE_BALL_X;
+
+    this->x_motion_rates[ballNr] *= -1;
+
+    // Change move y-axis
+    if (this->y_motion_rates[ballNr] == this->MOTION_RATE_BALL_Y || this->y_motion_rates[ballNr] == -this->MOTION_RATE_BALL_Y)
+        this->y_motion_rates[ballNr] /= -this->MOTION_RATE_BALL_Y;
+    else
+        this->y_motion_rates[ballNr] /= -this->MOTION_RATE_BALL_Y_SLOW;
+
+    this->y_motion_rates[ballNr] *= this->MOTION_RATE_BALL_Y_SLOW;
+
+    this->ball->setBallMotion(ballNr, "y", this->y_motion_rates[ballNr]);
+
+    // play bounce sound
+    this->sound_system->playSoundSample("ball_collision");
+
+    // If ball is hanging at paddle, fix this:
+    const bool is_bottleneck = this->collisions->isBottleneck();
+    if (is_bottleneck)
+    {
+        const int paddle_position = this->paddle->getPaddlePosition("x");
+        const int paddle_width = this->paddle->getPaddlePosition("w");
+        const int paddle_length = paddle_position + paddle_width;
+
+        const int ball_position = this->ball->getBallPosition(ballNr, "x");
+        const int ball_width = this->ball->getBallPosition(ballNr, "w");
+        const int ball_length = ball_position + ball_width;
+
+        const int dist_x = std::abs(paddle_position - ball_position);
+        const int dist_w = std::abs(paddle_length - ball_position);
+
+        if (ball_length < this->screen->w - ball_width && dist_x < dist_w)
+            this->ball->correctBottleneck(ballNr, -dist_x);
+        else
+            this->ball->correctBottleneck(ballNr, dist_w);
+    }
+}
+
+void UpdateGame::ballVerticalCollision(int ballNr) {
+    this->y_motion_rates[ballNr] *= -1;
+
+    if (this->detected_collision_paddle == "Vertical" && (this->x_motion_rates[ballNr] == this->MOTION_RATE_BALL_X || this->x_motion_rates[ballNr]
+                                                                                                                      == -this->MOTION_RATE_BALL_X))
+    {
+        this->y_motion_rates[ballNr] = this->MOTION_RATE_BALL_Y;
+
+        if (this->ball->getBallPosition(ballNr, "x") > 0)
+            this->x_motion_rates[ballNr] = this->MOTION_RATE_BALL_X_SLOW;
+        else
+            this->x_motion_rates[ballNr] = -this->MOTION_RATE_BALL_X_SLOW;
+
+        this->ball->setBallMotion(ballNr, "x", this->x_motion_rates[ballNr]);
+    }
+
+    this->sound_system->playSoundSample("ball_collision");
 }
 
 void UpdateGame::onResumeGame()
@@ -357,10 +364,7 @@ void UpdateGame::onResumeGame()
     {
         for (auto i = 0; i < ball->getBallNumbers(); i++)
         {
-            // motion in "y" axis
             ball->setBallMotion(i, "y", y_motion_rates[i]);
-
-            // motion in "x" axis
             ball->setBallMotion(i, "x", x_motion_rates[i]);
         }
     }
@@ -611,10 +615,8 @@ void UpdateGame::keysHandle(const Uint8* keyState)
         is_ball_motion = true;
 
     if ((keyState[SDL_SCANCODE_LCTRL]
-            || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT)
-        && is_gun && !is_shot)
+            || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) && is_gun)
     {
-        is_shot = true;
         paddle->createBullet();
     }
 
@@ -642,7 +644,7 @@ void UpdateGame::keysHandle(const Uint8* keyState)
             paddle->setPaddlePosition(0);
     }
 
-        // STEER PADDLE TO THE RIGHT
+    // STEER PADDLE TO THE RIGHT
     else if (keyState[SDL_SCANCODE_RIGHT] || event.type == SDL_MOUSEMOTION && event.motion.xrel > 0)
     {
         event.motion.xrel = 0;
@@ -662,10 +664,8 @@ void UpdateGame::keysHandle(const Uint8* keyState)
 
 void UpdateGame::menuKeyHandle()
 {
-    // ONLY VALID KEYS WHEN GAME STATE IS "MAIN_MENU" (MENU MODE):
     if (game_state->getCurrentState() == "MAIN_MENU")
     {
-        //If there's an event to handle
         if (SDL_WaitEvent(&event))
         {
             if (event.type == SDL_QUIT || main_menu->getExitState())
@@ -673,7 +673,6 @@ void UpdateGame::menuKeyHandle()
                 done = true;
             }
 
-            //If a key was pressed
             if (event.type == SDL_KEYDOWN)
             {
                 switch (event.key.keysym.sym)
@@ -856,10 +855,7 @@ void UpdateGame::bonusHandle()
             this->bonus->removeBonus();
     }
 
-    if (is_shot)
-    {
-        paddle->moveBullet();
-    }
+    paddle->moveBullets();
 
     if (set_paddle_default_look)
     {

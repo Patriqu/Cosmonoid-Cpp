@@ -1,16 +1,11 @@
 #include "model/Paddle.h"
 
-/* static declars: */
 SDL_Rect Paddle::dst_paddle;
-SDL_Rect Paddle::dst_bullet;
 std::string Paddle::paddle_name = "paddle";
 
 std::vector<SDL_Rect*> Paddle::dst_bullets;
+std::vector<SDL_Rect*> Paddle::dst_bullets_to_destroy;
 
-bool Paddle::bullet_created = false;
-bool Paddle::bullet_destroyed = false;
-
-/* functions: */
 Paddle::Paddle()
     : screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1)))
 {
@@ -44,26 +39,17 @@ std::string Paddle::getPaddleName()
     return this->paddle_name;
 }
 
-SDL_Rect& Paddle::getBullet()
-{
-    return dst_bullet;
-}
-
-bool Paddle::isBulletCreated()
-{
-    return bullet_created;
-}
-
 void Paddle::positionPaddleAtStart()
 {
-    /* Paddle destination at start the level */
     dst_paddle.x = (screen->w - ResManager::getInstance().getImageWidth("paddle")) / 2;
     dst_paddle.y = screen->h - 35;
-    dst_paddle.w = ResManager::getInstance().getImageWidth("paddle"); //160;
-    dst_paddle.h = ResManager::getInstance().getImageHeight("paddle"); //29;
+    dst_paddle.w = ResManager::getInstance().getImageWidth("paddle");
+    dst_paddle.h = ResManager::getInstance().getImageHeight("paddle");
 
     dst_paddle_default.x = dst_paddle.x;
     dst_paddle_default.y = dst_paddle.y;
+    dst_paddle_default.w = dst_paddle.w;
+    dst_paddle_default.h = dst_paddle.h;
 }
 
 void Paddle::setPaddleMotion(float v)
@@ -88,21 +74,37 @@ void Paddle::createBullet()
     dst_bullet.y = dst_paddle.y - dst_paddle.h - 38;
 
     dst_bullets.push_back(&dst_bullet);
-
-    bullet_created = true;
 }
 
-void Paddle::moveBullet()
-{
-    dst_bullet.y = dst_bullet.y - 4;
-    std::cout << "dst_bullet.y: " << dst_bullet.y << std::endl;
+std::vector<SDL_Rect*>& Paddle::getBullets() {
+    return dst_bullets;
 }
 
-void Paddle::destroyBullet()
+void Paddle::moveBullets()
 {
-    dst_bullet.x = 0;
-    dst_bullet.y = 0;
+    for (auto& bullet : dst_bullets) {
+        bullet->y = bullet->y - 4;
+    }
+}
 
-    bullet_created = false;
-    bullet_destroyed = true;
+void Paddle::destroyOffscreenBullets() {
+    for (auto& bullet : dst_bullets) {
+        if (bullet->y < 0) {
+            destroyBullet(bullet);
+        }
+    }
+}
+
+void Paddle::destroyBullet(SDL_Rect *pRect)
+{
+    pRect->x = 0;
+    pRect->y = 0;
+}
+
+void Paddle::addLaserToDestroyLater(SDL_Rect bullet_rect) {
+    dst_bullets_to_destroy.push_back(&bullet_rect);
+}
+
+void Paddle::destroyBulletsFromDestroyList() {
+    std::destroy(dst_bullets_to_destroy.begin(), dst_bullets_to_destroy.end());
 }

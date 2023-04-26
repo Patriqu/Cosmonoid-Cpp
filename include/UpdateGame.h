@@ -119,13 +119,15 @@ private:
     std::string detected_collision_shoot;
 
     bool is_gun;
-    bool is_shot;
 
     int MAX_BALLS;
 
     static MMRESULT timer_id;
 
     bool start_menu_music;
+
+    void ballVerticalCollision(int ballNr);
+    void ballHorizontalCollision(int ballNr);
 };
 
 #endif // UPDATEGAME_H
