@@ -40,7 +40,6 @@ public:
 
     // Main method for Update the Game
     void updateGame();
-    int getBallNumbers() const;
 
     bool done;
     static bool slow_down;
@@ -112,7 +111,6 @@ private:
     GamePoints* game_points;
     Bonus* bonus;
 
-    // Sounds
     std::unique_ptr<SoundSystem> sound_system;
 
     std::string detected_collision_brick;
@@ -120,12 +118,9 @@ private:
     std::string detected_collision_bonus;
     std::string detected_collision_shoot;
 
-    int nr_of_collision;
-
     bool is_gun;
     bool is_shot;
 
-    int actual_ball_count;
     int MAX_BALLS;
 
     static MMRESULT timer_id;

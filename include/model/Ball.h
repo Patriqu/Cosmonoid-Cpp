@@ -22,7 +22,7 @@ public:
     int createBall();
     void deleteBall(int nr);
     void resetBalls();
-    void clearBalls();
+
     void positionBallAtStart(int nr);
 
     void setBallMotion(int nr, std::string t, int v);
