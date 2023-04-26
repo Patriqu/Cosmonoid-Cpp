@@ -15,7 +15,7 @@ public:
     PaddleView();
     virtual ~PaddleView();
 
-    void placePaddle();
+    void renderPaddle();
 
 private:
     SDL_Surface* screen;

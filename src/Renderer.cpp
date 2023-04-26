@@ -118,7 +118,7 @@ void Renderer::onStartGame()
 
 void Renderer::onBeginGame()
 {
-    paddle_view->placePaddle();
+    paddle_view->renderPaddle();
     ball_view->placeBall(0);
 
     if (current_state == "LOSE_GAME")

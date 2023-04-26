@@ -20,8 +20,6 @@ public:
     SDL_Rect& getPaddle();
     int getPaddlePosition(std::string t);
     std::string getPaddleName();
-    SDL_Rect& getBullet();
-    bool isBulletCreated();
     void positionPaddleAtStart();
 
     void setPaddleMotion(float v);
@@ -29,22 +27,27 @@ public:
     void changePaddle(std::string type);
 
     void createBullet();
-    void moveBullet();
-    void destroyBullet();
+    std::vector<SDL_Rect *>& getBullets();
+    void moveBullets();
+    void destroyOffscreenBullets();
+
+    void addLaserToDestroyLater(SDL_Rect bullet_rect);
+
+    void destroyBulletsFromDestroyList();
 
 private:
-    static SDL_Rect dst_paddle;
-    static SDL_Rect dst_bullet;
-    static std::vector<SDL_Rect*> dst_bullets;
 
+    static SDL_Rect dst_paddle;
+    static std::vector<SDL_Rect*> dst_bullets;
+    static std::vector<SDL_Rect*> dst_bullets_to_destroy;
     SDL_Rect dst_paddle_default;
 
     static std::string paddle_name;
 
-    static bool bullet_created;
-    static bool bullet_destroyed;
-
     SDL_Surface* screen;
+
+    void destroyBullet(SDL_Rect *pRect);
+
 };
 
 #endif // PADDLE_H
