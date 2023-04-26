@@ -25,7 +25,7 @@ public:
 
     bool nextStep();
     void setSelection(int selection);
-    void moveSelection(std::string dest);
+    void moveSelection(const std::string& dest);
 
     int getSelectionNumber();
     int getPageNumber();
@@ -33,7 +33,7 @@ public:
     std::string getResolution();
     std::string getBackground();
     std::string getLanguage();
-    std::string getVolume(std::string which);
+    std::string getVolume(const std::string& which);
     std::string getChangedText();
 
     void resetChangedText();

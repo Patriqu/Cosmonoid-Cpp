@@ -49,10 +49,8 @@ bool MainMenu::nextStep()
         else if (selection == 4)
             have_exit = true;
     }
-    else if (page == 2)
-    {
-        if (selection == 1)
-        {
+    else {
+        if (selection == 1) {
             changed_text = "screen_mode";
 
             if (screen_mode == "window" || screen_mode == "none")
@@ -63,9 +61,7 @@ bool MainMenu::nextStep()
             saveOptionToXML(changed_text, screen_mode);
 
             is_option_restart_warn = true;
-        }
-        else if (selection == 2)
-        {
+        } else if (selection == 2) {
             changed_text = "resolution";
 
             if (resolution == "640x480")
@@ -80,9 +76,7 @@ bool MainMenu::nextStep()
             saveOptionToXML(changed_text, resolution);
 
             is_option_restart_warn = true;
-        }
-        else if (selection == 3)
-        {
+        } else if (selection == 3) {
             changed_text = "background";
 
             if (background == "yes")
@@ -91,18 +85,14 @@ bool MainMenu::nextStep()
                 background = "yes";
 
             saveOptionToXML(changed_text, background);
-        }
-        else if (selection == 4)
-        {
+        } else if (selection == 4) {
             changed_text = "language";
 
             if (language == "pl")
                 language = "en";
             else if (language == "en")
                 language = "pl";
-        }
-        else if (selection == 5)
-        {
+        } else if (selection == 5) {
             changed_text = "volume_sound";
 
             if (volume_sound == "off")
@@ -117,9 +107,7 @@ bool MainMenu::nextStep()
                 volume_sound = "off";
 
             saveOptionToXML(changed_text, volume_sound);
-        }
-        else if (selection == 6)
-        {
+        } else if (selection == 6) {
             changed_text = "volume_music";
 
             if (volume_music == "off")
@@ -136,15 +124,12 @@ bool MainMenu::nextStep()
             saveOptionToXML(changed_text, volume_music);
         }
 
-            // OPTIONS > BACK
-        else if (selection == 7)
-        {
+        // OPTIONS > BACK
+        else if (selection == 7) {
             page = 1;
             selection = 1;
         }
     }
-    else
-        return false;
 
     return false;
 }
@@ -189,7 +174,7 @@ std::string MainMenu::getLanguage()
     return language;
 }
 
-std::string MainMenu::getVolume(std::string which)
+std::string MainMenu::getVolume(const std::string& which)
 {
     if (which == "music")
     {
@@ -218,7 +203,7 @@ void MainMenu::setSelection(const int selection)
     this->selection = selection;
 }
 
-void MainMenu::moveSelection(const std::string dest)
+void MainMenu::moveSelection(const std::string& dest)
 {
     if (dest == "up")
     {
@@ -291,20 +276,12 @@ void MainMenu::readOptionsFromXML()
     root = root->next_sibling("height");
     const char* h(root->value());
 
-    //resolution = w + "x" + h;
     char buf[100];
-    const char* x = "x";
+    strcpy_s(buf, w);
+    strcat_s(buf, sizeof(buf), "x");
+    strcat_s(buf, sizeof(buf), h);
 
-    // TODO: Convert to strcpy_s and strcat_s
-    strcpy(buf, w);
-    strcat(buf, x);
-    strcat(buf, h);
-
-    /*strcat_s(buf, 2, x);
-    strcat_s(buf, 2, h);*/
-
-    /*strcat_s(w, 2, x);
-    strcat_s(w, 2, h);*/
+    resolution = buf;
 
     root = document.first_node("arkanoid");
     root = root->first_node("config");
@@ -409,7 +386,7 @@ void MainMenu::saveOptionToXML(std::string option, const std::string value) cons
     std::ofstream file(config_file_path);
     std::string s;
     rapidxml::print(back_inserter(s), document, 0);
-    file << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << std::endl;
+    file << R"(<?xml version="1.0" encoding="utf-8"?>)" << std::endl;
     file << s;
     file.close();
 
