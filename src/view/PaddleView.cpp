@@ -27,7 +27,7 @@ void PaddleView::placePaddle()
 
     SDL_BlitSurface(ResManager::getInstance().getImage(paddle_name), nullptr, screen, &temp_paddle);
 
-    if (is_bullet_created == true)
+    if (is_bullet_created)
     {
         SDL_Rect temp_bullet = paddle->getBullet();
 

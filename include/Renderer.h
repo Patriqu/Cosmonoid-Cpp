@@ -7,7 +7,7 @@
 #include "controllers/Timer.h"
 #include "rules/Gamestate.h"
 
-/* Rendering primary objects of the game: */
+/* primary objects of the game: */
 #include "view/PaddleView.h"
 #include "view/BallView.h"
 
@@ -17,7 +17,7 @@
 
 #include "view/BonusView.h"
 
-/* Rendering of levels: */
+/* levels: */
 #include "view/BricksViewLevels.h"
 
 #include <windows.h>
@@ -25,7 +25,7 @@
 class Renderer
 {
 public:
-    Renderer(int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */);
+    Renderer(int level, GameState* game_state);
     virtual ~Renderer();
 
     void Render();
@@ -34,10 +34,7 @@ private:
     void onStartGame();
     void onBeginGame();
 
-    // Defs of variables:
     SDL_Surface* screen;
-    /*SDL_Window* window;
-    SDL_Texture* texture;*/
 
     Uint32 color_bgd;
     SDL_Surface* bgd_surface;
@@ -58,11 +55,6 @@ private:
     const int SKIP_TICKS;
     int sleep_time;
     DWORD next_game_tick;
-
-    bool is_window;
-    bool is_full;
-
-    bool is_screen_changed;
 };
 
 #endif // RENDERER_H

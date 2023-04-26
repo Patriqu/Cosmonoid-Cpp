@@ -1,10 +1,8 @@
 #include "model/Ball.h"
 
-/* static declars: */
 std::vector<SDL_Rect> Ball::dst_ball;
 int Ball::ball_numbers;
 
-/* functions: */
 Ball::Ball()
     : screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1)))
 {
@@ -45,7 +43,7 @@ int Ball::createBall()
     positionBallAtStart(ball_numbers);
     ball_numbers++;
 
-    return ball_numbers - 1;
+    return ball_numbers;
 }
 
 void Ball::deleteBall(const int nr)
@@ -58,11 +56,6 @@ void Ball::resetBalls()
 {
     dst_ball.clear();
     ball_numbers = 0;
-}
-
-void Ball::clearBalls()
-{
-    dst_ball.clear();
 }
 
 void Ball::positionBallAtStart(const int nr)

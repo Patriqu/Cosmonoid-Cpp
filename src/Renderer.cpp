@@ -1,12 +1,9 @@
 #include "Renderer.h"
 
-Renderer::Renderer(int level, GameState* game_state/*, SDL_Window* window, SDL_Texture* texture */)
+Renderer::Renderer(int level, GameState* game_state)
     : screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1))),
-      /*window ( SDL_GetWindowFromID(1) ),
-      texture ( texture ),*/
-      color_bgd(SDL_MapRGB(screen->format, 255, 255, 255)),
+      color_bgd(),
       level(level),
-      current_state(""),
       game_state(game_state),
       main_menu_view(new MainMenuView()),
       paddle_view(nullptr),
@@ -14,13 +11,10 @@ Renderer::Renderer(int level, GameState* game_state/*, SDL_Window* window, SDL_T
       bricks_view_level(nullptr),
       game_points_view(nullptr),
       bonus_view(nullptr),
-      FPS(240 /*120*/),
+      FPS(120),
       SKIP_TICKS(1000/*350*/ / FPS),
-      sleep_time(0),
-      next_game_tick(GetTickCount()),
-      is_window(true),
-      is_full(false),
-      is_screen_changed(false)
+      sleep_time(),
+      next_game_tick(GetTickCount())
 {
     // create menu background with proper resolution
     const std::string h = std::to_string(screen->h);
@@ -57,15 +51,13 @@ Renderer::~Renderer()
 
 void Renderer::Render()
 {
-    // Control of FPS depends from display:
-    /*
+    // Control of FPS depends on display:
     next_game_tick += SKIP_TICKS;
     sleep_time = next_game_tick - GetTickCount();
     if( sleep_time >= 0 )
     {
         Sleep( sleep_time );
-        //SDL_Delay(2);
-    }*/
+    }
 
     //// Draw background: ////
     SDL_BlitSurface(bgd_surface, nullptr, screen, nullptr);
@@ -141,6 +133,5 @@ void Renderer::onBeginGame()
     bricks_view_level->placeAllBricks();
     game_points_view->placeAllPoints();
 
-    // Render if bonus is now available:
     bonus_view->renderBonus();
 }
