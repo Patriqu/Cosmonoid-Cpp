@@ -13,6 +13,7 @@
 #include "controllers/ResManager.h"
 
 #include "MainMenu.h"
+#include "constants/MenuTexts.h"
 
 class MainMenuView
 {

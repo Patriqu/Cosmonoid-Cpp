@@ -1,5 +1,4 @@
 #include "gui/MainMenuView.h"
-#include "Constants/MenuTexts.h"
 
 MainMenuView::MainMenuView()
     : screen_mode_name("none"),

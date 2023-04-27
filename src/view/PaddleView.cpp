@@ -26,8 +26,10 @@ void PaddleView::renderPaddle()
 
     SDL_BlitSurface(ResManager::getInstance().getImage(paddle_name), nullptr, screen, &temp_paddle);
 
-    std::vector<SDL_Rect *> bullets = paddle->getBullets();
-    for (auto& bullet : bullets) {
-        SDL_BlitSurface(ResManager::getInstance().getImage("bullet"), nullptr, screen, bullet);
+    if (paddle->isBulletsExists()) {
+        auto& bullets = paddle->getBullets();
+        for (auto& bullet : bullets) {
+            SDL_BlitSurface(ResManager::getInstance().getImage("bullet"), nullptr, screen, bullet);
+        }
     }
 }
