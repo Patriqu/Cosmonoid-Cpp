@@ -5,7 +5,6 @@ bool UpdateGame::slow_down = false;
 bool UpdateGame::set_paddle_default_look = false;
 MMRESULT UpdateGame::timer_id;
 
-
 UpdateGame::UpdateGame(GameState* game_state, const Uint8* key_state, const int level)
     : done(false),
       game_state(game_state),
@@ -42,7 +41,9 @@ UpdateGame::UpdateGame(GameState* game_state, const Uint8* key_state, const int 
 
       MAX_BALLS(4),
 
-      start_menu_music(true)
+      start_menu_music(true),
+
+      allow_to_shot_start_clock(time_point_cast<std::chrono::seconds>(std::chrono::steady_clock::now()))
 {
     y_motion_rates.push_back(MOTION_RATE_BALL_Y);
     x_motion_rates.push_back(0);
@@ -224,49 +225,53 @@ void UpdateGame::wallCollisionHandle()
 
 void UpdateGame::objectsCollisionHandle()
 {
-    /* *** COLLISION OF OBJECTS HANDLE *** */
-    SDL_Rect& temp_dst_paddle = paddle->getPaddle();
-    std::map<const int, SDL_Rect*> temp_bricks = bricks_level->getAllBricks();
+    SDL_Rect& paddle_rect = paddle->getPaddle();
+    std::map<const int, SDL_Rect*> bricks = bricks_level->getAllBricks();
 
-    // CHECK LASER COLLISION:
-    std::vector<SDL_Rect*>& dst_bullets = paddle->getBullets();
-    for (auto bullet : dst_bullets) {
-        detected_collision_shoot = collisions->detectCollision(*bullet, temp_bricks);
-        if (detected_collision_shoot != "None") {
-            paddle->addLaserToDestroyLater(*bullet);
-        }
-    }
-
-    // CHECK BALL -> PADDLE & BALL -> BRICK COLLISIONS:
-    for (int i = 0; i < ball->getBallNumbers(); i++)
-    {
-        SDL_Rect& temp_dst_ball = ball->getBall(i);
-
-        detected_collision_brick = collisions->detectCollision(temp_dst_ball, temp_bricks);
-        detected_collision_paddle = collisions->detectCollision(temp_dst_ball, temp_dst_paddle);
-
-        // Change direction of ball if collision was detected:
-        if (detected_collision_brick == "Vertical" || detected_collision_paddle == "Vertical")
-        {
-            ballVerticalCollision(i);
-        }
-        else if (detected_collision_brick == "Horizontal" || detected_collision_paddle == "Horizontal")
-        {
-            ballHorizontalCollision(i);
-        }
-
-        if (detected_collision_brick != "None")
-        {
-            removeBrick();
-        }
-
-        bonusHandle();
-    }
+    checkLasersCollisions(bricks);
+    checkBallsCollisions(paddle_rect, bricks);
 
     if (detected_collision_shoot == "Vertical")
     {
         removeBrick();
         paddle->destroyBulletsFromDestroyList();
+    }
+}
+
+void UpdateGame::checkLasersCollisions(std::map<const int, SDL_Rect *> &bricks) {
+    auto& dst_bullets = this->paddle->getBullets();
+    for (auto bullet : dst_bullets) {
+        this->detected_collision_shoot = this->collisions->detectCollision(*bullet, bricks);
+        if (this->detected_collision_shoot != "None") {
+            this->paddle->addLaserToDestroyLater(*bullet);
+        }
+    }
+}
+
+void UpdateGame::checkBallsCollisions(SDL_Rect &paddle_rect, std::map<const int, SDL_Rect *> &bricks) {
+    for (int i = 0; i < this->ball->getBallNumbers(); i++)
+    {
+        SDL_Rect& temp_dst_ball = this->ball->getBall(i);
+
+        this->detected_collision_brick = this->collisions->detectCollision(temp_dst_ball, bricks);
+        this->detected_collision_paddle = this->collisions->detectCollision(temp_dst_ball, paddle_rect);
+
+        // Change direction of ball if collision was detected:
+        if (this->detected_collision_brick == "Vertical" || this->detected_collision_paddle == "Vertical")
+        {
+            this->ballVerticalCollision(i);
+        }
+        else if (this->detected_collision_brick == "Horizontal" || this->detected_collision_paddle == "Horizontal")
+        {
+            this->ballHorizontalCollision(i);
+        }
+
+        if (this->detected_collision_brick != "None")
+        {
+            this->removeBrick();
+        }
+
+        this->bonusHandle();
     }
 }
 
@@ -616,7 +621,11 @@ void UpdateGame::keysHandle(const Uint8* keyState)
     if ((keyState[SDL_SCANCODE_LCTRL]
             || event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_RIGHT) && is_gun)
     {
-        paddle->createBullet();
+        auto offset = time_point_cast<std::chrono::seconds>(std::chrono::steady_clock::now()) - allow_to_shot_start_clock;
+        if (offset >= 1s) {
+            paddle->createBullet();
+            allow_to_shot_start_clock = time_point_cast<std::chrono::seconds>(std::chrono::steady_clock::now());
+        }
     }
 
     if (keyState[SDL_SCANCODE_ESCAPE])

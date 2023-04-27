@@ -3,8 +3,8 @@
 SDL_Rect Paddle::dst_paddle;
 std::string Paddle::paddle_name = "paddle";
 
-std::vector<SDL_Rect*> Paddle::dst_bullets;
-std::vector<SDL_Rect*> Paddle::dst_bullets_to_destroy;
+std::list<SDL_Rect*> Paddle::dst_bullets;
+std::list<SDL_Rect*> Paddle::dst_bullets_to_destroy;
 
 Paddle::Paddle()
     : screen(SDL_GetWindowSurface(SDL_GetWindowFromID(1)))
@@ -36,7 +36,7 @@ int Paddle::getPaddlePosition(const std::string t)
 
 std::string Paddle::getPaddleName()
 {
-    return this->paddle_name;
+    return Paddle::paddle_name;
 }
 
 void Paddle::positionPaddleAtStart()
@@ -69,15 +69,19 @@ void Paddle::changePaddle(std::string type)
 
 void Paddle::createBullet()
 {
-    SDL_Rect dst_bullet;
-    dst_bullet.x = dst_paddle.x + dst_paddle.w / 2;
-    dst_bullet.y = dst_paddle.y - dst_paddle.h - 38;
+    auto* dst_bullet = new SDL_Rect;
+    dst_bullet->x = dst_paddle.x + dst_paddle.w / 2;
+    dst_bullet->y = dst_paddle.y - dst_paddle.h - 38;
 
-    dst_bullets.push_back(&dst_bullet);
+    dst_bullets.push_back(dst_bullet);
 }
 
-std::vector<SDL_Rect*>& Paddle::getBullets() {
+std::list<SDL_Rect*>& Paddle::getBullets() {
     return dst_bullets;
+}
+
+bool Paddle::isBulletsExists() {
+    return !dst_bullets.empty();
 }
 
 void Paddle::moveBullets()
@@ -89,22 +93,22 @@ void Paddle::moveBullets()
 
 void Paddle::destroyOffscreenBullets() {
     for (auto& bullet : dst_bullets) {
-        if (bullet->y < 0) {
-            destroyBullet(bullet);
+        if (bullet->y <= 0) {
+            addLaserToDestroyLater(*bullet);
         }
     }
+
+    destroyBulletsFromDestroyList();
 }
 
-void Paddle::destroyBullet(SDL_Rect *pRect)
-{
-    pRect->x = 0;
-    pRect->y = 0;
-}
-
-void Paddle::addLaserToDestroyLater(SDL_Rect bullet_rect) {
+void Paddle::addLaserToDestroyLater(SDL_Rect& bullet_rect) {
     dst_bullets_to_destroy.push_back(&bullet_rect);
 }
 
 void Paddle::destroyBulletsFromDestroyList() {
+    for (auto& bullet : dst_bullets_to_destroy) {
+        dst_bullets.remove(bullet);
+    }
+
     std::destroy(dst_bullets_to_destroy.begin(), dst_bullets_to_destroy.end());
 }

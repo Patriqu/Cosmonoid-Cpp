@@ -10,6 +10,7 @@
 #include <cmath>
 #include <memory>
 #include <Mmsystem.h>
+#include <chrono>
 
 #include <SDL.h>
 #include "SDL_image.h"
@@ -32,13 +33,14 @@
 #include "model/BricksLevel3.h"
 #include "model/BricksLevel4.h"
 
+using namespace std::chrono;
+
 class UpdateGame
 {
 public:
     UpdateGame(GameState* game_state, const Uint8* key_state, int level);
     virtual ~UpdateGame();
 
-    // Main method for Update the Game
     void updateGame();
 
     bool done;
@@ -128,6 +130,11 @@ private:
 
     void ballVerticalCollision(int ballNr);
     void ballHorizontalCollision(int ballNr);
+
+    void checkLasersCollisions(std::map<const int, SDL_Rect *> &bricks);
+    void checkBallsCollisions(SDL_Rect &paddle_rect, std::map<const int, SDL_Rect *> &bricks);
+
+    time_point<steady_clock, seconds> allow_to_shot_start_clock;
 };
 
 #endif // UPDATEGAME_H
